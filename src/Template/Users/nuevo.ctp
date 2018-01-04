@@ -13,6 +13,18 @@
         echo $this->Form->control('password');
     ?>
 </fieldset>
-<?= $this->Form->button(__('Enviar')) ?>
-<?= $this->Form->end() ?>
 
+<fieldset>
+    <legend><?= __('Informacíon de la Empresa') ?></legend>
+    <?= $this->Form->control('customer.company') ?>
+    <?= $this->Form->control('customer.first_name') ?>
+    <?= $this->Form->control('customer.last_name') ?>
+    <?= $this->Form->control('customer.address1') ?>
+    <?= $this->Form->control('customer.address2') ?>
+    <?= $this->Form->control('customer.tel') ?>
+    <?= $this->Form->control('customer.city') ?>
+    <?= $this->Form->control('customer.state') ?>
+    <?= $this->Form->control('customer.postal_code') ?>
+    <?= $this->Form->button(__('Enviar')) ?>
+    <?= $this->Form->end() ?>
+</fieldset>
