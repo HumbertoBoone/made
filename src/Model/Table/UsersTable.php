@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -83,5 +84,23 @@ class UsersTable extends Table
         $rules->add($rules->existsIn(['customer_id'], 'Customers'));
 
         return $rules;
+    }
+    public function crearNuevo(array $customerData)
+    {
+        $customersTable = TableRegistry::get('Customers');
+        $customer = $customersTable->newEntity();
+        $customer->company = $customerData['company'];
+        $customer->first_name = $customerData['first_name'];
+        $customer->last_name = $customerData['last_name'];
+        $customer->address1 = $customerData['address1'];
+        $customer->address2 = $customerData['address2'];
+        $customer->tel = $customerData['tel'];
+        $customer->city = $customerData['city'];
+        $customer->state = $customerData['state'];
+        $customer->postal_code = $customerData['postal_code'];
+        if ($customersTable->save($customer)) {
+        // The $customer entity contains the id now
+            return $customer->id;
+        }
     }
 }
