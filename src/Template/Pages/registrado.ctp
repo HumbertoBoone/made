@@ -1,0 +1,1 @@
+<h1>Gracias por registrarte, recibiras un correo electrónico para activar tu cuenta</h1>
