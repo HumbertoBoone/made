@@ -8,7 +8,9 @@ class UsersController extends AppController
     {
         parent::initialize();
         // Add the 'add' action to the allowed actions list.
+        //$this->Auth->config('authorize', 'Controller');
         $this->Auth->allow(['logout', 'nuevo']);
+        $this->Auth->deny('test'); //le quita acceso publico, y utiliza el callback isAuthorized para autorizar acceso
     }
     public function login()
     {
@@ -20,6 +22,10 @@ class UsersController extends AppController
             }
             $this->Flash->error('Las credenciales de acceso proporcionadas son incorrectas');
         }
+    }
+    public function logout()
+    {
+         return $this->redirect($this->Auth->logout());
     }
     public function nuevo()
     {
@@ -37,5 +43,12 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+    }
+    public function test(){
+
+    }
+    public function isAuthorized($user = null)
+    {
+        return false;
     }
 }

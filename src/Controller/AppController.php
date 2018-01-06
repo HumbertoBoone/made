@@ -53,6 +53,7 @@ class AppController extends Controller
                 'controller' => 'Users',
                 'action' => 'login'
             ],
+            'authorize' => 'Controller',
              // If unauthorized, return them to page they were just on
             'unauthorizedRedirect' => $this->referer()
         ]);
@@ -65,5 +66,9 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+    }
+    public function isAuthorized($user = null)
+    {
+        return false;
     }
 }
