@@ -1,13 +1,117 @@
 <?php
-
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
+use Cake\Validation\Validator;
 
+/**
+ * Items Model
+ *
+ * @property |\Cake\ORM\Association\HasMany $OrdersDetails
+ * @property |\Cake\ORM\Association\BelongsToMany $Categories
+ *
+ * @method \App\Model\Entity\Item get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Item newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Item[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Item|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Item patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Item[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Item findOrCreate($search, callable $callback = null, $options = [])
+ */
 class ItemsTable extends Table
 {
+
+    /**
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
     public function initialize(array $config)
     {
-        $this->addBehavior('Timestamp');
+        parent::initialize($config);
+
+        $this->setTable('items');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->hasMany('OrdersDetails', [
+            'foreignKey' => 'item_id'
+        ]);
+        $this->belongsToMany('Categories', [
+            'foreignKey' => 'item_id',
+            'targetForeignKey' => 'category_id',
+            'joinTable' => 'categories_items'
+        ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        $validator
+            ->scalar('sku')
+            ->maxLength('sku', 255)
+            ->requirePresence('sku', 'create')
+            ->notEmpty('sku')
+            ->add('sku', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
+            ->scalar('description')
+            ->requirePresence('description', 'create')
+            ->notEmpty('description');
+
+        $validator
+            ->numeric('price')
+            ->requirePresence('price', 'create')
+            ->notEmpty('price');
+
+        $validator
+            ->numeric('stock')
+            ->allowEmpty('stock');
+
+        $validator
+            ->scalar('unit')
+            ->maxLength('unit', 45)
+            ->requirePresence('unit', 'create')
+            ->notEmpty('unit');
+
+        $validator
+            ->scalar('brand')
+            ->maxLength('brand', 255)
+            ->allowEmpty('brand');
+
+        return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['sku']));
+
+        return $rules;
+    }
+    public function getCategories()
+    {
+        $query = TableRegistry::get('Categories')->find('list')->select(['id', 'category'])->toArray();
+        
+        return $query;
     }
 }

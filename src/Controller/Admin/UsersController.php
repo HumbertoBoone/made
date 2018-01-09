@@ -5,5 +5,5 @@ use App\Controller\AppController;
 
 class UsersController extends AppController
 {
-
+    
 }

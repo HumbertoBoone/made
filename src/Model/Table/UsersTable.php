@@ -68,6 +68,12 @@ class UsersTable extends Table
             ->requirePresence('role', 'create')
             ->notEmpty('role');
 
+        $validator
+            ->scalar('status')
+            ->maxLength('status', 45)
+            ->requirePresence('status', 'create')
+            ->notEmpty('status');
+
         return $validator;
     }
 
