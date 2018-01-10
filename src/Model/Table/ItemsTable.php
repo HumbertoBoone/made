@@ -114,4 +114,10 @@ class ItemsTable extends Table
         
         return $query;
     }
+    public function getCategoryEntity($id)
+    {
+        $categories = TableRegistry::get('Categories');
+        $category = $categories->get($id);
+        return $category;
+    }
 }

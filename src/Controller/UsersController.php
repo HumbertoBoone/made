@@ -35,12 +35,13 @@ class UsersController extends AppController
             $user->customer_id = $this->Users->crearNuevo($this->request->getData('customer'));
             $user->role = 'customer';
             $user->status = 'pending';
-            if ($this->Users->save($user)) {
+            debug($this->request->getData());
+            /*if ($this->Users->save($user)) {
                 $this->Flash->success(__('El usuario ha sido creado'));
 
                 return $this->redirect('/pages/registrado');
             }
-            $this->Flash->error(__('El usuario no pudo ser creado'));
+            $this->Flash->error(__('El usuario no pudo ser creado'));*/
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
