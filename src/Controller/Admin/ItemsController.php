@@ -13,22 +13,19 @@ class ItemsController extends AppController
     {
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
-            debug($this->request);
-            $item = $this->Items->patchEntity($item,$this->request->getData(),[
-                'associated' => ['Categories']
-            ]);
-            //$item = $this->Items->patchEntity($item, $this->request->getData());
-            debug($item);
-            debug($this->request->getData());
+            $item = $this->Items->patchEntity($item,$this->request->getData());
+            
+            $categories = $this->request->getData('categories');
             if($this->Items->save($item)) {
-                //$item1 = $this->Items->get($item->id);
-                $category = $this->Items->getCategoryEntity($this->request->getData('category.0'));
-
-                $this->Items->Categories->link($item, [$category]);
-                //debug($item);
+                // para guardar las diferentes asociaciones muchos
+                // a muchos
+                foreach ($categories['_ids'] as $category) {
+                    if($category !== null && $category > 0){
+                        $entity = $this->Items->getCategoryEntity($category);
+                        $this->Items->Categories->link($item, [$entity]);
+                    }
+                }
                 $this->Flash->success(__('El articulo ha sido creado'));
-
-                //return $this->redirect(['action' => 'new']);
             }                                            
         }
         $categories = $this->Items->getCategories();
