@@ -129,4 +129,13 @@ class ItemsTable extends Table
     {
         return TableRegistry::get('Images')->newEntity();
     }
+    public function saveImage($img)
+    {
+        $images = TableRegistry::get('Images');
+        if($images->save($img)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
