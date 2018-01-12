@@ -1,10 +1,12 @@
-<?= $this->Form->create($item) ?>
+<?= $this->Form->create($item, ['enctype' => 'multipart/form-data']) ?>
 <fieldset>
     <legend><?= __('Nuevo Articulo') ?></legend>
     <?php
         //debug($categories);
         //echo $this->Form->select('category', $categories, ['multiple' => true]);
-       
+        
+        echo $this->Form->file('images.0.img');
+        echo $this->Form->file('images.1.img');
         echo $this->Form->control('sku');
         echo $this->Form->control('description');
         echo $this->Form->control('price');

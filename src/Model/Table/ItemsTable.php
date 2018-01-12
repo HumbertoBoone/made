@@ -41,6 +41,11 @@ class ItemsTable extends Table
         $this->hasMany('OrdersDetails', [
             'foreignKey' => 'item_id'
         ]);
+
+        $this->hasMany('Images',[
+            'foreignKey' => 'item_id'
+        ]);
+
         $this->belongsToMany('Categories', [
             'foreignKey' => 'item_id',
             'targetForeignKey' => 'category_id',
@@ -119,5 +124,9 @@ class ItemsTable extends Table
         $categories = TableRegistry::get('Categories');
         $category = $categories->get($id);
         return $category;
+    }
+    public function getImageEntity()
+    {
+        return TableRegistry::get('Images')->newEntity();
     }
 }
