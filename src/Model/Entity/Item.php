@@ -34,4 +34,11 @@ class Item extends Entity
         'unit' => true,
         'brand' => true
     ];
+    // se cerciora que el sku se guarde en mayusculas
+    protected function _setSku($value)
+    {
+        if (strlen($value)) {
+            return strtoupper($value);
+        }
+    }
 }
