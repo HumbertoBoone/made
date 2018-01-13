@@ -31,25 +31,29 @@ class ItemsController extends AppController
                         
                     }
                 }
-
-                foreach($images as $image){
-                    $img = $this->Items->getImageEntity();
-                    $target_path = WWW_ROOT . 'img/items/';
-                    $file_name = $image['img']['name'];
-                    $tmp_name = $image['img']['tmp_name'];
-                    $parts = explode(".", $file_name);
-                    $fname = $parts[0];
-                    $new_file_name = $fname . rand() . ".jpg" ;
-                    $to_path = $target_path . $new_file_name;
-                    if($file_name != ""){
-                        if(move_uploaded_file($tmp_name, $to_path)){
-                            $img->src = 'img/items/' . $new_file_name;
-                            $img->item_id = $item->id;
-                            $this->Items->saveImage($img);
-                            $this->Flash->success(__('La imagen ha sido subida'));
-                        }else{
-                            $this->Flash->error(__('La imagen no pudo ser subida'));
+                
+                foreach($images as $c => $image){
+                    if($image['img']['error'] == 0 && ($image['img']['type'] == 'image/jpeg' || $image['img']['type'] == 'image/png')) {
+                        $img = $this->Items->getImageEntity();
+                        $target_path = WWW_ROOT . 'img/items/';
+                        $file_name = $image['img']['name'];
+                        $tmp_name = $image['img']['tmp_name'];
+                        $extension = explode(".", $file_name);
+                        $extension = end($extension);
+                        $new_file_name = $item->sku . '_' . $c .'.'. $extension;
+                        $to_path = $target_path . $new_file_name;
+                        if($file_name != ""){
+                            if(move_uploaded_file($tmp_name, $to_path)){
+                                $img->src = 'img/items/' . $new_file_name;
+                                $img->item_id = $item->id;
+                                $this->Items->saveImage($img);
+                                //$this->Flash->success(__('La imagen ha sido subida'));
+                            }else{
+                                //$this->Flash->error(__('La imagen no pudo ser subida'));
+                            }
                         }
+                    }else{
+                        $this->Flash->error(__('Ocurrió un error al subir la imagen, verifique que la imagen sea png o jpeg'));
                     }
                 }
 
