@@ -8,7 +8,13 @@ class ItemsController extends AppController
     public function index()
     {
         $this->loadComponent('Paginator');
-        $items = $this->Paginator->paginate($this->Items->find());
+        $items = $this->Paginator->paginate($this->Items->find('all',
+            ['contain' => ['Images']]));
+        
+        //$items = $this->Items->find('all',
+        //    ['contain' => ['Images']]);
+        //debug($images);
+        //$this->set(compact('images'));
         $this->set(compact('items'));
     }
     public function new()

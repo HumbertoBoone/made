@@ -1,0 +1,12 @@
+.image{
+    height: 170px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.price{
+    /*padding-top: 90%;*/
+    color: rgb(101, 253, 0);
+    pointer-events: none;
+    float: right;
+}

@@ -138,4 +138,9 @@ class ItemsTable extends Table
             return false;
         }
     }
+    public function getItemImages()
+    {
+        $images = TableRegistry::get('Images');
+        return $images->find('all')->toArray();
+    }
 }
