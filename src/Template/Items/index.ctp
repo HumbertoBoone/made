@@ -25,17 +25,18 @@
             
             <?php $iterador = 0; ?>
             <?php foreach ($items as $n => $item): ?>
-                <?php if(isset($item['images']['0']['src'])): ?>
+                <?php if(true): ?>
                     <?php $iterador++; ?>
                     <?php if ($iterador === 1): ?>
                         <div class="row">
                     <?php endif; ?>
-                    
+                    <?php $path = isset($item['images']['0']['src']) ? 'items/'.$item['images']['0']['src'] : 'default.png'; ?>
                     <div class="col-sm-4">
-                        <div class="image" style="background-image:url(img/items/<?php echo $item['images']['0']['src']; ?>)">
-                            <div class="price"><?= h("$ ".$item->price) ?></div>
+                        <div class="image" style="background-image:url(img/<?php echo $path; ?>)">
+                            <div class="price"><?= $this->Number->format($item->price, ['before' => '$ ','places' => 2, 'after' => ' MXN']) ?></div>
                         </div>
                         <div><?= h($item->sku) ?></div>
+                        <div><?= $this->Form->button('Añadir', ['id' => $item->id, 'class' => 'add']) ?></div>
                     </div>
 
                     <?php if ($iterador === 3): ?>
@@ -47,4 +48,15 @@
 
             </div>
         </div>
+    
 </div>
+<div class="paginator">
+        <ul class="pagination">
+            <?= $this->Paginator->first('<< ' . __('primero')) ?>
+            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
+            <?= $this->Paginator->numbers() ?>
+            <?= $this->Paginator->next(__('siguiente') . ' >') ?>
+            <?= $this->Paginator->last(__('ultimo') . ' >>') ?>
+        </ul>
+        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+    </div>
