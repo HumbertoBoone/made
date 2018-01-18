@@ -3,19 +3,16 @@
 namespace App\Controller;
 
 class ItemsController extends AppController
-{
-    /*public $paginate = [
+{ 
+    public $paginate = [
         'limit' => 6,
         'maxLimit' => 8
-    ];*/
+    ];
     public function index()
     {
-        $paginate = [
-            'limit' => 6
-        ];
         $this->loadComponent('Paginator');
         $items = $this->Paginator->paginate($this->Items->find('all',
-            ['contain' => ['Images']]),$paginate);
+            ['contain' => ['Images']]),$this->paginate);
         $this->set(compact('items'));
     }
     public function addCart(){
@@ -30,7 +27,12 @@ class ItemsController extends AppController
             $items = $session->read('items');
             $items[] = $item;
             $session->write('items', $items);
-            
+            if($session->check('items')){
+                $this->Flash->success('El articulo ha sido añadido al carrito con exito');
+            }else{
+                $this->Flash->error('No se pudo agregar el articulo al carrito, intente mas tarde');
+            }
+            return $this->redirect(['action' => 'index']);
             //$_SESSION['items'][] = $item;
         }
     
@@ -39,6 +41,7 @@ class ItemsController extends AppController
         $this->autoRender = false;
         $session = $this->request->session();
         $session->destroy();
+        return $this->redirect(['action' => 'index']);
     }
     public function articulos()
     {
