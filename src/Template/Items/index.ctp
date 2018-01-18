@@ -36,7 +36,11 @@
                             <div class="price"><?= $this->Number->format($item->price, ['before' => '$ ','places' => 2, 'after' => ' MXN']) ?></div>
                         </div>
                         <div><?= h($item->sku) ?></div>
-                        <div><?= $this->Form->button('Añadir', ['id' => $item->id, 'class' => 'add']) ?></div>
+                        <?= $this->Form->create(null,['type' => 'post','url' => '/items/add-cart']) ?>
+                        <?= $this->Form->hidden('item_id',['value' => $item->id]) ?>
+                        <div><?= $this->Form->number('amount',['min' => 1, 'value' => 1, 'style' => 'width: 40%; display: inline-block;']) ?>
+                        <?= $this->Form->button('Añadir') ?></div>
+                        <?= $this->Form->end() ?>
                     </div>
 
                     <?php if ($iterador === 3): ?>
