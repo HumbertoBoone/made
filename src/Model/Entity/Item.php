@@ -27,6 +27,7 @@ class Item extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => true,
         'sku' => true,
         'description' => true,
         'price' => true,
