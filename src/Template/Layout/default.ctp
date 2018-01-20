@@ -6,7 +6,8 @@
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- *
+ * <?= $this->Html->css('base.css') ?>
+ *<?= $this->Html->css('cake.css') ?>
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  * @link          https://cakephp.org CakePHP(tm) Project
  * @since         0.10.0
@@ -28,7 +29,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('base.css') ?>
+   
     <?= $this->Html->css('cake.css') ?>
     <?= $this->Html->css('css.css') ?>
 

@@ -76,6 +76,14 @@ class ItemsController extends AppController
         $session->destroy();
         return $this->redirect(['action' => 'index']);
     }
+    public function cart(){
+        $session = $this->request->session();
+        $items = '';
+        if($session->check('items')){
+            $items = $session->read('items');
+        }
+        $this->set(compact('items'));
+    }
     public function articulos()
     {
         $categorias = $this->request->getParam('pass');
