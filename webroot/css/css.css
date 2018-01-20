@@ -1,12 +1,46 @@
+.dTable{
+    display: table;
+    height: 100%;
+}
+.dTable-cell{
+    display: table-cell;
+    vertical-align: middle;
+}
+.dTable,.dTable-cell{
+    width: 100%;
+}
+.fondo-oscuro{
+    background-color: #222;   
+}
+.texto-claro{
+    color: #f5f5f5;
+}
 .image{
-    height: 170px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+}
+.s-contain{
+    background-size: contain;
+}
+.items .image{
+    height: 170px;
 }
 .price{
     /*padding-top: 90%;*/
     color: rgb(101, 253, 0);
     pointer-events: none;
     float: right;
+}
+
+.carrito{
+    /*border: 1px solid #6b6b6b;*/
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+}
+.carrito .row{
+    max-height: 70px;
+}
+.carrito .image{
+    height:  70px;
 }
