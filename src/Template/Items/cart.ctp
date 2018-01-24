@@ -32,21 +32,32 @@
                     <div class="col-2">
                         <div class="dTable">
                             <div class="dTable-cell">
-                                <h6></h6>
+                                <h6><?= $this->Number->format($item['price'], [
+                                    'places' => 2,
+                                    'before' => '$ '
+                                ]) ?></h6>
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="dTable">
                             <div class="dTable-cell">
-                                <h6></h6>
+                                <?= $this->Form->create(null,['type' => 'post','url' => '/items/update-cart']) ?>
+                                <?= $this->Form->hidden('item_index',['value' => $n]) ?>
+                                <?= $this->Form->control('amount',['type' => 'number', 'value' => $item['amount'], 'label' => false]) ?>
+                                <?= $item['unit'] ?>
+                                <?= $this->Form->button('Cambiar') ?>
+                                <?= $this->Form->end() ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="dTable">
                             <div class="dTable-cell">
-                                <h6></h6>
+                                <h6><?= $this->Number->format($item['subtotal'], [
+                                    'places' => 2,
+                                    'before' => '$ '
+                                ]) ?></h6>
                             </div>
                         </div>
                     </div>

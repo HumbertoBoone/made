@@ -38,6 +38,19 @@ class ItemsController extends AppController
             //$_SESSION['items'][] = $item;
         }
     }
+    public function updateCart(){
+        $this->autoRender = false;
+        if($this->request->is('post')){
+            $item_request = $this->request->getData();  
+            $session = $this->request->session();
+            $item_price = $session->read('items.'.$item_request['item_index'].'.price');
+            //$item_price = $item[$item_request['item_index']]['price'];
+            $session->write('items.'.$item_request['item_index'].'.subtotal' , $item_request['amount'] * $item_price);
+            $session->write('items.'.$item_request['item_index'].'.amount' , $item_request['amount']);
+            $this->Flash->success('La cantidad ha sido actualizada con exito');
+            return $this->redirect(['action' => 'cart']);
+        }
+    }
     public function dS(){
         $this->autoRender = false;
         $session = $this->request->session();

@@ -44,3 +44,6 @@
 .carrito .image{
     height:  70px;
 }
+.carrito input[type=number]{
+    max-width: 60px;
+}
