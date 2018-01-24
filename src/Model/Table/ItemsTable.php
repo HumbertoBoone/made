@@ -143,4 +143,17 @@ class ItemsTable extends Table
         $images = TableRegistry::get('Images');
         return $images->find('all')->toArray();
     }
+    public function getItemForCart($item = null, $amount = 1){
+        return [
+            'id' => $item->id,
+            'sku' => $item->sku,
+            'description' => $item->description,
+            'price' => $item->price,
+            'unit' => $item->unit,
+            'brand' => $item->brand,
+            'amount' => $amount,
+            'img' =>  !empty($item->images) ? $item->images['0'] : 'default.png',
+            'subtotal' => $amount * $item['price']
+            ];
+    }
 }
