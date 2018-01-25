@@ -47,3 +47,6 @@
 .carrito input[type=number]{
     max-width: 60px;
 }
+.carrito button{
+    background-color: transparent;
+}

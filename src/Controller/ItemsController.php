@@ -12,7 +12,7 @@ class ItemsController extends AppController
     {
         $this->loadComponent('Paginator');
         $items = $this->Paginator->paginate($this->Items->find('all',
-            ['contain' => ['Images']]),$this->paginate);
+            ['contain' => ['Images']]), $this->paginate);    
         $this->set(compact('items'));
     }
     public function addCart(){
@@ -74,7 +74,12 @@ class ItemsController extends AppController
         if($session->check('items')){
             $items = $session->read('items');
         }
+        $total = 0;
+        foreach($items as $item){
+            $total += $item['subtotal'];
+        }
         $this->set(compact('items'));
+        $this->set(compact('total'));
     }
     public function articulos()
     {

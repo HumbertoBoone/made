@@ -46,7 +46,7 @@
                                 <?= $this->Form->hidden('item_index',['value' => $n]) ?>
                                 <?= $this->Form->control('amount',['type' => 'number', 'value' => $item['amount'], 'label' => false, 'step' => 0.001]) ?>
                                 <?= $item['unit'] ?>
-                                <?= $this->Form->button('Cambiar') ?>
+                                <?= $this->Form->button('<i class="fas fa-sync-alt"></i>') ?>
                                 <?= $this->Form->end() ?>
                             </div>
                         </div>
@@ -71,7 +71,14 @@
                             </div>
                         </div>    
                     </div>
+                </div>
             <?php endforeach; ?>
         <?php endif; ?>
+    </div>
+    <div>
+    <h6><?= $this->Number->format($total, [
+        'places' => 2,
+        'before' => '$ '
+    ]) ?></h6>
     </div>
 </div>
