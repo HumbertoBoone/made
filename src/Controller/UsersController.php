@@ -35,6 +35,7 @@ class UsersController extends AppController
             $user->customer_id = $this->Users->crearNuevo($this->request->getData('customer'));
             $user->role = 'customer';
             $user->status = 'pending';
+            $user->verification_token = hash('sha512', mt_rand().$user->customer_id.time());
             debug($this->request->getData());
             /*if ($this->Users->save($user)) {
                 $this->Flash->success(__('El usuario ha sido creado'));
@@ -45,6 +46,13 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+    }
+    public function verify(){
+        if ($this->request->is('get')){
+            $params = $this->request->getParam('pass');
+            debug($this->request->getQueryParams());
+        }
+        
     }
     public function test(){
 

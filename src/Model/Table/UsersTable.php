@@ -33,6 +33,8 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
+        $this->addBehavior('Timestamp');
+
         $this->setTable('users');
         $this->setDisplayField('customer_id');
         $this->setPrimaryKey('customer_id');
