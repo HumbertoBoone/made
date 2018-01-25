@@ -42,9 +42,9 @@
                     <div class="col-2">
                         <div class="dTable">
                             <div class="dTable-cell">
-                                <?= $this->Form->create(null,['type' => 'post','url' => '/items/update-cart']) ?>
+                                <?= $this->Form->create(null,['type' => 'patch','url' => '/items/update-cart']) ?>
                                 <?= $this->Form->hidden('item_index',['value' => $n]) ?>
-                                <?= $this->Form->control('amount',['type' => 'number', 'value' => $item['amount'], 'label' => false]) ?>
+                                <?= $this->Form->control('amount',['type' => 'number', 'value' => $item['amount'], 'label' => false, 'step' => 0.001]) ?>
                                 <?= $item['unit'] ?>
                                 <?= $this->Form->button('Cambiar') ?>
                                 <?= $this->Form->end() ?>
@@ -64,10 +64,13 @@
                     <div class="col-1 text-center ">
                         <div class="dTable">
                             <div class="dTable-cell">
-                                <i class="fas fa-times" title="Eliminar"></i></div>
+                                <?= $this->Form->create(null,['type' => 'delete','url' => '/items/delete-cart']) ?>
+                                <?= $this->Form->hidden('item_index',['value' => $n]) ?>
+                                <?= $this->Form->button('<i class="fas fa-times" title="Eliminar"></i>') ?>
+                                <?= $this->Form->end() ?>
                             </div>
                         </div>    
-                </div>
+                    </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>

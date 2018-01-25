@@ -153,7 +153,7 @@ class ItemsTable extends Table
             'brand' => $item->brand,
             'amount' => $amount,
             'img' =>  !empty($item->images) ? $item->images['0'] : 'default.png',
-            'subtotal' => $amount * $item['price']
+            'subtotal' => round($amount * $item['price'], 2)
             ];
     }
 }

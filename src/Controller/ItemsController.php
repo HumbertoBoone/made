@@ -40,14 +40,25 @@ class ItemsController extends AppController
     }
     public function updateCart(){
         $this->autoRender = false;
-        if($this->request->is('post')){
+        if($this->request->is('patch')){
             $item_request = $this->request->getData();  
             $session = $this->request->session();
             $item_price = $session->read('items.'.$item_request['item_index'].'.price');
             //$item_price = $item[$item_request['item_index']]['price'];
-            $session->write('items.'.$item_request['item_index'].'.subtotal' , $item_request['amount'] * $item_price);
+            $session->write('items.'.$item_request['item_index'].'.subtotal' , round($item_request['amount'] * $item_price, 2));
             $session->write('items.'.$item_request['item_index'].'.amount' , $item_request['amount']);
             $this->Flash->success('La cantidad ha sido actualizada con exito');
+            return $this->redirect(['action' => 'cart']);
+        }
+    }
+    public function deleteCart()
+    {
+        $this->autoRender = false;
+        if($this->request->is('delete')){
+            $item_request = $this->request->getData();
+            $session = $this->request->session();
+            $session->delete('items.'.$item_request['item_index']);
+            $this->Flash->success('El articulo ha sido eliminado del carrito con exito.');
             return $this->redirect(['action' => 'cart']);
         }
     }
