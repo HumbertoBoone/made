@@ -48,9 +48,19 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
     public function verify(){
-        if ($this->request->is('get')){
-            $params = $this->request->getParam('pass');
-            debug($this->request->getQueryParams());
+        $params = $this->request->getQueryParams();
+        if ($this->request->is('get') && isset($params['token']) && isset($params['user_id'])){
+            $user = $this->Users->get($params['user_id']);
+            if($user->verification_token == $params['verification_token']){
+                $user->status = 'verified';
+                if($this->Users->save($user)){
+                    $this->Flash->success(__('Su cuenta ha sido verificada'));
+                }
+                $this->Flash->error(__('Su cuenta no pudo ser verificada'));
+            }
+            $this->Flash->error(__('El token no corresponde con el registro'));
+        }else{
+            return $this->redirect(['controller' => 'Items', 'action' => 'index']);
         }
         
     }
