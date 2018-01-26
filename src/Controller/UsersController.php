@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Cake\Mailer\Email;
+
 class UsersController extends AppController
 {
     public function initialize()
@@ -36,23 +38,31 @@ class UsersController extends AppController
             $user->role = 'customer';
             $user->status = 'pending';
             $user->verification_token = hash('sha512', mt_rand().$user->customer_id.time());
-            debug($this->request->getData());
-            /*if ($this->Users->save($user)) {
+
+            $ver_url = 'http://localhost/made/users/verify?token='.$user->verification_code.'?user='.$user->customer_id;
+            /*$email = new Email('default');
+            $email->from(['admin@localhost' => 'My Site'])
+                ->to($user->email)
+                ->subject('Verifica tu cuenta')
+                ->send($ver_url);*/
+            if ($this->Users->save($user)) {
                 $this->Flash->success(__('El usuario ha sido creado'));
 
                 return $this->redirect('/pages/registrado');
             }
-            $this->Flash->error(__('El usuario no pudo ser creado'));*/
+            $this->Flash->error(__('El usuario no pudo ser creado'));
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
-    public function verify(){
+    public function verify()
+    {
         $params = $this->request->getQueryParams();
-        if ($this->request->is('get') && isset($params['token']) && isset($params['user_id'])){
-            $user = $this->Users->get($params['user_id']);
-            if($user->verification_token == $params['verification_token']){
+        if ($this->request->is('get') && isset($params['token']) && isset($params['user'])){
+            $user = $this->Users->get($params['user']);
+            if($user->verification_token == $params['token']){
                 $user->status = 'verified';
+                $user->verification_token = null;
                 if($this->Users->save($user)){
                     $this->Flash->success(__('Su cuenta ha sido verificada'));
                 }
