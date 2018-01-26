@@ -178,13 +178,13 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'className' => 'Mail',
+            'className' => 'Smtp',
             // The following keys are used in SMTP transports
-            'host' => 'localhost',
-            'port' => 25,
+            'host' => 'smtp.zoho.com',
+            'port' => 465,
             'timeout' => 30,
-            'username' => null,
-            'password' => null,
+            'username' => 'joseluis@somoscorvus.com',
+            'password' => 'D8vUmu7zKReL',
             'client' => null,
             'tls' => null,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),

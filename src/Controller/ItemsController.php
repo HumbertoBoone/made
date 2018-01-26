@@ -62,6 +62,15 @@ class ItemsController extends AppController
             return $this->redirect(['action' => 'cart']);
         }
     }
+    public function continue()
+    {
+        $user = $this->request->session()->read('Auth.User');
+        if(isset($user)){
+            return redirect(['controller' => 'Orders', 'action' => 'method']);
+        }else{
+            
+        }
+    }
     public function dS(){
         $this->autoRender = false;
         $session = $this->request->session();
