@@ -9,3 +9,4 @@
     ]) ?>
 <?= $this->Form->submit('Continuar') ?>
 <?= $this->Form->end() ?>
+<div id="paypal-button-container"></div>
