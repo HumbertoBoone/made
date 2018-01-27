@@ -40,7 +40,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             payment: function() {
 
                 // Set up a url on your server to create the payment
-                var CREATE_URL = '/demo/checkout/api/paypal/payment/create/';
+                var CREATE_URL = 'create_paypal_payment';
 
                 // Make a call to your server to set up the payment
                 return paypal.request.post(CREATE_URL)
@@ -53,7 +53,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             onAuthorize: function(data, actions) {
 
                 // Set up a url on your server to execute the payment
-                var EXECUTE_URL = '/demo/checkout/api/paypal/payment/execute/';
+                var EXECUTE_URL = 'execute_paypal_payment';
 
                 // Set up the data you need to pass to your server
                 var data = {
@@ -64,7 +64,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 // Make a call to your server to execute the payment
                 return paypal.request.post(EXECUTE_URL, data)
                     .then(function (res) {
-                        window.alert('Payment Complete!');
+                        window.alert(res);
                     });
             }
 
