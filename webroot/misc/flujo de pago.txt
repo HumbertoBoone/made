@@ -1,0 +1,28 @@
+-cualquier usuario puede agregar articulos al carrito
+-/items/cart 
+--/continuar
+---si usuario autenticado
+----solicitar que seleccione direccion de envio
+----mostrar resumen y opciones de envio
+----(continuar) solicitar método de pago
+----si paypal
+-----redireccionar a paypal para solicitar la autorizacion al cliente
+-----si autorizó
+------generar cargo y mostrar a cliente que la transaccion fue exitosa
+-----sino
+------reedireccionar a solicitar método de pago y mostrar error con flash de que no fue autorizado
+----si tarjeta
+-----cargar formulario de pago
+----si oxxo
+-----generar referencia de pago y mostrarla al cliente
+---sino
+----mostrar pagina con opciones: solicitar logear en caso de que el usuario ya tenga cuenta, solicitar registrarse, 
+----o solicitar comprar como invitado
+----si se logea
+-----solicitar que seleccione direccion de envio
+-----...continuar con los demas pasos
+----si decide comprar como invitado
+-----solicitarle al usuario la informacion del cliente (direccion, nombre, etc)
+----si decide  registrarse antes de comprar
+-----reedireccionar al cliente a la pagina de registro
+-----una vez registrado continuar con los demas pasos
