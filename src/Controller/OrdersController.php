@@ -65,24 +65,30 @@ class OrdersController extends AppController
         $http = new Client([
             'headers' => ['Authorization' => 'Bearer ' . $this->getPaypalToken(), 'Content-Type' => 'application/json']
         ]);
+        $session = $this->request->session();
+        $items = $session->read('items');
+        $json_items = [];
+        $items_total = 0;
+        foreach($items as $item){
+            array_push($json_items, ['sku' => $item['sku'],
+                'name' => $item['description'],
+                'quantity' => $item['amount'],
+                'price' => $item['price'],
+                'currency' => 'MXN']);
+            $items_total += $item['subtotal'];
+        }
         $data = ['intent' => 'sale',
             'payer' => ['payment_method' => 'paypal'],
-            'transactions' => [['amount' => ['currency'  => 'MXN','total' => '10.80']]],'redirect_urls' => ['return_url' => 'localhost.com.mx','cancel_url' => 'localhost.com.mx/cancel']];
+            'transactions' => [['amount' => ['currency'  => 'MXN','total' => $items_total],
+            'description' => '', 'item_list' => ['items' => $json_items]]],'redirect_urls' => ['return_url' => 'localhost.com.mx','cancel_url' => 'localhost.com.mx/cancel']];
         $response = $http->post('https://api.sandbox.paypal.com/v1/payments/payment',
             json_encode($data));
-        //debug($response->json);
-        //return $response->json['id'];
+        
         $response = $response->json['id'];
-        //$response = ['paymentID' => $response];
-        //$response = ['hola' => 'hola otra vez'];
-        //return $this->request->withBody(json_encode($response));
-        //return $response->json;
-        //$this->rev($response);
-        //$this->set(compact('response'));
-        //$this->set('_serialize', ['response']);
-        //$json_data = json_encode($response);
+        
         $response = $this->response->withType('json')->withStringBody(json_encode(['paymentID' => $response]));
         return $response;
+        //debug(json_encode($data));
         //}
 
     }
