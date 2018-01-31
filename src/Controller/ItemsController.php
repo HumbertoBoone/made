@@ -82,6 +82,9 @@ class ItemsController extends AppController
         $items = '';
         if($session->check('items')){
             $items = $session->read('items');
+        }else{
+            $this->Flash->error('Tu carrito esta vacio, agrega articulos para poder continuar con la compra');
+            $this->redirect(['action' => 'index']);
         }
         $total = 0;
         foreach($items as $item){
