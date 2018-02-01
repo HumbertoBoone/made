@@ -37,6 +37,24 @@ class OrdersController extends AppController
             }
         }
     }
+    public function shipping()
+    {
+        $this->autoRender = false;
+        if($this->Auth->user()){
+            //$user = $this->Users->Orders->get($this->Auth->user('customer_id'));
+            $user = $this->request->session()->read('Auth.User');
+            if($user['status'] == 'verified'){
+                debug($user);
+            }else{
+                $this->Flash->error('La cuenta no ha sido verificada');
+                return $this->redirect(['action' => '']);
+            }
+        }else{
+            return $this->redirect(['action' => '']);
+        }
+        $this->set();
+
+    }
     public function paypal()
     {
         //debug($this->createPaypalPayment());
