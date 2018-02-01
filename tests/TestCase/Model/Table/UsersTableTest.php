@@ -25,7 +25,8 @@ class UsersTableTest extends TestCase
      */
     public $fixtures = [
         'app.users',
-        'app.customers'
+        'app.customers',
+        'app.orders'
     ];
 
     /**
@@ -78,6 +79,16 @@ class UsersTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test crearNuevo method
+     *
+     * @return void
+     */
+    public function testCrearNuevo()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
