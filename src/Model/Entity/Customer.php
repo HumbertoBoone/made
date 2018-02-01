@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property string $first_name
  * @property string $last_name
  * @property string $address1
+ * @property string $type
  * @property string $address2
  * @property string $tel
  * @property string $city
@@ -37,6 +38,7 @@ class Customer extends Entity
         'first_name' => true,
         'last_name' => true,
         'address1' => true,
+        'type' => true,
         'address2' => true,
         'tel' => true,
         'city' => true,

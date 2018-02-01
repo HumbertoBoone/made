@@ -11,6 +11,10 @@ use Cake\ORM\Entity;
  * @property string $email
  * @property string $password
  * @property string $role
+ * @property string $status
+ * @property string $verification_token
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\Customer $customer
  */
@@ -30,6 +34,10 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'role' => true,
+        'status' => true,
+        'verification_token' => true,
+        'created' => true,
+        'modified' => true,
         'customer' => true
     ];
 
@@ -39,7 +47,8 @@ class User extends Entity
      * @var array
      */
     protected $_hidden = [
-        'password'
+        'password',
+        'verification_token'
     ];
     protected function _setPassword($value)
     {

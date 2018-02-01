@@ -4,13 +4,10 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * Users Model
- *
- * @property \App\Model\Table\CustomersTable|\Cake\ORM\Association\BelongsTo $Customers
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -19,6 +16,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class UsersTable extends Table
 {
@@ -33,8 +32,6 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
-        $this->addBehavior('Timestamp');
-
         $this->setTable('users');
         $this->setDisplayField('customer_id');
         $this->setPrimaryKey('customer_id');
@@ -43,6 +40,8 @@ class UsersTable extends Table
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->addBehavior('Timestamp');
     }
 
     /**
@@ -53,6 +52,10 @@ class UsersTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator
+            ->integer('customer_id')
+            ->allowEmpty('customer_id', 'create');
+
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
@@ -76,6 +79,11 @@ class UsersTable extends Table
             ->requirePresence('status', 'create')
             ->notEmpty('status');
 
+        $validator
+            ->scalar('verification_token')
+            ->maxLength('verification_token', 256)
+            ->allowEmpty('verification_token');
+
         return $validator;
     }
 
@@ -90,7 +98,6 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['customer_id'], 'Customers'));
-
         return $rules;
     }
     public function crearNuevo(array $customerData)

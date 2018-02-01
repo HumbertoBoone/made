@@ -9,6 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Customers Model
  *
+ * @property |\Cake\ORM\Association\HasMany $Addresses
  * @property \App\Model\Table\OrdersTable|\Cake\ORM\Association\HasMany $Orders
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
  *
@@ -37,6 +38,9 @@ class CustomersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->hasMany('Addresses', [
+            'foreignKey' => 'customer_id'
+        ]);
         $this->hasMany('Orders', [
             'foreignKey' => 'customer_id'
         ]);
@@ -81,28 +85,33 @@ class CustomersTable extends Table
             ->notEmpty('address1');
 
         $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
+
+        $validator
             ->scalar('address2')
             ->maxLength('address2', 255)
             ->allowEmpty('address2');
 
         $validator
             ->scalar('tel')
-            ->maxLength('tel', 45)
+            ->maxLength('tel', 255)
             ->allowEmpty('tel');
 
         $validator
             ->scalar('city')
-            ->maxLength('city', 45)
+            ->maxLength('city', 255)
             ->allowEmpty('city');
 
         $validator
             ->scalar('state')
-            ->maxLength('state', 45)
+            ->maxLength('state', 255)
             ->allowEmpty('state');
 
         $validator
             ->scalar('postal_code')
-            ->maxLength('postal_code', 5)
+            ->maxLength('postal_code', 255)
             ->allowEmpty('postal_code');
 
         return $validator;
