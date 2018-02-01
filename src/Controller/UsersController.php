@@ -29,7 +29,7 @@ class UsersController extends AppController
     {
          return $this->redirect($this->Auth->logout());
     }
-    public function nuevo()
+    public function register()
     {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
@@ -39,16 +39,17 @@ class UsersController extends AppController
             $user->status = 'pending';
             $user->verification_token = hash('sha512', mt_rand().$user->customer_id.time());
 
-            $ver_url = 'http://localhost/made/users/verify?token='.$user->verification_code.'?user='.$user->customer_id;
+            $ver_url = 'http://localhost/made/users/verify?token='.$user->verification_token.'&user=';
             /*$email = new Email('default');
             $email->from(['admin@localhost' => 'My Site'])
                 ->to($user->email)
                 ->subject('Verifica tu cuenta')
                 ->send($ver_url);*/
             if ($this->Users->save($user)) {
+                $ver_url .= $user->customer_id;
                 $this->Flash->success(__('El usuario ha sido creado'));
-
-                return $this->redirect('/pages/registrado');
+                //debug($ver_url);
+                //return $this->redirect('/pages/registrado');
             }
             $this->Flash->error(__('El usuario no pudo ser creado'));
         }
@@ -57,9 +58,13 @@ class UsersController extends AppController
     }
     public function verify()
     {
+        //$params = ['token' => $this->request->getQuery('token'),
+        //            'user' => $this->request->getQuery('user')];
         $params = $this->request->getQueryParams();
+        //debug($params['token']);
         if ($this->request->is('get') && isset($params['token']) && isset($params['user'])){
-            $user = $this->Users->get($params['user']);
+            debug('entro');
+           $user = $this->Users->get($params['user']);
             if($user->verification_token == $params['token']){
                 $user->status = 'verified';
                 $user->verification_token = null;
@@ -72,6 +77,7 @@ class UsersController extends AppController
         }else{
             return $this->redirect(['controller' => 'Items', 'action' => 'index']);
         }
+        debug($params);
         
     }
     public function test(){
