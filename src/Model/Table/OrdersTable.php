@@ -5,7 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
+use Cake\ORM\TableRegistry;
 /**
  * Orders Model
  *
@@ -123,5 +123,15 @@ class OrdersTable extends Table
         $rules->add($rules->existsIn(['customer_id'], 'Customers'));
 
         return $rules;
+    }
+    public function getCustomerAddresses($customer_id)
+    {
+        $addresses = TableRegistry::get('Addresses');
+        return $addresses->find()->where(['customer_id' => $customer_id])->toArray();
+    }
+    public function getCustomerAddress($address_id, $customer_id)
+    {
+        $addresses = TableRegistry::get('Addresses');
+        return $addresses->find()->where(['id' => $address_id])->andWhere(['customer_id' => $customer_id])->first();
     }
 }

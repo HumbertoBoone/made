@@ -39,12 +39,18 @@ class OrdersController extends AppController
     }
     public function shipping()
     {
-        $this->autoRender = false;
         if($this->Auth->user()){
             //$user = $this->Users->Orders->get($this->Auth->user('customer_id'));
             $user = $this->request->session()->read('Auth.User');
+            if($this->request->is('post')){
+                $address_id = $this->request->getData('shipping_address');
+                //debug($address_id);
+                $address = $this->Orders->getCustomerAddress($address_id, $user['customer_id']);
+                $this->request->session()->write('shipping_address', $address);
+                //return $this->redirect(['action' => 'summary']);
+            }
             if($user['status'] == 'verified'){
-                debug($user);
+                $addresses = $this->Orders->getCustomerAddresses($user['customer_id']);
             }else{
                 $this->Flash->error('La cuenta no ha sido verificada');
                 return $this->redirect(['action' => '']);
@@ -52,8 +58,16 @@ class OrdersController extends AppController
         }else{
             return $this->redirect(['action' => '']);
         }
-        $this->set();
+        $this->set(compact('addresses'));
 
+    }
+    public function summary()
+    {
+        if(!$this->Auth->user()){
+            $this->Flash->error('No estas autenticado. Por favor inicia sesión');
+            return redirect(['Controller' => 'Items', 'action' => 'index']);
+        }
+        
     }
     public function paypal()
     {
