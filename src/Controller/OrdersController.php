@@ -41,13 +41,13 @@ class OrdersController extends AppController
     {
         if($this->Auth->user()){
             //$user = $this->Users->Orders->get($this->Auth->user('customer_id'));
-            $user = $this->request->session()->read('Auth.User');
+            $user = $this->request->getSession()->read('Auth.User');
             if($this->request->is('post')){
                 $address_id = $this->request->getData('shipping_address');
                 //debug($address_id);
                 $address = $this->Orders->getCustomerAddress($address_id, $user['customer_id']);
-                $this->request->session()->write('shipping_address', $address);
-                //return $this->redirect(['action' => 'summary']);
+                $this->request->getSession()->write('shipping_address', $address);
+                return $this->redirect(['action' => 'summary']);
             }
             if($user['status'] == 'verified'){
                 $addresses = $this->Orders->getCustomerAddresses($user['customer_id']);
@@ -65,9 +65,22 @@ class OrdersController extends AppController
     {
         if(!$this->Auth->user()){
             $this->Flash->error('No estas autenticado. Por favor inicia sesión');
-            return redirect(['Controller' => 'Items', 'action' => 'index']);
+            return $this->redirect(['Controller' => 'Items', 'action' => 'index']);
         }
-        
+        $items = $this->request->getSession()->read('items');
+        $shipping_address = $this->request->getSession()->read('shipping_address');
+        if(!isset($items)){
+            $this->Flash->error('Tu carrito esta vacio.');
+            return $this->redirect(['Controller' => 'Items', 'action' => 'index']);
+        }else if(!isset($shipping_address)){
+            $this->Flash->error('No has seleccionado dirección de envio');
+            return $this->redirect(['action' => 'shipping']);
+        }
+        $items_total = 0;
+        foreach($items as $item){
+            $items_total+= $item['subtotal'];
+        }
+        $this->set(compact('items','shipping_address','items_total'));
     }
     public function paypal()
     {
@@ -97,7 +110,7 @@ class OrdersController extends AppController
         $http = new Client([
             'headers' => ['Authorization' => 'Bearer ' . $this->getPaypalToken(), 'Content-Type' => 'application/json']
         ]);
-        $session = $this->request->session();
+        $session = $this->request->getSession();
         $items = $session->read('items');
         $json_items = [];
         $items_total = 0;
