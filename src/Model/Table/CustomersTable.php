@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Customers Model
  *
- * @property |\Cake\ORM\Association\HasMany $Addresses
+ * @property \App\Model\Table\AddressesTable|\Cake\ORM\Association\HasMany $Addresses
  * @property \App\Model\Table\OrdersTable|\Cake\ORM\Association\HasMany $Orders
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
  *
@@ -113,6 +113,10 @@ class CustomersTable extends Table
             ->scalar('postal_code')
             ->maxLength('postal_code', 255)
             ->allowEmpty('postal_code');
+
+        $validator
+            ->decimal('discount')
+            ->allowEmpty('discount');
 
         return $validator;
     }

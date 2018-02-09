@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\CustomersTable;
+use App\Model\Table\ShippingMethodsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\CustomersTable Test Case
+ * App\Model\Table\ShippingMethodsTable Test Case
  */
-class CustomersTableTest extends TestCase
+class ShippingMethodsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\CustomersTable
+     * @var \App\Model\Table\ShippingMethodsTable
      */
-    public $Customers;
+    public $ShippingMethods;
 
     /**
      * Fixtures
@@ -24,11 +24,13 @@ class CustomersTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.customers',
-        'app.addresses',
-        'app.orders',
-        'app.orders_details',
-        'app.users'
+        'app.shipping_methods',
+        'app.coupons',
+        'app.items',
+        'app.groups',
+        'app.categories',
+        'app.images',
+        'app.coupons_items'
     ];
 
     /**
@@ -39,8 +41,8 @@ class CustomersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Customers') ? [] : ['className' => CustomersTable::class];
-        $this->Customers = TableRegistry::get('Customers', $config);
+        $config = TableRegistry::exists('ShippingMethods') ? [] : ['className' => ShippingMethodsTable::class];
+        $this->ShippingMethods = TableRegistry::get('ShippingMethods', $config);
     }
 
     /**
@@ -50,7 +52,7 @@ class CustomersTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Customers);
+        unset($this->ShippingMethods);
 
         parent::tearDown();
     }

@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Categories Model
  *
- * @property \App\Model\Table\ItemsTable|\Cake\ORM\Association\BelongsToMany $Items
+ * @property \App\Model\Table\ItemsTable|\Cake\ORM\Association\HasMany $Items
  *
  * @method \App\Model\Entity\Category get($primaryKey, $options = [])
  * @method \App\Model\Entity\Category newEntity($data = null, array $options = [])
@@ -36,10 +36,8 @@ class CategoriesTable extends Table
         $this->setDisplayField('category');
         $this->setPrimaryKey('id');
 
-        $this->belongsToMany('Items', [
-            'foreignKey' => 'category_id',
-            'targetForeignKey' => 'item_id',
-            'joinTable' => 'categories_items'
+        $this->hasMany('Items', [
+            'foreignKey' => 'category_id'
         ]);
     }
 

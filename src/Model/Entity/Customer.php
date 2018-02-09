@@ -17,7 +17,9 @@ use Cake\ORM\Entity;
  * @property string $city
  * @property string $state
  * @property string $postal_code
+ * @property float $discount
  *
+ * @property \App\Model\Entity\Address[] $addresses
  * @property \App\Model\Entity\Order[] $orders
  * @property \App\Model\Entity\User[] $users
  */
@@ -44,6 +46,8 @@ class Customer extends Entity
         'city' => true,
         'state' => true,
         'postal_code' => true,
+        'discount' => true,
+        'addresses' => true,
         'orders' => true,
         'users' => true
     ];

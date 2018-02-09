@@ -23,6 +23,9 @@ class UsersFixture extends TestFixture
         'role' => ['type' => 'string', 'length' => 45, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'status' => ['type' => 'string', 'length' => 45, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'verification_token' => ['type' => 'string', 'length' => 256, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'verification_token_created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'password_reset_token' => ['type' => 'string', 'length' => 256, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'password_reset_token_created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -49,8 +52,11 @@ class UsersFixture extends TestFixture
             'role' => 'Lorem ipsum dolor sit amet',
             'status' => 'Lorem ipsum dolor sit amet',
             'verification_token' => 'Lorem ipsum dolor sit amet',
-            'created' => '2018-02-01 02:55:53',
-            'modified' => '2018-02-01 02:55:53'
+            'verification_token_created' => '2018-02-08 23:50:10',
+            'password_reset_token' => 'Lorem ipsum dolor sit amet',
+            'password_reset_token_created' => '2018-02-08 23:50:10',
+            'created' => '2018-02-08 23:50:10',
+            'modified' => '2018-02-08 23:50:10'
         ],
     ];
 }

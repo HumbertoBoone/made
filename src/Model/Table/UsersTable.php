@@ -37,11 +37,6 @@ class UsersTable extends Table
         $this->setDisplayField('customer_id');
         $this->setPrimaryKey('customer_id');
 
-        $this->belongsTo('Customers', [
-            'foreignKey' => 'customer_id',
-            'joinType' => 'INNER'
-        ]);
-
         $this->addBehavior('Timestamp');
     }
 
@@ -85,6 +80,19 @@ class UsersTable extends Table
             ->maxLength('verification_token', 256)
             ->allowEmpty('verification_token');
 
+        $validator
+            ->dateTime('verification_token_created')
+            ->allowEmpty('verification_token_created');
+
+        $validator
+            ->scalar('password_reset_token')
+            ->maxLength('password_reset_token', 256)
+            ->allowEmpty('password_reset_token');
+
+        $validator
+            ->dateTime('password_reset_token_created')
+            ->allowEmpty('password_reset_token_created');
+
         return $validator;
     }
 
@@ -98,7 +106,7 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
+
         return $rules;
     }
     public function crearNuevo(array $customerData)

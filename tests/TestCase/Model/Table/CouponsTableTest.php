@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\OrdersTable;
+use App\Model\Table\CouponsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\OrdersTable Test Case
+ * App\Model\Table\CouponsTable Test Case
  */
-class OrdersTableTest extends TestCase
+class CouponsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\OrdersTable
+     * @var \App\Model\Table\CouponsTable
      */
-    public $Orders;
+    public $Coupons;
 
     /**
      * Fixtures
@@ -24,11 +24,13 @@ class OrdersTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.orders',
-        'app.customers',
-        'app.addresses',
-        'app.users',
-        'app.orders_details'
+        'app.coupons',
+        'app.shipping_methods',
+        'app.items',
+        'app.groups',
+        'app.categories',
+        'app.images',
+        'app.coupons_items'
     ];
 
     /**
@@ -39,8 +41,8 @@ class OrdersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Orders') ? [] : ['className' => OrdersTable::class];
-        $this->Orders = TableRegistry::get('Orders', $config);
+        $config = TableRegistry::exists('Coupons') ? [] : ['className' => CouponsTable::class];
+        $this->Coupons = TableRegistry::get('Coupons', $config);
     }
 
     /**
@@ -50,7 +52,7 @@ class OrdersTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Orders);
+        unset($this->Coupons);
 
         parent::tearDown();
     }
@@ -81,26 +83,6 @@ class OrdersTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test getCustomerAddresses method
-     *
-     * @return void
-     */
-    public function testGetCustomerAddresses()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test getCustomerAddress method
-     *
-     * @return void
-     */
-    public function testGetCustomerAddress()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

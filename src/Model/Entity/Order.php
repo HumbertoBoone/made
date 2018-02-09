@@ -19,6 +19,17 @@ use Cake\ORM\Entity;
  * @property string $postal_code
  * @property string $state
  * @property string $city
+ * @property string $shipping_method
+ * @property float $shipping_price
+ * @property float $customer_discount
+ * @property float $total_discount
+ * @property string $coupon_code
+ * @property \Cake\I18n\FrozenTime $coupon_created
+ * @property string $coupon_type
+ * @property int $coupon_sigle_use
+ * @property float $coupon_value
+ * @property \Cake\I18n\FrozenTime $coupon_expiration_date
+ * @property float $grand_total
  *
  * @property \App\Model\Entity\Customer $customer
  * @property \App\Model\Entity\OrdersDetail[] $orders_details
@@ -48,6 +59,17 @@ class Order extends Entity
         'postal_code' => true,
         'state' => true,
         'city' => true,
+        'shipping_method' => true,
+        'shipping_price' => true,
+        'customer_discount' => true,
+        'total_discount' => true,
+        'coupon_code' => true,
+        'coupon_created' => true,
+        'coupon_type' => true,
+        'coupon_sigle_use' => true,
+        'coupon_value' => true,
+        'coupon_expiration_date' => true,
+        'grand_total' => true,
         'customer' => true,
         'orders_details' => true
     ];

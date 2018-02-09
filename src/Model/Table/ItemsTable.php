@@ -4,14 +4,16 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
 
 /**
  * Items Model
  *
- * @property |\Cake\ORM\Association\HasMany $OrdersDetails
- * @property |\Cake\ORM\Association\BelongsToMany $Categories
+ * @property |\Cake\ORM\Association\BelongsTo $Groups
+ * @property \App\Model\Table\CategoriesTable|\Cake\ORM\Association\BelongsTo $Categories
+ * @property \App\Model\Table\ImagesTable|\Cake\ORM\Association\HasMany $Images
+ * @property |\Cake\ORM\Association\BelongsToMany $Coupons
  *
  * @method \App\Model\Entity\Item get($primaryKey, $options = [])
  * @method \App\Model\Entity\Item newEntity($data = null, array $options = [])
@@ -38,18 +40,19 @@ class ItemsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('OrdersDetails', [
+        $this->belongsTo('Groups', [
+            'foreignKey' => 'group_id'
+        ]);
+        $this->belongsTo('Categories', [
+            'foreignKey' => 'category_id'
+        ]);
+        $this->hasMany('Images', [
             'foreignKey' => 'item_id'
         ]);
-
-        $this->hasMany('Images',[
-            'foreignKey' => 'item_id'
-        ]);
-
-        $this->belongsToMany('Categories', [
+        $this->belongsToMany('Coupons', [
             'foreignKey' => 'item_id',
-            'targetForeignKey' => 'category_id',
-            'joinTable' => 'categories_items'
+            'targetForeignKey' => 'coupon_id',
+            'joinTable' => 'coupons_items'
         ]);
     }
 
@@ -73,17 +76,27 @@ class ItemsTable extends Table
             ->add('sku', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->scalar('description')
-            ->requirePresence('description', 'create')
-            ->notEmpty('description');
+            ->scalar('name')
+            ->maxLength('name', 255)
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
 
         $validator
-            ->numeric('price')
+            ->scalar('description')
+            ->allowEmpty('description');
+
+        $validator
+            ->scalar('brand')
+            ->maxLength('brand', 255)
+            ->allowEmpty('brand');
+
+        $validator
+            ->decimal('price')
             ->requirePresence('price', 'create')
             ->notEmpty('price');
 
         $validator
-            ->numeric('stock')
+            ->decimal('stock')
             ->allowEmpty('stock');
 
         $validator
@@ -93,9 +106,7 @@ class ItemsTable extends Table
             ->notEmpty('unit');
 
         $validator
-            ->scalar('brand')
-            ->maxLength('brand', 255)
-            ->allowEmpty('brand');
+            ->allowEmpty('status');
 
         return $validator;
     }
@@ -110,6 +121,8 @@ class ItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['sku']));
+        $rules->add($rules->existsIn(['group_id'], 'Groups'));
+        $rules->add($rules->existsIn(['category_id'], 'Categories'));
 
         return $rules;
     }

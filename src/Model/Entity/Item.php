@@ -8,11 +8,19 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $sku
+ * @property string $name
  * @property string $description
+ * @property string $brand
  * @property float $price
  * @property float $stock
  * @property string $unit
- * @property string $brand
+ * @property int $status
+ * @property int $group_id
+ * @property int $category_id
+ *
+ * @property \App\Model\Entity\OrdersDetail[] $orders_details
+ * @property \App\Model\Entity\Image[] $images
+ * @property \App\Model\Entity\Category[] $categories
  */
 class Item extends Entity
 {
@@ -27,15 +35,20 @@ class Item extends Entity
      * @var array
      */
     protected $_accessible = [
-        'id' => true,
         'sku' => true,
+        'name' => true,
         'description' => true,
+        'brand' => true,
         'price' => true,
         'stock' => true,
         'unit' => true,
-        'brand' => true
+        'status' => true,
+        'group_id' => true,
+        'category_id' => true,
+        'orders_details' => true,
+        'images' => true,
+        'categories' => true
     ];
-    // se cerciora que el sku se guarde en mayusculas
     protected function _setSku($value)
     {
         if (strlen($value)) {

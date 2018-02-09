@@ -26,9 +26,11 @@ class ImagesTableTest extends TestCase
     public $fixtures = [
         'app.images',
         'app.items',
-        'app.orders_details',
+        'app.groups',
         'app.categories',
-        'app.categories_items'
+        'app.categories_items',
+        'app.coupons',
+        'app.coupons_items'
     ];
 
     /**

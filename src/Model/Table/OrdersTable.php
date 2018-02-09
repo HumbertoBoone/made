@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
+
 /**
  * Orders Model
  *
@@ -107,6 +108,53 @@ class OrdersTable extends Table
             ->scalar('city')
             ->maxLength('city', 255)
             ->allowEmpty('city');
+
+        $validator
+            ->scalar('shipping_method')
+            ->maxLength('shipping_method', 255)
+            ->allowEmpty('shipping_method');
+
+        $validator
+            ->decimal('shipping_price')
+            ->allowEmpty('shipping_price');
+
+        $validator
+            ->decimal('customer_discount')
+            ->allowEmpty('customer_discount');
+
+        $validator
+            ->decimal('total_discount')
+            ->allowEmpty('total_discount');
+
+        $validator
+            ->scalar('coupon_code')
+            ->maxLength('coupon_code', 45)
+            ->allowEmpty('coupon_code');
+
+        $validator
+            ->dateTime('coupon_created')
+            ->allowEmpty('coupon_created');
+
+        $validator
+            ->scalar('coupon_type')
+            ->maxLength('coupon_type', 45)
+            ->allowEmpty('coupon_type');
+
+        $validator
+            ->allowEmpty('coupon_sigle_use');
+
+        $validator
+            ->decimal('coupon_value')
+            ->allowEmpty('coupon_value');
+
+        $validator
+            ->dateTime('coupon_expiration_date')
+            ->allowEmpty('coupon_expiration_date');
+
+        $validator
+            ->decimal('grand_total')
+            ->requirePresence('grand_total', 'create')
+            ->notEmpty('grand_total');
 
         return $validator;
     }
