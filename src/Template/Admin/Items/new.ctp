@@ -1,3 +1,4 @@
+<?= $this->Html->script('new_item', ['block' => true]) ?>   
 <?= $this->Form->create($item, ['enctype' => 'multipart/form-data']) ?>
 <fieldset>
     <legend><?= __('Nuevo Articulo') ?></legend>
@@ -18,6 +19,10 @@
             'multiple' => true,
             'options' => $categories,
         ]);
+        ?>
+        <button type="button" id="btnNewGroup">Nuevo Grupo</button>
+        <div id="options_wrapper"></div>
+        <?php
         echo $this->Form->button(__('Guardar'));
     ?>
      <?= $this->Form->end() ?>
