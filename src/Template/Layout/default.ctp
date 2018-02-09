@@ -27,52 +27,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-    <script>
-        paypal.Button.render({
 
-            env: 'sandbox', // sandbox | production
-
-            // Show the buyer a 'Pay Now' button in the checkout flow
-            commit: true,
-
-            // payment() is called when the button is clicked
-            payment: function() {
-
-                // Set up a url on your server to create the payment
-                var CREATE_URL = 'create_paypal_payment';
-
-                // Make a call to your server to set up the payment
-                return paypal.request.post(CREATE_URL)
-                    .then(function(res) {
-                        return res.paymentID;
-                    });
-            },
-
-            // onAuthorize() is called when the buyer approves the payment
-            onAuthorize: function(data, actions) {
-
-                // Set up a url on your server to execute the payment
-                var EXECUTE_URL = 'execute_paypal_payment';
-
-                // Set up the data you need to pass to your server
-                var data = {
-                    paymentID: data.paymentID,
-                    payerID: data.payerID
-                };
-
-                // Make a call to your server to execute the payment
-                return paypal.request.post(EXECUTE_URL, data)
-                    .then(function (res) {
-                        window.alert(res);
-                    });
-            }
-
-        }, '#paypal-button-container');
-    </script>
-    <?= $this->Html->meta('icon') ?>
-
-   
+    <?= $this->Html->meta('icon') ?>   
     <?= $this->Html->css('cake.css') ?>
     <?= $this->Html->css('css.css') ?>
 
