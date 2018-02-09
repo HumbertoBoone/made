@@ -14,7 +14,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CakePHP: the rapid development php framework'; 
 ?>
 <!DOCTYPE html>
 <html>
@@ -98,7 +98,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </footer>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <?= $this->fetch('scriptBottom') ?>
     <?= $this->Html->script('js.js') ?>
 </body>
 </html>
