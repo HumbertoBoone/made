@@ -1,4 +1,4 @@
-<?= $this->Html->script('new_item', ['block' => true]) ?>   
+<?= $this->Html->script('new_item', ['block' => 'scriptBottom']) ?>   
 <?= $this->Form->create($item, ['enctype' => 'multipart/form-data']) ?>
 <fieldset>
     <legend><?= __('Nuevo Articulo') ?></legend>
