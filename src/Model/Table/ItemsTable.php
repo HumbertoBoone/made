@@ -40,14 +40,17 @@ class ItemsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Groups', [
+        /*$this->belongsTo('Groups', [
             'foreignKey' => 'group_id'
-        ]);
+        ]);*/
         $this->belongsTo('Categories', [
             'foreignKey' => 'category_id'
         ]);
         $this->hasMany('Images', [
             'foreignKey' => 'item_id'
+        ]);
+        $this->hasMany('Groups', [
+            'foreignKey' => 'group_id'
         ]);
         $this->belongsToMany('Coupons', [
             'foreignKey' => 'item_id',
