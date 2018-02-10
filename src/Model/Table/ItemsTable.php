@@ -5,15 +5,14 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\ORM\TableRegistry;
 
 /**
  * Items Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $Groups
  * @property \App\Model\Table\CategoriesTable|\Cake\ORM\Association\BelongsTo $Categories
+ * @property \App\Model\Table\GroupsTable|\Cake\ORM\Association\HasMany $Groups
  * @property \App\Model\Table\ImagesTable|\Cake\ORM\Association\HasMany $Images
- * @property |\Cake\ORM\Association\BelongsToMany $Coupons
+ * @property \App\Model\Table\CouponsTable|\Cake\ORM\Association\BelongsToMany $Coupons
  *
  * @method \App\Model\Entity\Item get($primaryKey, $options = [])
  * @method \App\Model\Entity\Item newEntity($data = null, array $options = [])
@@ -40,17 +39,14 @@ class ItemsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        /*$this->belongsTo('Groups', [
-            'foreignKey' => 'group_id'
-        ]);*/
         $this->belongsTo('Categories', [
             'foreignKey' => 'category_id'
         ]);
-        $this->hasMany('Images', [
+        $this->hasMany('Groups', [
             'foreignKey' => 'item_id'
         ]);
-        $this->hasMany('Groups', [
-            'foreignKey' => 'group_id'
+        $this->hasMany('Images', [
+            'foreignKey' => 'item_id'
         ]);
         $this->belongsToMany('Coupons', [
             'foreignKey' => 'item_id',
@@ -124,7 +120,6 @@ class ItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['sku']));
-        $rules->add($rules->existsIn(['group_id'], 'Groups'));
         $rules->add($rules->existsIn(['category_id'], 'Categories'));
 
         return $rules;

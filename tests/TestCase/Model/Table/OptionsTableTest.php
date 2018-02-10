@@ -32,7 +32,6 @@ class OptionsTableTest extends TestCase
         'app.coupons',
         'app.shipping_methods',
         'app.coupons_items',
-        'app.groups_options',
         'app.orders_details'
     ];
 

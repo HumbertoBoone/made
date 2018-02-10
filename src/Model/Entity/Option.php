@@ -27,12 +27,16 @@ class Option extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    /*protected $_accessible = [
         'group_id' => true,
         'name' => true,
         'value' => true,
         'available' => true,
         'stock' => true,
         'group' => true
+    ];*/
+    protected $_accessible = [
+        '*' => true
     ];
 }
+

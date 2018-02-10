@@ -15,12 +15,12 @@ use Cake\ORM\Entity;
  * @property float $stock
  * @property string $unit
  * @property int $status
- * @property int $group_id
  * @property int $category_id
  *
- * @property \App\Model\Entity\OrdersDetail[] $orders_details
+ * @property \App\Model\Entity\Category $category
  * @property \App\Model\Entity\Image[] $images
- * @property \App\Model\Entity\Category[] $categories
+ * @property \App\Model\Entity\Group[] $groups
+ * @property \App\Model\Entity\Coupon[] $coupons
  */
 class Item extends Entity
 {
@@ -43,16 +43,10 @@ class Item extends Entity
         'stock' => true,
         'unit' => true,
         'status' => true,
-        'group_id' => true,
         'category_id' => true,
-        'orders_details' => true,
+        'category' => true,
         'images' => true,
-        'categories' => true
+        'groups' => true,
+        'coupons' => true
     ];
-    protected function _setSku($value)
-    {
-        if (strlen($value)) {
-            return strtoupper($value);
-        }
-    }
 }
