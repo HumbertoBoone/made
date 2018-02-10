@@ -22,12 +22,12 @@ class ItemsController extends AppController
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
             $item = $this->Items->patchEntity($item,$this->request->getData(),[
-                'associated' => ['Images']
+                'associated' => ['Images','Groups','Groups.Options']
             ]);
             $images = $this->request->getData('images');
 
             $categories = $this->request->getData('categories');
-           
+            debug($this->request->getData());
             if($this->Items->save($item)) {
                 // para guardar las diferentes asociaciones muchos
                 // a muchos
