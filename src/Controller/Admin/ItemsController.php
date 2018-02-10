@@ -17,6 +17,33 @@ class ItemsController extends AppController
         //$this->set(compact('images'));
         $this->set(compact('items'));
     }
+    public function new1()
+    {
+        $data = [
+            'sku' => 'd489rhaffsdfasdfdfsdf3',
+            'name' => 'blusa',
+            'price' => 10,
+            'unit' => 'pieza',
+            'groups' => [
+                ['name' => 'color',
+                'required' => 1,
+                'type' => 'checkbox',
+                'options' => ['name' => 'verde',
+                            'value' => 10.2,
+                            'available' => 1]]
+            ]
+        ];
+        $item = $this->Items->newEntity();
+        $item = $this->Items->patchEntity($item, $data,[
+            'associated' => ['Groups'=> ['associated'=> ['Options']]]]);
+        debug($item);
+        /*$item->groups = [];
+        $item->groups[] = ['name' => 'color', 'required' => 1, 'type' => 'checkbox'];
+        $item->dirty('groups', true);*/
+        $this->Items->save($item);
+        debug($item);
+
+    }
     public function new()
     {
         $item = $this->Items->newEntity();
