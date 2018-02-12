@@ -10,7 +10,7 @@ class ItemsController extends AppController
         $this->loadComponent('Paginator');
         $items = $this->Paginator->paginate($this->Items->find('all',
             ['contain' => ['Images']]));
-        
+
         //$items = $this->Items->find('all',
         //    ['contain' => ['Images']]);
         //debug($images);
@@ -19,8 +19,9 @@ class ItemsController extends AppController
     }
     public function new1()
     {
+
         $data = [
-            'sku' => 'd489rhaffsdfasdfdfsdf3',
+            'sku' => 'd489r43adf3',
             'name' => 'blusa',
             'price' => 10,
             'unit' => 'pieza',
@@ -28,15 +29,16 @@ class ItemsController extends AppController
                 ['name' => 'color',
                 'required' => 1,
                 'type' => 'checkbox',
-                'options' => ['name' => 'verde',
+                'options' => [['name' => 'verde',
                             'value' => 10.2,
-                            'available' => 1]]
+                            'available' => 1]]]
             ]
         ];
         $item = $this->Items->newEntity();
         $item = $this->Items->patchEntity($item, $data,[
-            'associated' => ['Groups'=> ['associated'=> ['Options']]]]);
-        debug($item);
+            'associated' => ['Groups.Options']]);
+        //debug($item);
+        debug($this->request->getData());
         /*$item->groups = [];
         $item->groups[] = ['name' => 'color', 'required' => 1, 'type' => 'checkbox'];
         $item->dirty('groups', true);*/
@@ -63,10 +65,10 @@ class ItemsController extends AppController
                         
                             $entity = $this->Items->getCategoryEntity($category);
                             $this->Items->Categories->link($item, [$entity]);
-                        
+
                     }
                 }
-                
+
                 foreach($images as $c => $image){
                     if($image['img']['error'] == 0 && ($image['img']['type'] == 'image/jpeg' || $image['img']['type'] == 'image/png')) {
                         $img = $this->Items->getImageEntity();

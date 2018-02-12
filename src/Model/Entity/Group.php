@@ -39,6 +39,7 @@ class Group extends Entity
         'item_id' => true,
         'item' => true,
         'groups_options' => true,
-        'orders_details' => true
+        'orders_details' => true,
+        'options' => true
     ];
 }
