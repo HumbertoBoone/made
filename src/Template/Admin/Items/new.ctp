@@ -6,19 +6,20 @@
         //debug($categories);
         //echo $this->Form->select('category', $categories, ['multiple' => true]);
         
-        echo $this->Form->file('images.0.img');
-        echo $this->Form->file('images.1.img');
+        echo $this->Form->file('images.0',['multiple' => true]);
+       // echo $this->Form->file('images.1.img');
         echo $this->Form->control('sku');
+        echo $this->Form->control('name');
         echo $this->Form->control('description');
         echo $this->Form->control('price');
         echo $this->Form->control('stock');
         echo $this->Form->control('unit');
         echo $this->Form->control('brand');
-        echo $this->Form->control('categories._ids', [
+        /*echo $this->Form->control('categories._ids', [
             'type' => 'select',
             'multiple' => true,
             'options' => $categories,
-        ]);
+        ]);*/
         ?>
         <button type="button" id="btnNewGroup">Nuevo Grupo</button>
         <div id="options_wrapper"></div>

@@ -21,7 +21,7 @@ class ItemsController extends AppController
     {
 
         $data = [
-            'sku' => 'd489r43adf3',
+            'sku' => 'elefante2',
             'name' => 'blusa',
             'price' => 10,
             'unit' => 'pieza',
@@ -29,7 +29,7 @@ class ItemsController extends AppController
                 ['name' => 'color',
                 'required' => 1,
                 'type' => 'checkbox',
-                'options' => [['name' => 'verde',
+                'options' => [['name' => 'gris',
                             'value' => 10.2,
                             'available' => 1]]]
             ]
@@ -37,8 +37,9 @@ class ItemsController extends AppController
         $item = $this->Items->newEntity();
         $item = $this->Items->patchEntity($item, $data,[
             'associated' => ['Groups.Options']]);
-        //debug($item);
-        debug($this->request->getData());
+        //debug($item);}
+        //debug($data);
+        //debug($this->request->getData());
         /*$item->groups = [];
         $item->groups[] = ['name' => 'color', 'required' => 1, 'type' => 'checkbox'];
         $item->dirty('groups', true);*/
@@ -50,26 +51,28 @@ class ItemsController extends AppController
     {
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
+            $item = $this->Items->newEntity();
             $item = $this->Items->patchEntity($item,$this->request->getData(),[
-                'associated' => ['Images','Groups','Groups.Options']
+                'associated' => ['Images', 'Groups.Options']
             ]);
             $images = $this->request->getData('images');
-
-            $categories = $this->request->getData('categories');
+            
+            //$categories = $this->request->getData('categories');
             debug($this->request->getData());
+            //debug($this->Items->save($item));
             if($this->Items->save($item)) {
                 // para guardar las diferentes asociaciones muchos
                 // a muchos
-                if(!empty($categories['_ids'])){
+                /*if(!empty($categories['_ids'])){
                     foreach ($categories['_ids'] as $category) {
                         
                             $entity = $this->Items->getCategoryEntity($category);
                             $this->Items->Categories->link($item, [$entity]);
 
                     }
-                }
+                }*/
 
-                foreach($images as $c => $image){
+                /*foreach($images as $c => $image){
                     if($image['img']['error'] == 0 && ($image['img']['type'] == 'image/jpeg' || $image['img']['type'] == 'image/png')) {
                         $img = $this->Items->getImageEntity();
                         $target_path = WWW_ROOT . 'img/items/';
@@ -92,10 +95,11 @@ class ItemsController extends AppController
                     }else{
                         $this->Flash->error(__('Ocurrió un error al subir la imagen, verifique que la imagen sea png o jpeg'));
                     }
-                }
+                }*/
 
                 $this->Flash->success(__('El articulo ha sido creado'));
-            }                                            
+            }            
+            debug($item);                                
         }
         $categories = $this->Items->getCategories();
         $images = $this->Items->getImageEntity();
