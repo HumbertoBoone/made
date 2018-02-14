@@ -34,7 +34,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click","#btnNewOption",function(){
-    alert('hey');
+    
     //$('#options_wrapper').append('<div id="group' + t_groups + '"></div>');
     //$('#options_wraper').append('<DIV></DIV>');
     newGroupOption();
@@ -50,5 +50,9 @@ function newGroup(){
     t_groups++;
 }
 function newGroupOption(){
-  $('#group_options'+(t_groups-1)).append('<div id="option'+t_option+'">    <input type="text" name="groups['+t_groups+'][group_options]['+t_option+'][name]">    <input type="number" name="groups['+t_groups+'][group_options]['+t_option+'][value]" >    <input type="hidden" name="groups['+t_groups+'][group_options]['+t_option+'][available]" value="1"></div>');
+  var newOption = '<div id="option'+t_option+'">';
+  newOption += '<input type="text" name="groups[' + (t_groups - 1)+'][options]['+t_option+'][name]">';
+  newOption += '<input type="number" name="groups[' + (t_groups - 1)+'][options]['+t_option+'][value]">';   
+  newOption += '<input type="hidden" name="groups[' + (t_groups - 1)+'][options]['+t_option+'][available]" value="1"></div>';
+  $('#group_options'+(t_groups-1)).append(newOption);
 }
