@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property int $item_id
  *
  * @property \App\Model\Entity\Item $item
- * @property \App\Model\Entity\GroupsOption[] $groups_options
+ * @property \App\Model\Entity\Option[] $options
  * @property \App\Model\Entity\OrdersDetail[] $orders_details
  */
 class Group extends Entity
@@ -38,8 +38,7 @@ class Group extends Entity
         'order' => true,
         'item_id' => true,
         'item' => true,
-        'groups_options' => true,
-        'orders_details' => true,
-        'options' => true
+        'options' => true,
+        'orders_details' => true
     ];
 }

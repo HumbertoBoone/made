@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
  * Groups Model
  *
  * @property \App\Model\Table\ItemsTable|\Cake\ORM\Association\BelongsTo $Items
- * @property \App\Model\Table\GroupsOptionsTable|\Cake\ORM\Association\HasMany $GroupsOptions
+ * @property \App\Model\Table\OptionsTable|\Cake\ORM\Association\HasMany $Options
  * @property \App\Model\Table\OrdersDetailsTable|\Cake\ORM\Association\HasMany $OrdersDetails
  *
  * @method \App\Model\Entity\Group get($primaryKey, $options = [])

@@ -31,7 +31,7 @@ class GroupsTableTest extends TestCase
         'app.coupons',
         'app.shipping_methods',
         'app.coupons_items',
-        'app.groups_options',
+        'app.options',
         'app.orders_details'
     ];
 
