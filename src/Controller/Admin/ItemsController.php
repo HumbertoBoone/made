@@ -51,9 +51,9 @@ class ItemsController extends AppController
     {
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
-            $item = $this->Items->newEntity();
+           
             $item = $this->Items->patchEntity($item,$this->request->getData(),[
-                'associated' => ['Images', 'Groups.Options']
+                'associated' => ['Groups.Options']
             ]);
             $images = $this->request->getData('images');
             
@@ -71,8 +71,8 @@ class ItemsController extends AppController
 
                     }
                 }*/
-
-                /*foreach($images as $c => $image){
+                // Not tested yet
+                foreach($images as $c => $image){
                     if($image['img']['error'] == 0 && ($image['img']['type'] == 'image/jpeg' || $image['img']['type'] == 'image/png')) {
                         $img = $this->Items->getImageEntity();
                         $target_path = WWW_ROOT . 'img/items/';
@@ -95,7 +95,7 @@ class ItemsController extends AppController
                     }else{
                         $this->Flash->error(__('Ocurrió un error al subir la imagen, verifique que la imagen sea png o jpeg'));
                     }
-                }*/
+                }
 
                 $this->Flash->success(__('El articulo ha sido creado'));
             }            
