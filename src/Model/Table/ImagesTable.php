@@ -21,7 +21,6 @@ use Cake\Validation\Validator;
  */
 class ImagesTable extends Table
 {
-
     /**
      * Initialize method
      *
