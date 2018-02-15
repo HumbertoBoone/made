@@ -1,7 +1,14 @@
 t_groups = 0;
 t_option = 0;
 $(document).ready(function () {
-
+  $(document).on("click","#btnMedia",function(){
+    var modal = '<div id="media" class="modalContenedor" style="width: 100%; height: 100vh; position: fixed; top: 0; background-color: rgba(0,0,0,.7); display: block; ">'; // display table
+    modal += '<div class="mod" style="width: 100%; max-height: 650px; height: 100vh; margin-top: calc(50vh - 325px); max-width: 950px; margin-left: auto; margin-right: auto; background-color: #e5e5e5;border-radius: 6px; color: #444;">';
+    bringMedia();
+    modal += '</div></div>';
+    $('body').append(modal);
+    
+  });
   $('#btnNewGroup').click(function(){
 
     var newGroup = '<div id="group_'+t_groups+'">';
@@ -55,4 +62,19 @@ function newGroupOption(){
   newOption += '<input type="number" name="groups[' + (t_groups - 1)+'][options]['+t_option+'][value]">';   
   newOption += '<input type="hidden" name="groups[' + (t_groups - 1)+'][options]['+t_option+'][available]" value="1"></div>';
   $('#group_options'+(t_groups-1)).append(newOption);
+}
+function bringMedia()
+{
+  var data = {
+    'hola': 'valor'
+  };
+  $.ajax({
+    type: 'POST',
+    dataType: 'html',
+    url: '',
+    data: data,
+    success:function(res){
+
+    }
+  });
 }
