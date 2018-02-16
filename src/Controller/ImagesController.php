@@ -13,13 +13,17 @@ use Cake\Filesystem\File;
  */
 class ImagesController extends AppController
 {
-
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+    }
     public function getImages()
     {
         $dir = new Folder(WWW_ROOT . 'img/items');
         $files = $dir->find('.*\.jpg', true);
-
-        $this->set(compact('files'));
+        return $this->json($files);
+        //$this->set(compact('files'));
     }
     /**
      * Index method
