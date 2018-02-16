@@ -3,7 +3,7 @@ t_option = 0;
 $(document).ready(function () {
   $(document).on("click","#btnMedia",function(){
     var modal = '<div id="media" class="modalContenedor" style="width: 100%; height: 100vh; position: fixed; top: 0; background-color: rgba(0,0,0,.7); display: block; ">'; // display table
-    modal += '<div class="mod" style="width: 100%; max-height: 650px; height: 100vh; margin-top: calc(50vh - 325px); max-width: 950px; margin-left: auto; margin-right: auto; background-color: #e5e5e5;border-radius: 6px; color: #444;">';
+    modal += '<div id="mm" class="mod" style="width: 100%; max-height: 650px; height: 100vh; margin-top: calc(50vh - 325px); max-width: 950px; margin-left: auto; margin-right: auto; background-color: #e5e5e5;border-radius: 6px; color: #444;">';
     bringMedia();
     modal += '</div></div>';
     $('body').append(modal);
@@ -65,16 +65,25 @@ function newGroupOption(){
 }
 function bringMedia()
 {
-  var data = {
-    'hola': 'valor'
-  };
+ 
   $.ajax({
     type: 'POST',
-    dataType: 'html',
-    url: '',
-    data: data,
+    dataType: 'json',
+    url: '../../images/get_images',
     success:function(res){
-
+      var r = '<ul>';
+      $.each(res, function (key, item) {
+        r += '<li><img src="/made/img/items/'+item+'" style="max-width: 50px;"> </li>';
+      });
+      r += '</ul>';
+      /*
+      var r = '<ul>';
+      res.forEach(function(data){
+        r += '<li>'+data+'<li>';
+      });
+      r += '</ul>';
+      console.log(r);*/
+      $('#mm').append(r);
     }
   });
 }
