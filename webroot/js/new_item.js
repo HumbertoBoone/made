@@ -1,5 +1,6 @@
 t_groups = 0;
 t_option = 0;
+var abc = 0; 
 $(document).ready(function () {
   $(document).on("click","#btnMedia",function(){
     var modal = '<div id="media" class="modalContenedor" style="width: 100%; height: 100vh; position: fixed; top: 0; background-color: rgba(0,0,0,.7); display: block; ">'; // display table
@@ -7,7 +8,6 @@ $(document).ready(function () {
     bringMedia();
     modal += '</div></div>';
     $('body').append(modal);
-    
   });
   $('#btnNewGroup').click(function(){
 
@@ -41,11 +41,57 @@ $(document).ready(function () {
   });
 
   $(document).on("click","#btnNewOption",function(){
-    
-    //$('#options_wrapper').append('<div id="group' + t_groups + '"></div>');
-    //$('#options_wraper').append('<DIV></DIV>');
     newGroupOption();
   });
+
+  $('#add_more').click(function () {
+    $(this).before($("<div/>", {
+      class: 'filediv'
+    }).fadeIn('slow').append($("<input/>", {
+      name: 'file[]',
+      type: 'file',
+      id: 'file'
+    }), $("<br/><br/>")));
+  });
+  // Following function will executes on change event of file input to select different file.
+  $('body').on('change', '#file', function () {
+    if (this.files && this.files[0]) {
+      abc += 1; // Incrementing global variable by 1.
+      var z = abc - 1;
+      var x = $(this).parent().find('#previewimg' + z).remove();
+      $(this).before("<div id='abcd" + abc + "' class='abcd'><img id='previewimg" + abc + "' src=''/></div>");
+      var reader = new FileReader();
+      reader.onload = imageIsLoaded;
+      reader.readAsDataURL(this.files[0]);
+      $(this).hide();
+      $('.images_box').append($("<div/>", {
+        class: 'filediv'
+      }).fadeIn('slow').append($("<input/>", {
+        name: 'file[]',
+        type: 'file',
+        id: 'file'
+      }), $("<br/><br/>")));
+      $("#abcd" + abc).append($("<img/>", {
+        id: 'img',
+        src: '/made/img/x.png',
+        alt: 'delete'
+      }).click(function () {
+        $(this).parent().parent().remove();
+      }));
+    }
+  });
+  // To Preview Image
+  function imageIsLoaded(e) {
+    $('#previewimg' + abc).attr('src', e.target.result);
+  };
+  /*$('#upload').click(function (e) {
+    var name = $(":file").val();
+    if (!name) {
+      alert("First Image Must Be Selected");
+      e.preventDefault();
+    }
+  });*/
+
 });
 function deleteGroup(id){
     alert('entra delete');
