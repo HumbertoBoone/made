@@ -74,7 +74,7 @@ box-shadow:0 0 5px rgba(0,0,0,.75)
     display: inline-block;
     float: left;
 }
-#file{
+.file{
 color:green;
 padding:5px;
 border:1px dashed #123456;
@@ -101,7 +101,7 @@ margin-bottom:91px
 .abcd{
 /*text-align:center*/
 }
-.abcd img{
+.abcd .img{
 height:100px;
 width:100px;
 padding:5px;
@@ -113,4 +113,12 @@ color:red
 .images_box{
     margin-bottom: 30px;
     overflow: auto;
+}
+.cancel_cross{
+    width: 30px;
+    border: none;
+    height: 30px;
+    margin-left: -20px;
+    margin-bottom: 91px;
+    padding: 5px;
 }
