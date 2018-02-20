@@ -8,12 +8,11 @@
         ?><!--<button type="button" id="btnMedia">Media</button>-->
         <div class="images_box">
             <div class="filediv">
-                <input name="file[]" type="file" id="file"/>
+                <input name="images[1][img]" type="file" id="file" class="file">
             </div>
         </div>
         <?php
         
-       // echo $this->Form->file('images.1.img');
         echo $this->Form->control('sku');
         echo $this->Form->control('name');
         echo $this->Form->control('description');
