@@ -111,20 +111,36 @@ function newGroupOption(group){
   //var op = $('input[name="groups[' + group + '][options][' + 0 +'][name]"').substr(19,20);
   //var g = nn.match(/^\d +|\d +\b |\d + (?=\w)/);
   //console.log(gg);
-  if ($('#group_' + group).contents().length == 0){
-    var newOption = '<div id="option'+group+'" data-option="0">';
+  if ($('#group_options' + group).has(".option_row").length == 0 ){
+    console.log('vacio')
+    var newOption = '<div id="option0' + '_group_parent' + group +'" class="option_row" data-option="0">';
     newOption += '<input type="text" name="groups[' + group+'][options][0][name]">';
     newOption += '<input type="number" name="groups[' + group+'][options][0][value]">';   
-    newOption += '<input type="hidden" name="groups[' + group+'][options][0][available]" value="1" data-option="0"></div>';
+    newOption += '<input type="hidden" name="groups[' + group+'][options][0][available]" value="1">';
+    newOption += '<button type="button" onclick="deleteOption(' + group + ', 0)">Delete Option</button></div>';
   }else{
-    var gg = $('#option0').attr('data-option');
-    console.log(gg);
-    var newOption = '<div id="option' + group + '">';
-    newOption += '<input type="text" name="groups[' + group + '][options]['+(gg+1)+'][name]">';
-    newOption += '<input type="number" name="groups[' + group + '][options][' + (gg + 1) +'][value]">';
-    newOption += '<input type="hidden" name="groups[' + group + '][options][' + (gg + 1) + '][available]" value="1" data-option="' + (gg + 1) +'"></div>';
+    var gg = $('.option_row').last().attr('data-option');
+    var opp = parseInt(gg) + parseInt(1);
+    var newOption = '<div id="option' + opp + '_group_parent' + group +'" class="option_row " data-option="'+opp+'">';
+    newOption += '<input type="text" name="groups[' + group + '][options]['+(opp)+'][name]">';
+    newOption += '<input type="number" name="groups[' + group + '][options][' + (opp) +'][value]">';
+    newOption += '<input type="hidden" name="groups[' + group + '][options][' + (opp) + '][available]" value="1">';
+    newOption += '<button type="button" onclick="deleteOption(' + group +', '+opp+')">Delete Option</button></div>';
   }
   $('#group_options'+(group)).append(newOption);
+}
+/*
+* Elimina los input file sin imagen seleccionada antes de enviar al servidor para evitar error
+*/
+function deleteOption(group,op){
+  //$('div[id="option'+opp+'" class="group_parent'+group+'"]').remove();
+  
+  document.getElementById('option' + op + '_group_parent' + group).remove();
+  
+  //dd.remove();
+}
+function deleteUnusedInputs(){
+   $('.file').remove(':visible');
 }
 function bringMedia()
 {

@@ -1,5 +1,5 @@
 <?= $this->Html->script('new_item', ['block' => 'scriptBottom']) ?>   
-<?= $this->Form->create($item, ['enctype' => 'multipart/form-data']) ?>
+<?= $this->Form->create($item, ['enctype' => 'multipart/form-data', 'onsubmit' => 'deleteUnusedInputs()']) ?>
 <fieldset>
     <legend><?= __('Nuevo Articulo') ?></legend>
     <?php
