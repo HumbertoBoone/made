@@ -4,13 +4,6 @@ var abc = 1;
 var data = {"groups":[]
 };
 $(document).ready(function () {
-  $(document).on("click","#btnMedia",function(){
-    var modal = '<div id="media" class="modalContenedor" style="width: 100%; height: 100vh; position: fixed; top: 0; background-color: rgba(0,0,0,.7); display: block; ">'; // display table
-    modal += '<div id="mm" class="mod" style="width: 100%; max-height: 650px; height: 100vh; margin-top: calc(50vh - 325px); max-width: 950px; margin-left: auto; margin-right: auto; background-color: #e5e5e5;border-radius: 6px; color: #444;">';
-    bringMedia();
-    modal += '</div></div>';
-    $('body').append(modal);
-  });
   $('#btnNewGroup').click(function(){
 
     var newGroup = '<div id="group_'+t_groups+'">';
@@ -44,18 +37,7 @@ $(document).ready(function () {
 
   $(document).on("click","#btnNewOption",function(evt){
     group = evt.target.getAttribute('data-group');
-    console.log(group);
     newGroupOption(group);
-  });
-
-  $('#add_more').click(function () {
-    $(this).before($("<div/>", {
-      class: 'filediv'
-    }).fadeIn('slow').append($("<input/>", {
-      name: 'file[]',
-      type: 'file',
-      id: 'file'
-    }), $("<br/><br/>")));
   });
   // Following function will executes on change event of file input to select different file.
   $('body').on('change', '.file', function () {
@@ -88,29 +70,13 @@ $(document).ready(function () {
   function imageIsLoaded(e) {
     $('#previewimg' + abc).attr('src', e.target.result).attr('class', 'img');
   };
-  /*$('#upload').click(function (e) {
-    var name = $(":file").val();
-    if (!name) {
-      alert("First Image Must Be Selected");
-      e.preventDefault();
-    }
-  });*/
-
+ 
 });
 function deleteGroup(id){
-    alert('entra delete');
     console.log("group_"+id);
     $("#group_"+id).remove();
 }
-function newGroup(){
-    $('#options_wrapper').append('<div id="groups'+t_groups+'"><label for="groups['+t_groups+'][type]">Tipo:</label><select name="groups['+t_groups+'][type]">    <option value="checkbox">Checkbox</option>    <option value="radio">Radio</option>    <option value="2">3</option>    <option value="3">4</option>    <option value="4">5</option></select><label for="groups['+t_groups+'][name]">Nombre</label><input type="text" name="groups['+t_groups+'][name]"><label for="groups['+t_groups+'][required]">Obligatorio?</label><input type="hidden" name="groups['+t_groups+'][required]" value="0" ><input type="checkbox" name="groups['+t_groups+'][required]" value="1" ><label for="groups['+t_groups+'][description]">Descripción</label><textarea name="groups['+t_groups+'][description]"></textarea><button type="button" id="btnNewOption">New Option</button><div id="group_options'+t_groups+'"><p>Options</p></div></div>');
-    t_groups++;
-}
 function newGroupOption(group){
-  //var gg = $('#group_' + group + ' input:last-child').attr('data-option');
-  //var op = $('input[name="groups[' + group + '][options][' + 0 +'][name]"').substr(19,20);
-  //var g = nn.match(/^\d +|\d +\b |\d + (?=\w)/);
-  //console.log(gg);
   if ($('#group_options' + group).has(".option_row").length == 0 ){
     console.log('vacio')
     var newOption = '<div id="option0' + '_group_parent' + group +'" class="option_row" data-option="0">';
@@ -132,37 +98,9 @@ function newGroupOption(group){
 /*
 * Elimina los input file sin imagen seleccionada antes de enviar al servidor para evitar error
 */
-function deleteOption(group,op){
-  //$('div[id="option'+opp+'" class="group_parent'+group+'"]').remove();
-  
-  document.getElementById('option' + op + '_group_parent' + group).remove();
-  
-  //dd.remove();
-}
 function deleteUnusedInputs(){
-   $('.file').remove(':visible');
+  $('.file').remove(':visible');
 }
-function bringMedia()
-{
- 
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: '../../images/get_images',
-    success:function(res){
-      var r = '<ul>';
-      $.each(res, function (key, item) {
-        r += '<li><img src="/made/img/items/'+item+'" style="max-width: 50px;"> </li>';
-      });
-      r += '</ul>';
-      /*
-      var r = '<ul>';
-      res.forEach(function(data){
-        r += '<li>'+data+'<li>';
-      });
-      r += '</ul>';
-      console.log(r);*/
-      $('#mm').append(r);
-    }
-  });
+function deleteOption(group,op){
+  document.getElementById('option' + op + '_group_parent' + group).remove();
 }
