@@ -14,7 +14,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework'; 
+$cakeDescription = 'MI ABARROTES'; 
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,10 +27,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-
-    <?= $this->Html->meta('icon') ?>   
+    
+    <?= $this->Html->meta('icon') ?>
     <?= $this->Html->css('cake.css') ?>
     <?= $this->Html->css('css.css') ?>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -53,10 +54,18 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <footer>
     </footer>
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <?= $this->fetch('scriptBottom') ?>
     <?= $this->Html->script('js.js') ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/lang/summernote-es-ES.js"></script>
+    
+    <script>
+        $('#summernote').summernote({
+            lang: 'es-ES'
+        });
+    </script>
 </body>
 </html>
