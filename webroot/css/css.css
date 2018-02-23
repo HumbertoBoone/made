@@ -122,3 +122,18 @@ color:red
     margin-bottom: 91px;
     padding: 5px;
 }
+
+.item_thumbnail{
+    max-width: 100%; 
+    height: auto;
+}
+.item_thumbnail_container{
+    margin-bottom: 30px;
+    text-align: center;
+}
+#item_image img{
+    overflow: hidden;
+    background-size: cover;
+    object-fit: cover;
+
+}

@@ -15,6 +15,14 @@ class ItemsController extends AppController
             ['contain' => ['Images']]), $this->paginate);    
         $this->set(compact('items'));
     }
+    public function view($id = null)
+    {
+        $item = $this->Items->get($id, [
+            'contain' => ['Groups.Options', 'Images']
+        ]);
+
+        $this->set('item', $item);
+    }
     public function addCart(){
         $this->autoRender = false; //es para no mostrar al usuario la informacion
         if ($this->request->is('post')) {  
