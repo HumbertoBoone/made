@@ -10,6 +10,7 @@ use Cake\ORM\TableRegistry;
  * Items Model
  *
  * @property \App\Model\Table\CategoriesTable|\Cake\ORM\Association\BelongsTo $Categories
+ * @property \App\Model\Table\BrandsTable|\Cake\ORM\Association\BelongsTo $Brands
  * @property \App\Model\Table\GroupsTable|\Cake\ORM\Association\HasMany $Groups
  * @property \App\Model\Table\ImagesTable|\Cake\ORM\Association\HasMany $Images
  * @property \App\Model\Table\CouponsTable|\Cake\ORM\Association\BelongsToMany $Coupons
@@ -36,11 +37,14 @@ class ItemsTable extends Table
         parent::initialize($config);
 
         $this->setTable('items');
-        $this->setDisplayField('id');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Categories', [
             'foreignKey' => 'category_id'
+        ]);
+        $this->belongsTo('Brands', [
+            'foreignKey' => 'brand_id'
         ]);
         $this->hasMany('Groups', [
             'foreignKey' => 'item_id'
@@ -70,8 +74,7 @@ class ItemsTable extends Table
         $validator
             ->scalar('sku')
             ->maxLength('sku', 255)
-            ->requirePresence('sku', 'create')
-            ->notEmpty('sku')
+            ->allowEmpty('sku')
             ->add('sku', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
@@ -85,9 +88,9 @@ class ItemsTable extends Table
             ->allowEmpty('description');
 
         $validator
-            ->scalar('brand')
-            ->maxLength('brand', 255)
-            ->allowEmpty('brand');
+            ->scalar('short_description')
+            ->maxLength('short_description', 350)
+            ->allowEmpty('short_description');
 
         $validator
             ->decimal('price')
@@ -121,6 +124,7 @@ class ItemsTable extends Table
     {
         $rules->add($rules->isUnique(['sku']));
         $rules->add($rules->existsIn(['category_id'], 'Categories'));
+        $rules->add($rules->existsIn(['brand_id'], 'Brands'));
 
         return $rules;
     }

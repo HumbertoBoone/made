@@ -10,16 +10,18 @@ use Cake\ORM\Entity;
  * @property string $sku
  * @property string $name
  * @property string $description
- * @property string $brand
+ * @property string $short_description
  * @property float $price
  * @property float $stock
  * @property string $unit
  * @property int $status
  * @property int $category_id
+ * @property int $brand_id
  *
  * @property \App\Model\Entity\Category $category
- * @property \App\Model\Entity\Image[] $images
+ * @property \App\Model\Entity\Brand $brand
  * @property \App\Model\Entity\Group[] $groups
+ * @property \App\Model\Entity\Image[] $images
  * @property \App\Model\Entity\Coupon[] $coupons
  */
 class Item extends Entity
@@ -38,15 +40,17 @@ class Item extends Entity
         'sku' => true,
         'name' => true,
         'description' => true,
-        'brand' => true,
+        'short_description' => true,
         'price' => true,
         'stock' => true,
         'unit' => true,
         'status' => true,
         'category_id' => true,
+        'brand_id' => true,
         'category' => true,
-        'images' => true,
+        'brand' => true,
         'groups' => true,
+        'images' => true,
         'coupons' => true
     ];
 }
