@@ -15,6 +15,7 @@
         
         echo $this->Form->control('sku');
         echo $this->Form->control('name');
+        echo $this->Form->control('short_description');
         echo $this->Form->control('description',['id' => 'summernote']);
         echo $this->Form->control('price');
         echo $this->Form->control('stock');
