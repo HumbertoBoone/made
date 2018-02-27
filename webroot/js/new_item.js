@@ -9,10 +9,10 @@ $(document).ready(function () {
     var newGroup = '<div id="group_'+t_groups+'">';
     newGroup += '<button type="button" id="btnDeleteGroup" onclick="deleteGroup('+t_groups+')">Delete Group</button>';
     newGroup += '<label for=groups['+t_groups+'][type]>Tipo: </label>';
-    newGroup += '<select name="groups['+t_groups+'][type]">' ;
+    newGroup += '<select name="groups['+t_groups+'][type]" id="group_type_'+t_groups+'">' ;
     newGroup +=   '<option value="checkbox">Checkbox</option>' ;
     newGroup +=   '<option value="radio">Radio</option>' ;
-    newGroup +=   '<option value="2">3</option>' ;
+    newGroup +=   '<option value="select">Select</option>' ;
     newGroup +=   '<option value="3">4</option>' ;
     newGroup +=   '<option value="4">5</option>' ;
     newGroup += '</select>';
@@ -37,7 +37,9 @@ $(document).ready(function () {
 
   $(document).on("click","#btnNewOption",function(evt){
     group = evt.target.getAttribute('data-group');
-    newGroupOption(group);
+    var type = $('#group_type_'+group+' option:selected').val();
+    console.log(type);
+    newGroupOption(group,type);
   });
   // Following function will executes on change event of file input to select different file.
   $('body').on('change', '.file', function () {
@@ -76,12 +78,15 @@ function deleteGroup(id){
     console.log("group_"+id);
     $("#group_"+id).remove();
 }
-function newGroupOption(group){
+function newGroupOption(group,type){
   if ($('#group_options' + group).has(".option_row").length == 0 ){
     console.log('vacio')
     var newOption = '<div id="option0' + '_group_parent' + group +'" class="option_row" data-option="0">';
     newOption += '<input type="text" name="groups[' + group+'][options][0][name]">';
-    newOption += '<input type="number" name="groups[' + group+'][options][0][value]">';   
+    if(type !== 'select')
+    {
+      newOption += '<input type="number" name="groups[' + group+'][options][0][value]">';  
+    } 
     newOption += '<input type="hidden" name="groups[' + group+'][options][0][available]" value="1">';
     newOption += '<button type="button" onclick="deleteOption(' + group + ', 0)">Delete Option</button></div>';
   }else{
@@ -89,7 +94,10 @@ function newGroupOption(group){
     var opp = parseInt(gg) + parseInt(1);
     var newOption = '<div id="option' + opp + '_group_parent' + group +'" class="option_row " data-option="'+opp+'">';
     newOption += '<input type="text" name="groups[' + group + '][options]['+(opp)+'][name]">';
-    newOption += '<input type="number" name="groups[' + group + '][options][' + (opp) +'][value]">';
+    if(type !== 'select')
+    {
+      newOption += '<input type="number" name="groups[' + group + '][options][' + (opp) +'][value]">';
+    }
     newOption += '<input type="hidden" name="groups[' + group + '][options][' + (opp) + '][available]" value="1">';
     newOption += '<button type="button" onclick="deleteOption(' + group +', '+opp+')">Delete Option</button></div>';
   }
