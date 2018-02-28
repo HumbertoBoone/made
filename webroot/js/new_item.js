@@ -15,8 +15,7 @@ $(document).ready(function () {
     newGroup +=   '<option value="select">Lista de selección (única selección)</option>' ;
     newGroup +=   '<option value="textarea">Área de texto (cliente puede escribir libremente)</option>' ;
     newGroup += '<optgroup label="Campo personalizado">';
-    newGroup +=   '<option value="custom_text">Cualquier texto</option>';
-    newGroup +=   '<option value="custom_letters">Solo letras</option>';
+    newGroup +=   '<option value="custom_text">Cualquier texto</option>'; 
     newGroup +=   '<option value="custom_int_num">Sólo números enteros</option>';
     newGroup +=   '<option value="custom_dec_num">Solo numeros enteros con o sin decimales</option>';
     newGroup +=  '</optgroup>' ;
@@ -88,12 +87,20 @@ function newGroupOption(group,type){
     console.log('vacio')
     var newOption = '<div id="option0' + '_group_parent' + group +'" class="option_row" data-option="0">';
     newOption += '<input type="text" name="groups[' + group+'][options][0][name]">';
-    if(type !== 'select')
-    {
-      newOption += '<input type="number" name="groups[' + group +'][options][0][value]">';  
-    } 
-    newOption += '<input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
-    newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">';
+    switch(type){
+      case 'checkbox':
+      case 'radio':
+      case 'select':
+      newOption += '<input type="number" name="groups[' + group +'][options][0][value]">'; 
+      newOption += '<input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
+      newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">'; 
+      break;
+      case 'textarea':
+      newOption += '<input type="text" name="groups[' + group +'][options][0][placeholder]">'; 
+      break;
+      default:
+      break;
+    }
     newOption += '<button type="button" onclick="deleteOption(' + group + ', 0)">Delete Option</button></div>';
   }else{
     var gg = $('.option_row').last().attr('data-option');
