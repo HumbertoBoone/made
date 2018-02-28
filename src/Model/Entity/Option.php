@@ -9,8 +9,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $group_id
  * @property string $name
+ * @property string $text
  * @property float $value
  * @property int $available
+ * @property string $placeholder
  * @property int $stock
  *
  * @property \App\Model\Entity\Group $group
@@ -27,16 +29,14 @@ class Option extends Entity
      *
      * @var array
      */
-    /*protected $_accessible = [
+    protected $_accessible = [
         'group_id' => true,
         'name' => true,
+        'text' => true,
         'value' => true,
         'available' => true,
+        'placeholder' => true,
         'stock' => true,
         'group' => true
-    ];*/
-    protected $_accessible = [
-        '*' => true
     ];
 }
-

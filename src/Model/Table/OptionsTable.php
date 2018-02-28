@@ -61,12 +61,19 @@ class OptionsTable extends Table
             ->notEmpty('name');
 
         $validator
+            ->scalar('text')
+            ->allowEmpty('text');
+
+        $validator
             ->decimal('value')
             ->allowEmpty('value');
 
         $validator
-            ->requirePresence('available', 'create')
-            ->notEmpty('available');
+            ->allowEmpty('available');
+
+        $validator
+            ->scalar('placeholder')
+            ->allowEmpty('placeholder');
 
         $validator
             ->integer('stock')

@@ -28,6 +28,7 @@ class OptionsTableTest extends TestCase
         'app.groups',
         'app.items',
         'app.categories',
+        'app.brands',
         'app.images',
         'app.coupons',
         'app.shipping_methods',
