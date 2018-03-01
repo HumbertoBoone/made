@@ -84,19 +84,24 @@ function deleteGroup(id){
 }
 function newGroupOption(group,type){
   if ($('#group_options' + group).has(".option_row").length == 0 ){
-    console.log('vacio')
     var newOption = '<div id="option0' + '_group_parent' + group +'" class="option_row" data-option="0">';
     newOption += '<input type="text" name="groups[' + group+'][options][0][name]">';
+    newOption += '<input type="number" name="groups[' + group +'][options][0][value]">';
     switch(type){
       case 'checkbox':
       case 'radio':
       case 'select':
-      newOption += '<input type="number" name="groups[' + group +'][options][0][value]">'; 
       newOption += '<input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
-      newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">'; 
+      newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">';
       break;
-      case 'textarea':
-      newOption += '<input type="text" name="groups[' + group +'][options][0][placeholder]">'; 
+      case 'custom_text':
+      case 'custom_int_num':
+      newOption += '<input type="number" name="groups[' + group +'][options][0][min]" placeholder="0" step="1">';
+      newOption += '<input type="number" name="groups[' + group +'][options][0][max]" placeholder="0" step="1">';
+      break;
+      case 'custom_dec_num':
+      newOption += '<input type="number" name="groups[' + group +'][options][0][min]" placeholder="0.00" step="0.0001">';
+      newOption += '<input type="number" name="groups[' + group +'][options][0][max]" placeholder="0.00" step="0.0001">';
       break;
       default:
       break;
@@ -107,12 +112,26 @@ function newGroupOption(group,type){
     var opp = parseInt(gg) + parseInt(1);
     var newOption = '<div id="option' + opp + '_group_parent' + group +'" class="option_row " data-option="'+opp+'">';
     newOption += '<input type="text" name="groups[' + group + '][options]['+(opp)+'][name]">';
-    if(type !== 'select')
-    {
-      newOption += '<input type="number" name="groups[' + group + '][options][' + (opp) +'][value]">';
+    newOption += '<input type="number" name="groups[' + group +'][options]['+opp+'][value]">';
+    switch(type){
+      case 'checkbox':
+      case 'radio':
+      case 'select':
+      newOption += '<input type="hidden" name="groups[' + group +'][options][' + opp + '][available]" value="0">';
+      newOption += '<input type="checkbox" name="groups[' + group +'][options][' + opp + '][available]" value="1">';
+      break;
+      case 'custom_text':
+      case 'custom_int_num':
+      newOption += '<input type="number" name="groups[' + group +'][options][' + opp + '][min]" placeholder="0" step="1">';
+      newOption += '<input type="number" name="groups[' + group +'][options][' + opp + '][max]" placeholder="0" step="1">';
+      break;
+      case 'custom_dec_num':
+      newOption += '<input type="number" name="groups[' + group +'][options][' + opp + '][min]" placeholder="0.00" step="0.0001">';
+      newOption += '<input type="number" name="groups[' + group +'][options][' + opp + '][max]" placeholder="0.00" step="0.0001">';
+      break;
+      default:
+      break;
     }
-    newOption += '<input type="hidden" name="groups[' + group + '][options][' + (opp) + '][available]" value="0">';
-    newOption += '<input type="checkbox" name="groups[' + group + '][options][' + (opp) + '][available]" value="1">';
     newOption += '<button type="button" onclick="deleteOption(' + group +', '+opp+')">Delete Option</button></div>';
   }
   $('#group_options'+(group)).append(newOption);
