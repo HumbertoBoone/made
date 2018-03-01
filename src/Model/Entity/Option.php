@@ -14,6 +14,8 @@ use Cake\ORM\Entity;
  * @property int $available
  * @property string $placeholder
  * @property int $stock
+ * @property float $min
+ * @property float $max
  *
  * @property \App\Model\Entity\Group $group
  */
@@ -37,6 +39,8 @@ class Option extends Entity
         'available' => true,
         'placeholder' => true,
         'stock' => true,
+        'min' => true,
+        'max' => true,
         'group' => true
     ];
 }

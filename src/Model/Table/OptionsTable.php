@@ -79,6 +79,14 @@ class OptionsTable extends Table
             ->integer('stock')
             ->allowEmpty('stock');
 
+        $validator
+            ->decimal('min')
+            ->allowEmpty('min');
+
+        $validator
+            ->decimal('max')
+            ->allowEmpty('max');
+
         return $validator;
     }
 
