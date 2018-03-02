@@ -4,12 +4,18 @@ var abc = 1;
 var data = {"groups":[]
 };
 $(document).ready(function () {
+
+  /*$('.group_type').on('change', function() {
+    alert('entra');
+    var id = $(this).getAttribute('data-group-id');
+    console.log(id);
+  });*/
   $('#btnNewGroup').click(function(){
 
     var newGroup = '<div id="group_'+t_groups+'">';
     newGroup += '<button type="button" id="btnDeleteGroup" onclick="deleteGroup('+t_groups+')">Delete Group</button>';
     newGroup += '<label for=groups['+t_groups+'][type]>Tipo: </label>';
-    newGroup += '<select name="groups['+t_groups+'][type]" id="group_type_'+t_groups+'">' ;
+    newGroup += '<select name="groups['+t_groups+'][type]" id="group_type_'+t_groups+'" class="group_type" data-group-id="'+t_groups+'" onchange="groupChange('+t_groups+')" >' ;
     newGroup +=   '<option value="checkbox">Casillas de verificación (múltiple selección)</option>' ;
     newGroup +=   '<option value="radio">Botones de radio (única selección)</option>' ;
     newGroup +=   '<option value="select">Lista de selección (única selección)</option>' ;
@@ -81,6 +87,16 @@ $(document).ready(function () {
 function deleteGroup(id){
     console.log("group_"+id);
     $("#group_"+id).remove();
+}
+function groupChange(id){
+  if ($('#group_options' + id).has(".option_row").length != 0 ){
+    Array.from(document.getElementById('group_options' + id).getElementsByClassName('option_row')).forEach(
+      function(element, index, array) {
+        element.remove();
+      }
+    );
+    alert('Cuando cambia el tipo de grupo se eliminan las opciones ya existentes para evitar incompatibilidad. Vuelva a introducirlas');
+  }
 }
 function newGroupOption(group,type){
   if ($('#group_options' + group).has(".option_row").length == 0 ){
