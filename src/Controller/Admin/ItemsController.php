@@ -47,6 +47,14 @@ class ItemsController extends AppController
         debug($item);
 
     }
+    public function edit($id = null)
+    {
+        $this->autoRender = false;
+        $item = $this->Items->get(64, [
+            'contain' => ['Images', 'Groups.Options', 'Brands']
+        ]);
+        debug($item);
+    }
     public function new()
     {
         $item = $this->Items->newEntity();
@@ -104,11 +112,13 @@ class ItemsController extends AppController
             }            
             debug($this->Items->get($item->id, ['contain' => ['Images','Groups.Options']]));                                
         }
-        $categories = $this->Items->getCategories();
+        $categories = $this->Items->Categories->find('list');
         $images = $this->Items->getImageEntity();
+        $brands = $this->Items->Brands->find('list');
         $this->set(compact('item'));
         $this->set(compact('categories'));
         $this->set(compact('images'));
+        $this->set(compact('brands'));
         $this->set('_serialize', ['user']);
     }
 }
