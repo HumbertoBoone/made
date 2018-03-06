@@ -26,7 +26,8 @@
     <h4><?= $this->Number->currency($item->price, 'MXN') ?></h3>
     <small>SKU: <?= h($item->sku) ?></small>
     <p><?= h($item->short_description) ?></p>
-    <form>
+    <?= $this->Form->create(null, ['type' => 'POST', 'url' => '/items/add-cart']) ?>
+        <?= $this->Form->hidden('item_id',['value' => $item->id]) ?>
         <?php foreach($item->groups as $g => $group): ?>
             <fieldset>
                 <legend><?= h($group['name'] ) ?></legend>
@@ -34,7 +35,7 @@
                 <?php if($group['type'] == 'checkbox'): ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label for="option_<?= $option['name'].'_'.$o ?>"><?= $option['name'].' +'.$this->Number->currency($option['value'], 'MXN') ?></label>
-                        <input type="checkbox" id="option_<?= $option['name'].'_'.$o ?>" name="<?= $option['name'] ?>"><br>
+                        <input type="checkbox" id="option_<?= $option['name'].'_'.$o ?>" name="<?= $group['name'] ?>[][<?=$option['name'] ?>]" value="<?=$option['value'] ?>"><br>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'select'): ?>
@@ -49,7 +50,7 @@
                     <?php $group['required'] == 1 ? 'required' : ""; ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label for="option_<?= $option['name'].'_'.$o ?>"><?= $option['name'].' +'.$this->Number->currency($option['value'], 'MXN') ?></label>
-                        <input type="radio" id="option_<?=$option['name'].'_'.$o ?>" name="<?= $group['name'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>><br>
+                        <input type="radio" id="option_<?=$option['name'].'_'.$o ?>" name="<?= $group['name'] ?>" value="<?=$option['name'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>><br>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'textarea'): ?>
@@ -73,5 +74,7 @@
                 <pre></pre>
             </fieldset>
         <?php endforeach; ?>
-    </form>
+        <?= $this->Form->number('amount',['min' => 1, 'value' => 1, 'style' => 'width: 40%; display: inline-block;']) ?>
+        <?= $this->Form->button('Añadir') ?>
+    <?= $this->Form->end() ?>
 </div>

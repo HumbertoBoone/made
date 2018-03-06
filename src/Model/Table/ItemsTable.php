@@ -158,7 +158,13 @@ class ItemsTable extends Table
         $images = TableRegistry::get('Images');
         return $images->find('all')->toArray();
     }
-    public function getItemForCart($item = null, $amount = 1){
+    public function getItemForCart($item = null, $amount = 1,$item_request){
+        unset($item_request['item_id']);
+        unset($item_request['amount']);
+        foreach ($item_request as $i => $row) {
+            if ($row == '')
+               unset($item_request[$i]);
+        }
         return [
             'id' => $item->id,
             'sku' => $item->sku,
@@ -167,6 +173,7 @@ class ItemsTable extends Table
             'unit' => $item->unit,
             'brand' => $item->brand,
             'amount' => $amount,
+            'options' => $item_request,
             'img' =>  !empty($item->images) ? $item->images['0'] : 'default.png',
             'subtotal' => round($amount * $item['price'], 2)
             ];

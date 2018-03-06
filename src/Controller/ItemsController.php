@@ -23,6 +23,11 @@ class ItemsController extends AppController
 
         $this->set('item', $item);
     }
+    public function see()
+    {
+        
+        debug($this->request->getData());
+    }
     public function addCart(){
         $this->autoRender = false; //es para no mostrar al usuario la informacion
         if ($this->request->is('post')) {  
@@ -32,9 +37,9 @@ class ItemsController extends AppController
             if(!$session->check('items')){
                 $session->write('items');
             }
-
+            debug($item_request);
             $items = $session->read('items');
-            $items[] = $this->Items->getItemForCart($item,$item_request['amount']);;
+            $items[] = $this->Items->getItemForCart($item,$item_request['amount'], $item_request);
             $session->write('items',$items);
           
             if($session->check('items')){
@@ -42,7 +47,7 @@ class ItemsController extends AppController
             }else{
                 $this->Flash->error('No se pudo agregar el articulo al carrito, intente mas tarde');
             }
-            return $this->redirect(['action' => 'index']);
+            //return $this->redirect(['action' => 'index']);
             //$_SESSION['items'][] = $item;
         }
     }
