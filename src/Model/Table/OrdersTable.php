@@ -182,4 +182,10 @@ class OrdersTable extends Table
         $addresses = TableRegistry::get('Addresses');
         return $addresses->find()->where(['id' => $address_id])->andWhere(['customer_id' => $customer_id])->first();
     }
+    public function getCustomerMainAdress($customer_id)
+    {
+        return TableRegistry::get('Customers')->find()
+            ->select(['first_name', 'last_name','address1', 'address2', 'city', 'state', 'postal_code'])
+            ->where(['id' => $customer_id])->first();
+    }
 }

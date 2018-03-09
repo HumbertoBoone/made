@@ -41,26 +41,29 @@ class OrdersController extends AppController
     {
         if(!$this->Auth->user()){
             $this->Flash->error('No has iniciado sesión.');
-            return $this->redirect(['Controller' => 'Users', 'action' => 'login']);
+            //return $this->redirect(['Controller' => 'Users', 'action' => 'login']);
         }
         $user = $this->request->getSession()->read('Auth.User');
         if($this->request->is('post')){
             $address_id = $this->request->getData('shipping_address');
+            debug($this->request->getData());
             if(isset($address_id)){
                 $address = $this->Orders->getCustomerAddress($address_id, $user['customer_id']);
                 $this->request->getSession()->write('shipping_address', $address);
                 return $this->redirect(['action' => 'summary']);
             }
             $this->Flash->error(__('Por favor selecciona una dirección de envio.'));
-            return $this->redirect(['action' => 'shipping']);
+            //return $this->redirect(['action' => 'shipping']);
         }
         if($user['status'] == 'verified'){
-                $addresses = $this->Orders->getCustomerAddresses($user['customer_id']);
+            $main_address = $this->Orders->getCustomerMainAdress($user['customer_id']);
+            $addresses = $this->Orders->getCustomerAddresses($user['customer_id']);
         }else{
             $this->Flash->error('La cuenta no ha sido verificada');
-            return $this->redirect(['action' => '']);
+            //return $this->redirect(['action' => '']);
         }
         $this->set(compact('addresses'));
+        $this->set(compact('main_address'));
 
     }
     public function summary()
