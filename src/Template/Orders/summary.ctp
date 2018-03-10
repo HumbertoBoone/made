@@ -1,5 +1,11 @@
 <div id="summary">
+<?php 
+$this->Breadcrumbs->add(
+    'Summary'
+); 
+?>
     <h1>Resúmen de Pedido</h1>
+    <h2>Articulos</h2>
     <div>
         <div class="row">
             <div class="col-2">SKU</div>
@@ -18,5 +24,14 @@
         </div>
         <?php endforeach; ?>
     </div>
-
+    <h2>Dirección de Envío</h2>
+    <div id="shipping_summary">
+        <?= $shipping_address['recipient_name'] ?> <br>
+        <?= $shipping_address['address1'] ?> <br>
+        <?= $shipping_address['address2'] ?> <br>
+        <?= $shipping_address['state'] ?> <br>
+        <?= $shipping_address['city'] ?> <br>
+        <?= $shipping_address['country'] ?> <br>
+        <?= $shipping_address['postal_code'] ?> <br>
+    <div>
 </div>

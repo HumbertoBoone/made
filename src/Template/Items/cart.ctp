@@ -1,4 +1,12 @@
 <div class="items">
+<?php
+$this->Breadcrumbs->add(
+    'Cart',  ['controller' => 'items', 'action' => 'cart']
+   
+); 
+
+?>
+
     <h3><?= __('Carrito') ?></h3>
     <div class="container-fluid carrito">
         <div class="row fondo-oscuro">
@@ -81,4 +89,7 @@
         'before' => '$ '
     ]) ?></h6>
     </div>
+    <?= $this->Form->create(null, ['type' => 'get', 'url' => '/orders/shipping']) ?>
+    <?= $this->Form->submit('Continuar') ?>
+    <?= $this->Form->end() ?>
 </div>

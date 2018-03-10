@@ -47,6 +47,12 @@ $cakeDescription = 'MI ABARROTES';
         <?= $this->cell('Cart') ?>
     </nav>
     <?= $this->Flash->render() ?>
+    <?php 
+    echo $this->Breadcrumbs->render(
+        ['class' => 'breadcrumb'],
+        ['separator' => '<i class="fa fa-angle-right"></i>']
+    );
+    ?>
     <div class="clearfix">
         <?= $this->fetch('content') ?>
     </div>
