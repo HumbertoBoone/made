@@ -27,7 +27,9 @@ $cakeDescription = 'MI ABARROTES';
     </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-    
+
+    <!-- oxxo styles -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <?= $this->Html->meta('icon') ?>
     <?= $this->Html->css('cake.css') ?>
     <?= $this->Html->css('css.css') ?>

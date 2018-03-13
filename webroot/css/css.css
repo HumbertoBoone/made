@@ -149,6 +149,10 @@ ul.breadcrumb {
     list-style: none;
     background-color: #eee;
 }
+ul.breadcrumb span {
+    padding: 10px 10px;
+    
+}
 ul.breadcrumb li {
     display: inline;
     font-size: 18px;
@@ -156,7 +160,7 @@ ul.breadcrumb li {
 ul.breadcrumb li+li:before {
     padding: 8px;
     color: black;
-    content: "/\00a0";
+    /*content: "/\00a0";*/
 }
 ul.breadcrumb li a {
     color: #0275d8;
