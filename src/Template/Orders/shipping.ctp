@@ -1,8 +1,10 @@
 <div id="addresses">
 <?php 
-$this->Breadcrumbs->add(
-    'Shipping',   ['controller' => 'orders', 'action' => 'shipping']
-); 
+$this->Breadcrumbs->add([
+    ['title' => 'Carrito', 'url' => ['controller' => 'items', 'action' => 'cart']],
+    ['title' => 'Dirección de Envío'],
+    ['title' => 'Resumen', 'url' => ['controller' => 'orders', 'action' => 'summary']],
+]); 
 
 ?>
 

@@ -1,8 +1,10 @@
 <div id="summary">
 <?php 
-$this->Breadcrumbs->add(
-    'Summary'
-); 
+$this->Breadcrumbs->add([
+    ['title' => 'Carrito', 'url' => ['controller' => 'items', 'action' => 'cart']],
+    ['title' => 'Dirección de Envío', 'url' => ['controller' => 'orders', 'action' => 'shipping']],
+    ['title' => 'Resumen'],
+]); 
 ?>
     <h1>Resúmen de Pedido</h1>
     <h2>Articulos</h2>

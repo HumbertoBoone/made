@@ -1,9 +1,10 @@
 <div class="items">
 <?php
-$this->Breadcrumbs->add(
-    'Cart',  ['controller' => 'items', 'action' => 'cart']
-   
-); 
+$this->Breadcrumbs->add([
+    ['title' => 'Carrito'],
+    ['title' => 'Dirección de Envío', 'url' => ['controller' => 'orders', 'action' => 'shipping']],
+    ['title' => 'Resumen']
+]); 
 
 ?>
 
@@ -89,7 +90,5 @@ $this->Breadcrumbs->add(
         'before' => '$ '
     ]) ?></h6>
     </div>
-    <?= $this->Form->create(null, ['type' => 'get', 'url' => '/orders/shipping']) ?>
-    <?= $this->Form->submit('Continuar') ?>
-    <?= $this->Form->end() ?>
+    <?= $this->Form->button('Continuar', ['onclick' => "window.location.href='../orders/shipping'"]) ?>
 </div>
