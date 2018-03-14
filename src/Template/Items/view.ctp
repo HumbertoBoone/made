@@ -39,10 +39,10 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'select'): ?>
-                    <select <?php $group['required'] == 1 ? 'required' : ""; ?>>
+                    <select <?php $group['required'] == 1 ? 'required ' : ""; ?> name="<?= $group['name'] ?>">
                         <option disabled selected value>-- seleccione una opción --</option>
                         <?php foreach($group['options'] as $o => $option): ?>
-                            <option value="<?= $option['name'] ?>"><?= $option['name'] ?></option>
+                            <option value="<?= $option['name'] ?>" label="<?= $option['name'] ?>"><?= $option['name'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>
@@ -50,7 +50,7 @@
                     <?php $group['required'] == 1 ? 'required' : ""; ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label for="option_<?= $option['name'].'_'.$o ?>"><?= $option['name'].' +'.$this->Number->currency($option['value'], 'MXN') ?></label>
-                        <input type="radio" id="option_<?=$option['name'].'_'.$o ?>" name="<?= $group['name'] ?>" value="<?=$option['name'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>><br>
+                        <input type="radio" id="option_<?=$option['name'].'_'.$o ?>" name="<?= $group['name'] ?>[][<?= $option['name'] ?>]" value="<?=$option['value'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>><br>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'textarea'): ?>
@@ -74,7 +74,7 @@
                 <pre></pre>
             </fieldset>
         <?php endforeach; ?>
-        <?= $this->Form->number('amount',['min' => 1, 'value' => 1, 'style' => 'width: 40%; display: inline-block;']) ?>
+        <?= $this->Form->number('quantity',['min' => 1, 'value' => 1, 'style' => 'width: 40%; display: inline-block;']) ?>
         <?= $this->Form->button('Añadir') ?>
     <?= $this->Form->end() ?>
 </div>
