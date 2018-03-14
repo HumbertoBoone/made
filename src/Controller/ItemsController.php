@@ -37,15 +37,17 @@ class ItemsController extends AppController
             if(!$session->check('items')){
                 $session->write('items');
             }
-            debug($item_request);
+            
             $items = $session->read('items');
-            $items[] = $this->Items->getItemForCart($item,$item_request['amount'], $item_request);
+            $items[] = $this->Items->getItemForCart($item, $item_request);
             $session->write('items',$items);
           
             if($session->check('items')){
                 $this->Flash->success('El articulo ha sido añadido al carrito con exito. ', ['params' => ['link' => 'items/cart'] ]);
+                return $this->redirect(['action' => 'index']);
             }else{
                 $this->Flash->error('No se pudo agregar el articulo al carrito, intente mas tarde');
+                return $this->redirect(['action' => 'index']);
             }
             //return $this->redirect(['action' => 'index']);
             //$_SESSION['items'][] = $item;
