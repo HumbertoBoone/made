@@ -22,8 +22,20 @@ class OrdersController extends AppController
     public function oxxo()
     {
         //$this->autoRender = false;
+
         \Conekta\Conekta::setApiKey("key_eYvWV7gSDkNYXsmr");
         \Conekta\Conekta::setApiVersion("2.0.0");
+        $items = $this->request->getSession()->read('items');
+        $arr_items[] = array();
+        foreach($items as $item)
+        {
+            $arr_items += array(
+                'name' => $item['sku'].' '.$item['brand'].' '.$item['description'],
+                'unit_price' => $item['subtotal'] * 100,
+                'quantity' => $item['amount']
+            ); 
+        }
+        debug($arr_items);
         try{
             $order = \Conekta\Order::create(
               array(
@@ -32,7 +44,7 @@ class OrdersController extends AppController
                     "name" => "Tacos",
                     "unit_price" => 1000,
                     "quantity" => 12
-                  )//first line_item
+                  )
                 ), //line_items
                 "shipping_lines" => array(
                   array(
