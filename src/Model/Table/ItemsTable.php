@@ -158,24 +158,30 @@ class ItemsTable extends Table
         $images = TableRegistry::get('Images');
         return $images->find('all')->toArray();
     }
-    public function getItemForCart($item = null, $amount = 1,$item_request){
+    public function getItemForCart($item = null,$item_request){
+        $quantity = isset($item_request['quantity']) ? $item_request['quantity'] : 1; 
         unset($item_request['item_id']);
-        unset($item_request['amount']);
-        foreach ($item_request as $i => $row) {
+        unset($item_request['quantity']);
+        /*foreach ($item_request as $i => $row) {
             if ($row == '')
                unset($item_request[$i]);
+        }*/
+        foreach($item['options'] as $option)
+        {
+            
         }
         return [
             'id' => $item->id,
             'sku' => $item->sku,
+            'name' => $item->name,
             'description' => $item->description,
             'price' => $item->price,
             'unit' => $item->unit,
             'brand' => $item->brand,
-            'amount' => $amount,
+            'quantity' => $quantity,
             'options' => $item_request,
             'img' =>  !empty($item->images) ? $item->images['0'] : 'default.png',
-            'subtotal' => round($amount * $item['price'], 2)
+            'subtotal' => round($quantity * $item['price'], 2),
             ];
     }
 }
