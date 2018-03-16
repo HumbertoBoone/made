@@ -162,14 +162,24 @@ class ItemsTable extends Table
         $quantity = isset($item_request['quantity']) ? $item_request['quantity'] : 1; 
         unset($item_request['item_id']);
         unset($item_request['quantity']);
-        /*foreach ($item_request as $i => $row) {
+        foreach ($item_request as $i => $row) {
             if ($row == '')
                unset($item_request[$i]);
-        }*/
-        foreach($item['options'] as $option)
-        {
-            
         }
+        $options_total = 0.0;
+        foreach($item_request as $option)
+        {
+            if(is_array($option)){
+                if(substr(key($option), 0, 2) !== 'ft_'){
+                    foreach($option as $g => $suboption){
+                        $options_total += $suboption[key($suboption)];
+                    }
+                }else{
+                    $options_total += str_replace('ft_','',key($option));
+                }
+            }
+        }
+        debug($options_total);
         return [
             'id' => $item->id,
             'sku' => $item->sku,

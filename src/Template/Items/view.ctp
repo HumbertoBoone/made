@@ -56,7 +56,8 @@
                 <?php if($group['type'] == 'textarea'): ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label><?= $option['name'] ?> <?php $option['value'] > 0 ? '(+'.$this->Number->currency($option['value'], 'MXN').')' : ""; ?></label><br>
-                        <textarea name="<?= $option['name'] ?>"></textarea>
+                        
+                        <textarea name="<?= $option['name'] ?>[<?php $option['value'] > 0 ? 'ft_'.$option['value'] : '' ?>]"></textarea>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'custom_text'): ?>
