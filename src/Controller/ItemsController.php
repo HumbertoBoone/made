@@ -38,7 +38,7 @@ class ItemsController extends AppController
                 $session->write('items');
             }
             //debug(array_sum($item_request));
-            debug($item_request);
+            //debug($item_request);
             $items = $session->read('items');
             $items[] = $this->Items->getItemForCart($item, $item_request);
             $session->write('items',$items);

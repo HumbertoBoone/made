@@ -167,17 +167,38 @@ class ItemsTable extends Table
                unset($item_request[$i]);
         }
         $options_total = 0.0;
+        $message = '';
+        $options_table = TableRegistry::get('Options');
+        $groups_table = TableRegistry::get('Groups');
+        //debug($item_request);
         foreach($item_request as $option)
         {
             if(is_array($option)){
-                if(substr(key($option), 0, 2) !== 'ft_'){
+                
                     foreach($option as $g => $suboption){
-                        $options_total += $suboption[key($suboption)];
+                        $suboption = $options_table->get($suboption);
+                        $valid = $groups_table->exists(['id' => $suboption->group_id, 'item_id' =>$item->id]);
+                        if($suboption->available == 1 && ($suboption->stock > 0 || $suboption->stock == null) && $valid)
+                        {
+                            $options_total += $suboption->value;
+                        }else{
+                            $message .= $suboption->name.'<br>';
+                        }
                     }
                 }else{
-                    $options_total += str_replace('ft_','',key($option));
+                    if(is_numeric($option)){
+                        //debug(intval($option));
+                        $option = $options_table->get(intval($option));
+                        $valid = $groups_table->exists(['id' => $option->group_id, 'item_id' =>$item->id]);
+                        if($option->available == 1 && ($option->stock > 0 || $option->stock == null) && $valid)
+                        {
+                            $options_total += $option->value;
+                        }else{
+                            $message .= $suboption->name.'<br>';
+                        }
+                        //$options_total += $option->value;
+                    }
                 }
-            }
         }
         debug($options_total);
         return [

@@ -35,14 +35,14 @@
                 <?php if($group['type'] == 'checkbox'): ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label for="option_<?= $option['name'].'_'.$o ?>"><?= $option['name'].' +'.$this->Number->currency($option['value'], 'MXN') ?></label>
-                        <input type="checkbox" id="option_<?= $option['name'].'_'.$o ?>" name="<?= $group['name'] ?>[][<?=$option['name'] ?>]" value="<?=$option['value'] ?>"><br>
+                        <input type="checkbox" id="option_<?= $option['name'].'_'.$o ?>" value="<?=$option['id'] ?>" name="<?= $group['name'] ?>[]"><br>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'select'): ?>
                     <select <?php $group['required'] == 1 ? 'required ' : ""; ?> name="<?= $group['name'] ?>">
                         <option disabled selected value>-- seleccione una opción --</option>
                         <?php foreach($group['options'] as $o => $option): ?>
-                            <option value="<?= $option['name'] ?>" label="<?= $option['name'] ?>"><?= $option['name'] ?></option>
+                            <option value="<?= $option['id'] ?>" label="<?= $option['name'] ?>"><?= $option['name'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>
@@ -50,26 +50,26 @@
                     <?php $group['required'] == 1 ? 'required' : ""; ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label for="option_<?= $option['name'].'_'.$o ?>"><?= $option['name'].' +'.$this->Number->currency($option['value'], 'MXN') ?></label>
-                        <input type="radio" id="option_<?=$option['name'].'_'.$o ?>" name="<?= $group['name'] ?>[][<?= $option['name'] ?>]" value="<?=$option['value'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>><br>
+                        <input type="radio" id="option_<?=$option['name'].'_'.$o ?>"  value="<?=$option['id'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?> name="<?= $group['name'] ?>"><br>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'textarea'): ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label><?= $option['name'] ?> <?php $option['value'] > 0 ? '(+'.$this->Number->currency($option['value'], 'MXN').')' : ""; ?></label><br>
                         
-                        <textarea name="<?= $option['name'] ?>[<?php $option['value'] > 0 ? 'ft_'.$option['value'] : '' ?>]"></textarea>
+                        <textarea name="<?= $option['id'] ?>"></textarea>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'custom_text'): ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label><?= $option['name'] ?><?php $option['value'] > 0 ? ' (+'.$this->Number->currency($option['value'], 'MXN').')' : ""; ?></label>
-                        <input type="text" name="<?= $option['name'] ?>" min="<?= $option['min'] ?>" max="<?= $option['max'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>>
+                        <input type="text" name="<?= $option['id'] ?>" min="<?= $option['min'] ?>" max="<?= $option['max'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <?php if($group['type'] == 'custom_int_num' || $group['type'] == 'custom_dec_num'): ?>
                     <?php foreach($group['options'] as $o => $option):?>
                         <label><?= $option['name'] ?><?php $option['value'] > 0 ? ' (+'.$this->Number->currency($option['value'], 'MXN').')' : ""; ?></label>
-                        <input type="number" name="<?= $option['name'] ?>" min="<?= $option['min'] ?>" max="<?= $option['max'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>>
+                        <input type="number" name="<?= $option['id'] ?>" min="<?= $option['min'] ?>" max="<?= $option['max'] ?>" <?php $group['required'] == 1 ? ' required' : ""; ?>>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <pre></pre>
