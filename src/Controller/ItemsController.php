@@ -37,11 +37,12 @@ class ItemsController extends AppController
             if(!$session->check('items')){
                 $session->write('items');
             }
-            debug($item_request);
+            //debug($item_request);
             
             $items = $session->read('items');
             //debug($this->Items->getItemForCart($item, $item_request));
             $items[] = $this->Items->getItemForCart($item, $item_request);
+            //debug($items);
             $session->write('items',$items);
           
             if($session->check('items')){

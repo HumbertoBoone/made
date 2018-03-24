@@ -166,56 +166,48 @@ class ItemsTable extends Table
             if ($row == '')
                unset($item_request[$i]);
         }
-        //debug($item_request);
         $options_total = 0.0;
         $message = '';
         $options_table = TableRegistry::get('Options');
         $groups_table = TableRegistry::get('Groups');
         //debug($item_request);
-        //exit();
         $options_array = array();
         $options_linear = array();
         $options_upsidedown = array();
-        foreach($item_request as $gname => $option)
+        foreach($item_request as  $u => $option)
         {
             if(is_array($option)){
                     $suboptions_group = array();
-                    $group_name = $gname;
+                    //debug($g);
                     $pp = array();
                     foreach($option as $g => $suboption){
-                        
-                        
                         $suboption = $options_table->get($suboption);
-                        //debug($suboption);
                         $valid = $groups_table->exists(['id' => $suboption->group_id, 'item_id' =>$item->id]);
-                        
                         if($suboption->available == 1 && ($suboption->stock > 0 || $suboption->stock == null) && $valid)
                         {
-                            //debug($suboption->name);
-                            
-                            $suboptions_group[] = array(
+                            $pp[$u][] = array(
                                 'id' => $suboption->id,
                                 'name' => $suboption->name,
                                 'value' => $suboption->value);
-                            $pp[$gname] = $suboptions_group;    
+                            //$pp[$u] = $suboptions_group;    
                             $options_total += $suboption->value;
                         }else{
                             $message .= $suboption->name.'<br>';
                         }
                     }
-                    debug($suboptions_group);
-                    debug($pp);
-                    $options_array[] = $pp;
-                }else if(is_numeric($option) && $options_table->exists(['id' => $option->id])){
+                    //debug($suboptions_group);
+                    //debug($pp);
+                    $options[] = $pp;
+                }else if(is_numeric($option) && $options_table->exists(['id' => intval($option)])){
                     // debug(intval($option));
                     $option = $options_table->get(intval($option));
                     $valid = $groups_table->exists(['id' => $option->group_id, 'item_id' =>$item->id]);
                     if($option->available == 1 && ($option->stock > 0 || $option->stock == null) && $valid)
                     {
-                        $options_linear[] = array([$option => [
+                        $options[] = [$u => [
                             'id' => $option->id,
                             'name' => $option->name,
-                            'value' => $option->value]]);
+                            'value' => $option->value]];
                         $options_total += $option->value;
                     }
                     else
@@ -223,16 +215,18 @@ class ItemsTable extends Table
                         $message .= $suboption->name.'<br>';
                     }
                     //$options_total += $option->value;
-                }else if(is_numeric(key($option)) && $options_table->exists(['id' => $option->id])){
-                    $option = $options_table->get(intval($option));
-                    $valid = $groups_table->exists(['id' => $option->group_id, 'item_id' =>$item->id]);
-                    if($option->available == 1 && ($option->stock > 0 || $option->stock == null) && $valid)
+                }else if(is_integer($u) && $options_table->exists(['id' => $u])){
+                    $option_entity = $options_table->get($u);
+                    $valid = $groups_table->exists(['id' => $option_entity->group_id, 'item_id' =>$item->id]);
+                    $group = $groups_table->get($option_entity->group_id);
+                    if($option_entity->available == 1 && ($option_entity->stock > 0 || $option_entity->stock == null) && $valid)
                     {
-                        $options_upsidedown[] = array([$option => [
-                            'id' => $option->id,
-                            'name' => $option->name,
-                            'value' => $option->value]]);
-                        $options_total += $option->value;
+                        $options[] = [$group->name => [
+                            'id' => $option_entity->id,
+                            'name' => $option_entity->name,
+                            'value' => $option_entity->value,
+                            'content' => $option]];
+                        $options_total += $option_entity->value;
                     }
                     else
                     {
@@ -241,9 +235,10 @@ class ItemsTable extends Table
                 }
         }
         //debug($options_total);
-        $options[] = $options_array;
-        $options[] = $options_linear;
-        $options[] = $options_upsidedown;
+        //$options[] = $options_array;
+        //$options[] = $options_linear;
+        //$options[] = $options_upsidedown;
+        //debug($options);
         return [
             'id' => $item->id,
             'sku' => $item->sku,
@@ -255,7 +250,7 @@ class ItemsTable extends Table
             'quantity' => $quantity,
             'options' => $options,
             'img' =>  !empty($item->images) ? $item->images['0'] : 'default.png',
-            'subtotal' => round($quantity * $item['price'], 2),
+            'subtotal' => round($quantity * ($item->price + $options_total), 2),
             ];
     }
 }

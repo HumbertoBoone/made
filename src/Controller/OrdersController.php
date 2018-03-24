@@ -26,29 +26,28 @@ class OrdersController extends AppController
         \Conekta\Conekta::setApiKey("key_eYvWV7gSDkNYXsmr");
         \Conekta\Conekta::setApiVersion("2.0.0");
         $items = $this->request->getSession()->read('items');
-        $arr_items[] = array();
+        $arr_items = array();
+        debug($arr_items);
+        $total = 0.0;
         foreach($items as $item)
         {
-            $arr_items += array(
-                'name' => $item['sku'].' '.$item['brand'].' '.$item['description'],
+            $arr_items[] = [
+                'name' => $item['sku'].' '.$item['brand'].' ',
                 'unit_price' => $item['subtotal'] * 100,
-                'quantity' => $item['amount']
-            ); 
+                'quantity' => $item['quantity']
+            ]; 
+            $total += $item['subtotal'] * 100 * $item['quantity'];
         }
-        debug($arr_items);
+        $total += 100;
         try{
             $order = \Conekta\Order::create(
               array(
                 "line_items" => array(
-                  array(
-                    "name" => "Tacos",
-                    "unit_price" => 1000,
-                    "quantity" => 12
-                  )
+                  $arr_items
                 ), //line_items
                 "shipping_lines" => array(
                   array(
-                    "amount" => 1500,
+                    "amount" => 100,
                     "carrier" => "FEDEX"
                   )
                 ), //shipping_lines - physical goods only
@@ -66,6 +65,7 @@ class OrdersController extends AppController
                   )//address
                 ), //shipping_contact - required only for physical goods
                 "charges" => array(
+                    'amount' => $total,
                     array(
                         "payment_method" => array(
                           "type" => "oxxo_cash"
@@ -75,11 +75,10 @@ class OrdersController extends AppController
               )//order
             );
           } catch (\Conekta\ParameterValidationError $error){
-            echo $error->getMessage();
+            debug($error->getMessage());
           } catch (\Conekta\Handler $error){
-            echo $error->getMessage();
+           debug($error->getMessage());
           }
-         
           $this->set(compact('order'));
     }
     public function paymentRedirect()
