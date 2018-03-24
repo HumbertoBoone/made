@@ -33,8 +33,8 @@ class OrdersController extends AppController
         {
             $arr_items[] = [
                 'name' => $item['sku'].' '.$item['brand'].' ',
-                'unit_price' => $item['subtotal'] * 100,
-                'quantity' => $item['quantity']
+                'unit_price' => intval($item['subtotal'] * 100),
+                'quantity' => intval($item['quantity'])
             ]; 
             $total += $item['subtotal'] * 100 * $item['quantity'];
         }
@@ -42,9 +42,7 @@ class OrdersController extends AppController
         try{
             $order = \Conekta\Order::create(
               array(
-                "line_items" => array(
-                  $arr_items
-                ), //line_items
+                "line_items" => $arr_items, //line_items
                 "shipping_lines" => array(
                   array(
                     "amount" => 100,
@@ -65,7 +63,6 @@ class OrdersController extends AppController
                   )//address
                 ), //shipping_contact - required only for physical goods
                 "charges" => array(
-                    'amount' => $total,
                     array(
                         "payment_method" => array(
                           "type" => "oxxo_cash"
@@ -79,6 +76,7 @@ class OrdersController extends AppController
           } catch (\Conekta\Handler $error){
            debug($error->getMessage());
           }
+          
           $this->set(compact('order'));
     }
     public function paymentRedirect()
