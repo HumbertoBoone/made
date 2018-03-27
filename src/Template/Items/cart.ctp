@@ -34,7 +34,7 @@ $this->Breadcrumbs->add([
                     <div class="col-4">
                         <div class="dTable">
                             <div class="dTable-cell">
-                                <h6><?= $item['description'] ?></h6>
+                                <h6><?= $item['name'].' '.$item['description'] ?></h6>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@ $this->Breadcrumbs->add([
                             <div class="dTable-cell">
                                 <?= $this->Form->create(null,['type' => 'patch','url' => '/items/update-cart']) ?>
                                 <?= $this->Form->hidden('item_index',['value' => $n]) ?>
-                                <?= $this->Form->control('amount',['type' => 'number', 'value' => $item['amount'], 'label' => false, 'step' => 0.001]) ?>
+                                <?= $this->Form->control('amount',['type' => 'number', 'value' => $item['quantity'], 'label' => false, 'step' => 0.001]) ?>
                                 <?= $item['unit'] ?>
                                 <?= $this->Form->button('<i class="fas fa-sync-alt"></i>') ?>
                                 <?= $this->Form->end() ?>
@@ -90,5 +90,5 @@ $this->Breadcrumbs->add([
         'before' => '$ '
     ]) ?></h6>
     </div>
-    <?= $this->Form->button('Continuar', ['onclick' => "window.location.href='../orders/shipping'"]) ?>
+    <?= $this->Form->button('Continuar', ['onclick' => "window.location.href='../orders/registered'"]) ?>
 </div>

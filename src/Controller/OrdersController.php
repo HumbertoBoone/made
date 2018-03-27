@@ -102,7 +102,7 @@ class OrdersController extends AppController
     {
         if(!$this->Auth->user()){
             $this->Flash->error('No has iniciado sesión.');
-            //return $this->redirect(['Controller' => 'Users', 'action' => 'login']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
         $user = $this->request->getSession()->read('Auth.User');
         if($this->request->is('post')){
@@ -126,6 +126,13 @@ class OrdersController extends AppController
         $this->set(compact('addresses'));
         $this->set(compact('main_address'));
 
+    }
+    public function registered()
+    {
+        if($this->Auth->user()){
+            return $this->redirect(['action' => 'shipping']);
+        }
+        
     }
     public function summary()
     {

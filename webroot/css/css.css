@@ -170,3 +170,22 @@ ul.breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
+.vl-r {
+    border-right: 2px solid green;
+    height: auto;
+}
+
+.vl-l {
+    border-left: 2px solid green;
+    height: 500px;
+}
+.contenido-centrado {
+    display: table;
+    width: 100%;
+    height: 500px;
+}
+.centrado-vertical {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+}

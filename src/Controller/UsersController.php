@@ -16,10 +16,14 @@ class UsersController extends AppController
     }
     public function login()
     {
+        $params = $this->request->getQueryParams();
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+                if($params['redirect'] == 'cart'){
+                    return $this->redirect(['controller' => 'Orders', 'action' => 'shipping']);
+                }
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error('Las credenciales de acceso proporcionadas son incorrectas');
