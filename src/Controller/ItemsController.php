@@ -12,8 +12,9 @@ class ItemsController extends AppController
     {
         $this->loadComponent('Paginator');
         $items = $this->Paginator->paginate($this->Items->find('all',
-            ['contain' => ['Images']]), $this->paginate);    
-        $this->set(compact('items'));
+            ['contain' => ['Images']]), $this->paginate);
+        $categories = $this->Items->Categories->find()->toArray();
+        $this->set(compact('items', 'categories'));
     }
     public function view($id = null)
     {

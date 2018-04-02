@@ -23,7 +23,7 @@
 .s-contain{
     background-size: contain;
 }
-.items .image{
+#store .image{
     height: 170px;
 }
 .price{
@@ -188,4 +188,25 @@ ul.breadcrumb li a:hover {
     display: table-cell;
     vertical-align: middle;
     width: 100%;
+}
+
+body {
+    padding-top: 5rem;
+}
+.starter-div {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+.white-text{
+    color: white;
+}
+.banner-top {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+}
+.social-link {
+    font-size: 2em;
+}
+.social-legend {
+    margin-top: 12px;
 }
