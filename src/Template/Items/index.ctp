@@ -31,10 +31,11 @@
                     <?php endif; ?>
                     <?php $path = isset($item['images']['0']['src']) ? $item['images']['0']['src'] : 'img/default.png'; ?>
                     <div class="col-sm-4">
-                        <div class="image" style="background-image:url(<?php echo '../'.$path; ?>)">
-                            <div class="price"><?= $this->Number->format($item->price, ['before' => '$ ','places' => 2, 'after' => ' MXN']) ?></div>
+                        <div class="image" style="background-image:url(<?php echo '../made/'.$path; ?>)">
+                           
                         </div>
                         <div><?php echo isset($item->sku) && $item->sku != '' ? h($item->sku) : "<br>" ?></div>
+                        <div class="price"><?= $this->Number->format($item->price, ['before' => '$ ','places' => 2, 'after' => ' MXN']) ?></div>
                         <?= $this->Form->create(null,['type' => 'post','url' => '/items/add-cart']) ?>
                         <?= $this->Form->hidden('item_id',['value' => $item->id]) ?>
                         <div><?= $this->Form->number('amount',['min' => 1, 'value' => 1, 'style' => 'width: 40%; display: inline-block;']) ?>
