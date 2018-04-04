@@ -1,0 +1,16 @@
+$theme-colors: (
+  "primary": #D000FF,
+  "danger": #fcff36
+);
+$dark:  #4E0DFF;
+$link-color: #FF0D5F;
+
+$navbar-dark-active-color:   #FF0D5F;
+
+@import "../../vendor/twbs/bootstrap/scss/bootstrap";
+.nav-categorias .nav-item{
+    width: calc(100% / 7);
+}
+.nav-categorias{
+    text-align: center;
+}

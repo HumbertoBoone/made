@@ -9,10 +9,11 @@
         "cakephp/cakephp": "3.5.*",
         "cakephp/migrations": "^1.0",
         "cakephp/plugin-installer": "^1.0",
+        "conekta/conekta-php": "4.0.0",
         "josegonzalez/dotenv": "2.*",
         "mobiledetect/mobiledetectlib": "2.*",
         "robmorgan/phinx": "0.8.1",
-        "conekta/conekta-php": "4.0.0"
+        "twbs/bootstrap": "4.0.0"
     },
     "require-dev": {
         "cakephp/bake": "^1.1",

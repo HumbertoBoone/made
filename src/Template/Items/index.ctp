@@ -3,23 +3,23 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Item[]|\Cake\Collection\CollectionInterface $items
  *  <?= $this->Html->image('items/'.$item['images']['0']['src'],['width'=>'100%']) ?>
+ *   <h3><?= __('Items') ?></h3>
  */
 ?>
 <div class="row">
-<nav class="col-md-2 d-none d-md-block bg-light sidebar" id="actions-sidebar">
-    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">CATEGORIAS</h6>
-    <ul class="nav flex-column">
+<nav class="col-12 d-none d-md-block bg-light " id="actions-sidebar">
+    <ul class="nav nav-categorias">
 
         <?php foreach($categories as $category): ?>
-            <li class="nav-item"><?= $this->Html->link(__($category->category), ['action' => '?cat_id='.$category->id]) ?></li>
+            <li class="nav-item pt-3 pb-3"><?= $this->Html->link(__($category->category), ['action' => '?cat_id='.$category->id]) ?></li>
         <?php endforeach; ?>
     </ul>
 
 </nav>
 
 <?php //print("<pre>".print_r($items,true)."</pre>"); ?>
-<div class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <h3><?= __('Items') ?></h3>
+<div class="col-12 ml-sm-auto pt-3 px-4">
+  
         <div class="container-fluid">
             
             <?php $iterador = 0; ?>
