@@ -166,6 +166,7 @@ class ItemsTable extends Table
             if ($row == '')
                unset($item_request[$i]);
         }
+        $options = null;
         $options_total = 0.0;
         $message = '';
         $options_table = TableRegistry::get('Options');

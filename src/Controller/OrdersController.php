@@ -25,9 +25,14 @@ class OrdersController extends AppController
 
         \Conekta\Conekta::setApiKey("key_eYvWV7gSDkNYXsmr");
         \Conekta\Conekta::setApiVersion("2.0.0");
+        $session = $this->request->session();
+        $customer = $this->Orders->Customers->get($session->read('Auth.User.customer_id'));
+        //debug($customer);
+        //debug($session->read('shipping_address.postal_code'));
+        //debug($customer->first_name);
         $items = $this->request->getSession()->read('items');
         $arr_items = array();
-        debug($arr_items);
+        //debug($arr_items);
         $total = 0.0;
         foreach($items as $item)
         {
@@ -51,14 +56,14 @@ class OrdersController extends AppController
                 ), //shipping_lines - physical goods only
                 "currency" => "MXN",
                 "customer_info" => array(
-                  "name" => "Fulanito Pérez",
-                  "email" => "fulanito@conekta.com",
-                  "phone" => "+5218181818181"
+                  "name" => $customer->first_name.' '.$customer->last_name,
+                  "email" => $session->read('Auth.User.email'),
+                  "phone" => $customer->tel
                 ), //customer_info
                 "shipping_contact" => array(
                   "address" => array(
-                    "street1" => "Calle 123, int 2",
-                    "postal_code" => "06100",
+                    "street1" => $session->read('shipping_address.address1').' '.$session->read('shipping_address.address2'),
+                    "postal_code" => $session->read('shipping_address.postal_code'),
                     "country" => "MX"
                   )//address
                 ), //shipping_contact - required only for physical goods
@@ -71,13 +76,16 @@ class OrdersController extends AppController
                 ) //charges
               )//order
             );
+            $this->set(compact('order'));
           } catch (\Conekta\ParameterValidationError $error){
-            debug($error->getMessage());
+            $this->Flash->error($error->getMessage());
+            $this->set('style', 'display: none;');
           } catch (\Conekta\Handler $error){
-           debug($error->getMessage());
+            $this->Flash->error($error->getMessage());
+            $this->set('style', 'display: none;');
           }
           
-          $this->set(compact('order'));
+          
     }
     public function paymentRedirect()
     {
