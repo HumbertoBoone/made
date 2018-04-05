@@ -37,6 +37,11 @@ class UsersTable extends Table
         $this->setDisplayField('customer_id');
         $this->setPrimaryKey('customer_id');
 
+        $this->belongsTo('Customers', [
+            'foreignKey' => 'customer_id',
+            'joinType' => 'INNER'
+        ]);
+
         $this->addBehavior('Timestamp');
     }
 
@@ -126,5 +131,15 @@ class UsersTable extends Table
         // The $customer entity contains the id now
             return $customer->id;
         }
+    }
+    public function findAuth(\Cake\ORM\Query $query, array $options)
+    {
+        $query
+            ->select(['Users.customer_id', 'Users.email', 'Users.password', 'Users.role', 'Users.status'])
+            ->contain(['Customers' => ['fields' => ['Customers.first_name','Customers.last_name','Customers.tel','Customers.company','Customers.discount']]])
+                //->innerJoinWith('Customers')
+            ->where(['Users.status' => 'verified']);
+
+        return $query;
     }
 }
