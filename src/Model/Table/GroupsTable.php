@@ -44,9 +44,6 @@ class GroupsTable extends Table
         $this->hasMany('Options', [
             'foreignKey' => 'group_id'
         ]);
-        $this->hasMany('OrdersDetails', [
-            'foreignKey' => 'group_id'
-        ]);
     }
 
     /**

@@ -46,7 +46,7 @@ class OrdersTable extends Table
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('OrdersDetails', [
+        $this->hasMany('OrderDetails', [
             'foreignKey' => 'order_id'
         ]);
     }
