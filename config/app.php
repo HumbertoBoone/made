@@ -231,7 +231,7 @@ return [
             //'port' => 'non_standard_port_number',
             'username' => 'Humbert0',
             'password' => 'kupisi32',
-            'database' => 'competidora',
+            'database' => 'store_cake',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
