@@ -21,7 +21,7 @@ $this->Breadcrumbs->add([
             <div class="col-2"><?= $item['sku'] ?></div>
             <div class="col-4"><?= $item['brand'].' '.$item['description'] ?></div>
             <div class="col-2"><?= $item['price'].'/'.$item['unit'] ?></div>
-            <div class="col-2"><?= $item['amount'] ?></div>
+            <div class="col-2"><?= $item['quantity'] ?></div>
             <div class="col-2"><?= $item['subtotal'] ?></div>
         </div>
         <?php endforeach; ?>
