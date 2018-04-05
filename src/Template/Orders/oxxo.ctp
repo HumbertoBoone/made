@@ -1,14 +1,14 @@
 <?php 
      $this->Html->css('oxxo.css', ['block' => true]);
 ?>
-<div class="opps">
+<div class="opps" style="<?php echo isset($style) ? $style : "" ?>">
     <div class="opps-header">
         <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
         <div class="opps-info">
             <div class="opps-brand"><img src="../oxxopay_brand.png" alt="OXXOPay"></div>
             <div class="opps-ammount">
                 <h3>Monto a pagar</h3>
-                <h2><?= $this->Number->currency($order->amount, 'MXN') ?></h2>
+                <h2><?= $this->Number->currency(intval($order->amount) / 100, 'MXN') ?></h2>
                 <p>OXXO cobrará una comisión adicional al momento de realizar el pago.</p>
             </div>
         </div>
