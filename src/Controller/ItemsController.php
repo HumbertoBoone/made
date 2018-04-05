@@ -33,20 +33,20 @@ class ItemsController extends AppController
         $this->autoRender = false; //es para no mostrar al usuario la informacion
         if ($this->request->is('post')) {  
             $item_request = $this->request->getData();  
-            $session = $this->request->session();
+            $session = $this->request->getSession();
             $item = $this->Items->get($item_request['item_id'], ['contain' => ['Images']]);
-            if(!$session->check('items')){
-                $session->write('items');
+            if(!$session->check('order')){
+                $session->write('order.items');
             }
             //debug($item_request);
             
-            $items = $session->read('items');
+            $items = $session->read('order.items');
             //debug($this->Items->getItemForCart($item, $item_request));
             $items[] = $this->Items->getItemForCart($item, $item_request);
             //debug($items);
-            $session->write('items',$items);
+            $session->write('order.items',$items);
           
-            if($session->check('items')){
+            if($session->check('order.items')){
                 $this->Flash->success('El articulo ha sido añadido al carrito con exito. ', ['params' => ['link' => 'items/cart'] ]);
                 return $this->redirect(['action' => 'index']);
             }else{
@@ -62,10 +62,10 @@ class ItemsController extends AppController
         if($this->request->is('patch')){
             $item_request = $this->request->getData();  
             $session = $this->request->session();
-            $item_price = $session->read('items.'.$item_request['item_index'].'.price');
+            $item_price = $session->read('order.items.'.$item_request['item_index'].'.price');
             //$item_price = $item[$item_request['item_index']]['price'];
-            $session->write('items.'.$item_request['item_index'].'.subtotal' , round($item_request['amount'] * $item_price, 2));
-            $session->write('items.'.$item_request['item_index'].'.amount' , $item_request['amount']);
+            $session->write('order.items.'.$item_request['item_index'].'.subtotal' , round($item_request['amount'] * $item_price, 2));
+            $session->write('order.items.'.$item_request['item_index'].'.amount' , $item_request['amount']);
             $this->Flash->success('La cantidad ha sido actualizada con exito');
             return $this->redirect(['action' => 'cart']);
         }
@@ -99,8 +99,8 @@ class ItemsController extends AppController
     public function cart(){
         $session = $this->request->session();
         $items = '';
-        if($session->check('items')){
-            $items = $session->read('items');
+        if($session->check('order.items')){
+            $items = $session->read('order.items');
         }else{
             $this->Flash->error('Tu carrito esta vacio, agrega articulos para poder continuar con la compra');
             $this->redirect(['action' => 'index']);

@@ -188,27 +188,27 @@ class OrdersTable extends Table
             ->select(['first_name', 'last_name','address1', 'address2', 'city', 'state', 'postal_code'])
             ->where(['id' => $customer_id])->first();
     }
-    public function saveOrder($items, $shipping, $reference)
+    public function saveOrder($type = null, $total, $reference = null)
     {
         $session = $this->request->session();
-        $auth_user = $session->read('Auth.User');
-        $customer = $this->Orders->Customers->get($session->read('Auth.User.customer_id'));
+        $order_s = $session->read('order');
+        $customer = $this->Auth->user();
         $orders = TableRegistry::get('Orders');
         $order = $orders->newEntity();
-
-        $order->customer_id = $customer->customer_id;
+        // hacer cambios en base de datos para orders_details a order_details
+        $order->customer_id = $customer['customer_id'];
         $order->reference = $reference;
-        $order->payment_type = "";
-        $order->recipient_name = $shipping['recipient_name'];
-        $order->address1 = $shipping['address1'];
-        $order->address2 = $shipping['address2'];
-        $order->postal_code = $shipping['postal_code'];
-        $order->state = $shipping['state'];
-        $order->city = $shipping['city'];
-        $order->shipping_method = $shipping['shipping_method'];
-        $order->shipping_price = $shipping['shipping_price'];
-        $order->customer_discount = $customer->discount;
+        $order->payment_type = $type;
+        $order->recipient_name = $order_s['shipping_address']['recipient_name'];
+        $order->address1 = $order_s['shipping_address']['address1'];
+        $order->address2 = $order_s['shipping_address']['address2'];
+        $order->postal_code = $order_s['shipping_address']['postal_code'];
+        $order->state = $order_s['shipping_address']['state'];
+        $order->city = $order_s['shipping_address']['city'];
+        $order->shipping_method = $order_s['shipping_method']['method'];
+        $order->shipping_price = $order_s['shipping_method']['price'];
+        $order->customer_discount = $customer['customer']['discount'];
         $order->total_discount = 0.0;
-        $order->grand_total = 0.0;
+        $order->grand_total = $total;
     }
 }

@@ -25,14 +25,14 @@ class OrdersController extends AppController
 
         \Conekta\Conekta::setApiKey("key_eYvWV7gSDkNYXsmr");
         \Conekta\Conekta::setApiVersion("2.0.0");
-        $session = $this->request->session();
-        $customer = $this->Orders->Customers->get($session->read('Auth.User.customer_id'));
-        //debug($customer);
-        //debug($session->read('shipping_address.postal_code'));
-        //debug($customer->first_name);
-        $items = $this->request->getSession()->read('items');
+        $session = $this->request->getSession();
+
+        $customer = $this->Auth->user();
+
+        $items = $session->read('order.items');
+
         $arr_items = array();
-        //debug($arr_items);
+
         $total = 0.0;
         foreach($items as $item)
         {
@@ -56,14 +56,14 @@ class OrdersController extends AppController
                 ), //shipping_lines - physical goods only
                 "currency" => "MXN",
                 "customer_info" => array(
-                  "name" => $customer->first_name.' '.$customer->last_name,
-                  "email" => $session->read('Auth.User.email'),
-                  "phone" => $customer->tel
+                  "name" => $customer['customer']['first_name'].' '.$customer['customer']['last_name'],
+                  "email" => $customer['email'],
+                  "phone" => $customer['customer']['tel']
                 ), //customer_info
                 "shipping_contact" => array(
                   "address" => array(
-                    "street1" => $session->read('shipping_address.address1').' '.$session->read('shipping_address.address2'),
-                    "postal_code" => $session->read('shipping_address.postal_code'),
+                    "street1" => $session->read('order.shipping_address.address1').' '.$session->read('order.shipping_address.address2'),
+                    "postal_code" => $session->read('order.shipping_address.postal_code'),
                     "country" => "MX"
                   )//address
                 ), //shipping_contact - required only for physical goods
@@ -76,6 +76,7 @@ class OrdersController extends AppController
                 ) //charges
               )//order
             );
+            debug($order);
             $this->set(compact('order'));
           } catch (\Conekta\ParameterValidationError $error){
             $this->Flash->error($error->getMessage());
@@ -118,18 +119,18 @@ class OrdersController extends AppController
             debug($this->request->getData());
             if(isset($address_id)){
                 $address = $this->Orders->getCustomerAddress($address_id, $user['customer_id']);
-                $this->request->getSession()->write('shipping_address', $address);
+                $this->request->getSession()->write('order.shipping_address', $address);
                 return $this->redirect(['action' => 'summary']);
             }
             $this->Flash->error(__('Por favor selecciona una dirección de envio.'));
-            //return $this->redirect(['action' => 'shipping']);
+            return $this->redirect(['action' => 'shipping']);
         }
         if($user['status'] == 'verified'){
             $main_address = $this->Orders->getCustomerMainAdress($user['customer_id']);
             $addresses = $this->Orders->getCustomerAddresses($user['customer_id']);
         }else{
             $this->Flash->error('La cuenta no ha sido verificada');
-            //return $this->redirect(['action' => '']);
+            return $this->redirect(['controller' => 'Items','action' => 'cart']);
         }
         $this->set(compact('addresses'));
         $this->set(compact('main_address'));
@@ -146,22 +147,25 @@ class OrdersController extends AppController
     {
         if(!$this->Auth->user()){
             $this->Flash->error('No estas autenticado. Por favor inicia sesión');
-            return $this->redirect(['Controller' => 'Items', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Items', 'action' => 'index']);
         }
-        $items = $this->request->getSession()->read('items');
-        $shipping_address = $this->request->getSession()->read('shipping_address');
-        if(!isset($items)){
+        $order = $this->request->getSession()->read('order');
+        //debug($order);
+        if(!isset($order['items'])){
             $this->Flash->error('Tu carrito esta vacio.');
-            return $this->redirect(['Controller' => 'Items', 'action' => 'index']);
-        }else if(!isset($shipping_address)){
+            return $this->redirect(['controller' => 'Items', 'action' => 'index']);
+        }else if(!isset($order['shipping_address'])){
             $this->Flash->error('No has seleccionado dirección de envio');
             return $this->redirect(['action' => 'shipping']);
         }
         $items_total = 0;
-        foreach($items as $item){
+        foreach($order['items'] as $item){
             $items_total+= $item['subtotal'];
         }
-        $this->set(compact('items','shipping_address','items_total'));
+        //$this->set(compact($order['items'],$order['shipping_address'],'items_total'));
+        $this->set('items', $order['items']);
+        $this->set('shipping_address', $order['shipping_address']);
+        $this->set('items_total', $items_total);
     }
     public function paypal()
     {
