@@ -21,7 +21,7 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                if($params['redirect'] == 'cart'){
+                if(isset($params['redirect']) && $params['redirect'] == 'cart'){
                     return $this->redirect(['controller' => 'Orders', 'action' => 'shipping']);
                 }
                 return $this->redirect($this->Auth->redirectUrl());
