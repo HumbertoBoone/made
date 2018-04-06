@@ -32,7 +32,7 @@ class ItemsController extends AppController
     public function addCart(){
         $this->autoRender = false; //es para no mostrar al usuario la informacion
         if ($this->request->is('post')) {  
-            $item_request = $this->request->getData();  
+            $item_request = $this->request->getData();
             $session = $this->request->getSession();
             $item = $this->Items->get($item_request['item_id'], ['contain' => ['Images']]);
             if(!$session->check('order')){
@@ -76,7 +76,7 @@ class ItemsController extends AppController
         if($this->request->is('delete')){
             $item_request = $this->request->getData();
             $session = $this->request->session();
-            $session->delete('items.'.$item_request['item_index']);
+            $session->delete('order.items.'.$item_request['item_index']);
             $this->Flash->success('El articulo ha sido eliminado del carrito con exito.');
             return $this->redirect(['action' => 'cart']);
         }
