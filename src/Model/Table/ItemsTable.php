@@ -213,7 +213,7 @@ class ItemsTable extends Table
                     }
                     else
                     {
-                        $message .= $suboption->name.'<br>';
+                       $message .= $option->name.'<br>';
                     }
                     //$options_total += $option->value;
                 }else if(is_integer($u) && $options_table->exists(['id' => $u])){
@@ -231,7 +231,7 @@ class ItemsTable extends Table
                     }
                     else
                     {
-                        $message .= $suboption->name.'<br>';
+                        $message .= $option->name.'<br>';
                     }
                 }
         }
