@@ -108,10 +108,12 @@ function newGroupOption(group,type){
       newOption += '<input type="number" name="groups[' + group +'][options][0][value]">';
       newOption += '<input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
       newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">';
+      break;
       case 'radio':
       newOption += '<input type="number" name="groups[' + group +'][options][0][value]">';
       newOption += '<input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
       newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">';
+      break;
       case 'select':
       newOption += '<input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
       newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">';
