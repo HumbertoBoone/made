@@ -234,11 +234,11 @@ class OrdersTable extends Table
                 $item->unit = $i['unit'];
                 $item->amount = $i['quantity'];
                 $item->subtotal = $i['subtotal'];
-                $item->options = "";
-                debug($item);
+                $item->options = isset($i['options']) ? json_encode($i['options']) : null;
+               
                 if($order_details->save($item))
                 {
-                    debug('se guardo');
+                    
                 }
                 $item = "";
             }
