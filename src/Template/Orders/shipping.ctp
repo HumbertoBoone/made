@@ -27,7 +27,7 @@ $this->Breadcrumbs->add([
             <?= $address['state'] ?> <br>
             <?= $address['city'] ?> <br>
             <?= $address['country'] ?></label>
-            <input type="radio" name="shipping_address" id="address<?= $n ?>" value="<?= $address['id'] ?>">
+            <input type="radio" name="shipping_address" id="address<?= $n ?>" value="<?php echo !isset($address['id']) ? 'main' : $address['id'] ?>">
         </div>
         <?php if($n % 4 == 3 || $n == ($rows-1) ): ?>
             </div>  
