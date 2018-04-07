@@ -76,7 +76,8 @@ class OrdersController extends AppController
                 ) //charges
               )//order
             );
-            debug($order);
+            //debug($order);
+            $this->Orders->saveOrder($total,$session, $customer);
             $this->set(compact('order'));
           } catch (\Conekta\ParameterValidationError $error){
             $this->Flash->error($error->getMessage());
@@ -113,12 +114,17 @@ class OrdersController extends AppController
             $this->Flash->error('No has iniciado sesión.');
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
+        //debug($this->request->getData());
         $user = $this->request->getSession()->read('Auth.User');
         if($this->request->is('post')){
             $address_id = $this->request->getData('shipping_address');
             debug($this->request->getData());
             if(isset($address_id)){
-                $address = $this->Orders->getCustomerAddress($address_id, $user['customer_id']);
+                if($address_id == 'main'){
+                   $address = $this->Orders->getCustomerMainAdress($user['customer_id']);
+                }else{
+                    $address = $this->Orders->getCustomerAddress($address_id, $user['customer_id']);
+                }
                 $this->request->getSession()->write('order.shipping_address', $address);
                 return $this->redirect(['action' => 'summary']);
             }
@@ -127,6 +133,7 @@ class OrdersController extends AppController
         }
         if($user['status'] == 'verified'){
             $main_address = $this->Orders->getCustomerMainAdress($user['customer_id']);
+           // debug($main_address);
             $addresses = $this->Orders->getCustomerAddresses($user['customer_id']);
         }else{
             $this->Flash->error('La cuenta no ha sido verificada');
