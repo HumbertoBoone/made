@@ -176,6 +176,7 @@ class OrdersController extends AppController
     }
     public function paypal()
     {
+        $this->viewBuilder()->setLayout('payment');
         //debug($this->createPaypalPayment());
         //debug($this->data);
     }
@@ -194,6 +195,9 @@ class OrdersController extends AppController
         $response = $this->response->withType('json')->withStringBody(json_encode([$response]));
         return $response;
     }
+    public function ppt(){
+        debug($this->getPaypalToken());
+    }
     public function createPaypalPayment()
     {
         $this->autoRender = false;
@@ -202,25 +206,30 @@ class OrdersController extends AppController
         $http = new Client([
             'headers' => ['Authorization' => 'Bearer ' . $this->getPaypalToken(), 'Content-Type' => 'application/json']
         ]);
+        //debug($http);
         $session = $this->request->getSession();
-        $items = $session->read('items');
+        $items = $session->read('order.items');
         $json_items = [];
         $items_total = 0;
         foreach($items as $item){
             array_push($json_items, ['sku' => $item['sku'],
                 'name' => $item['description'],
-                'quantity' => $item['amount'],
-                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'price' => number_format($item['subtotal'] / $item['quantity'],"2",".",""),
                 'currency' => 'MXN']);
             $items_total += $item['subtotal'];
+
         }
+
         $data = ['intent' => 'sale',
             'payer' => ['payment_method' => 'paypal'],
-            'transactions' => [['amount' => ['currency'  => 'MXN','total' => $items_total],
+            'transactions' => [['amount' => ['currency'  => 'MXN','total' => number_format($items_total,"2",".",""), 'details' => ['subtotal' => number_format($items_total,"2",".","")]],
             'description' => '', 'item_list' => ['items' => $json_items]]],'redirect_urls' => ['return_url' => 'localhost.com.mx','cancel_url' => 'localhost.com.mx/cancel']];
+
         $response = $http->post('https://api.sandbox.paypal.com/v1/payments/payment',
             json_encode($data));
-        
+        //debug(json_encode($data, JSON_PRETTY_PRINT));
+        //debug($response);
         $response = $response->json['id'];
         
         $response = $this->response->withType('json')->withStringBody(json_encode(['paymentID' => $response]));

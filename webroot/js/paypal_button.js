@@ -4,7 +4,12 @@ paypal.Button.render({
 
     // Show the buyer a 'Pay Now' button in the checkout flow
     commit: true,
-
+    style: {
+        size: 'small',
+        color: 'black',
+        shape: 'rect',
+        label: 'checkout'
+    },
     // payment() is called when the button is clicked
     payment: function () {
 
@@ -35,6 +40,9 @@ paypal.Button.render({
             .then(function (res) {
                 window.alert(res);
             });
+    },
+    onCancel: function(data, actions) {
+        alert("cancelo");
     }
 
 }, '#paypal-button-container');
