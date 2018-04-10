@@ -188,18 +188,22 @@ class OrdersTable extends Table
             ->select(['first_name', 'last_name','address1', 'address2', 'city', 'state', 'postal_code'])
             ->where(['id' => $customer_id])->first();
     }
-    public function saveOrder($total,$session, $customer, $type = null,  $reference = null)
+    public function getShippingMethods()
     {
-        //$session = $this->request->session();
-        $order_s = $session->read('order');
-       
-
+        $methods = TableRegistry::get('ShippingMethods');
+        return $methods->find()->where(['status =' => 'enabled'])->toArray();
+    }
+    public function getShippingMethod($id)
+    {
+        $methods = TableRegistry::get('ShippingMethods');
+        return $methods->find()->where(['status =' => 'enabled', 'id =' => $id])->first();
+    }
+    public function saveOrder($total,$order_s, $customer, $type = null,  $reference = null)
+    {
         $orders = TableRegistry::get('Orders');
         $order_details = TableRegistry::get('OrderDetails');
 
         $order = $orders->newEntity();
-        // hacer cambios en base de datos para orders_details a order_details
-
         
         //debug(count($order_s['items']));
         $order->customer_id = $customer['customer_id'];
@@ -212,7 +216,7 @@ class OrdersTable extends Table
         $order->postal_code = $order_s['shipping_address']['postal_code'];
         $order->state = $order_s['shipping_address']['state'];
         $order->city = $order_s['shipping_address']['city'];
-        $order->shipping_method = isset($order_s['shipping_method']['method']) ? $order_s['shipping_method']['method'] : "FREE";
+        $order->shipping_method = isset($order_s['shipping_method']['description']) ? $order_s['shipping_method']['method'] : "FREE";
         $order->shipping_price = isset($order_s['shipping_method']['price']) ? $order_s['shipping_method']['price'] : 0.0;
         $order->customer_discount = $customer['customer']['discount'];
         $order->total_discount = 0.0;
@@ -223,7 +227,6 @@ class OrdersTable extends Table
             $order_id = $order->id;
             foreach($order_s['items'] as $i)
             {
-                //debug($i);
                 $item = $order_details->newEntity();
                 $item->order_id = $order_id;
                 $item->sku = $i['sku'];
@@ -235,15 +238,8 @@ class OrdersTable extends Table
                 $item->amount = $i['quantity'];
                 $item->subtotal = $i['subtotal'];
                 $item->options = isset($i['options']) ? json_encode($i['options']) : null;
-               
-                if($order_details->save($item))
-                {
-                    
-                }
-                $item = "";
+                $order_details->save($item);
             }
         }
-
-        
     }
 }

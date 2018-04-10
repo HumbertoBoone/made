@@ -77,7 +77,7 @@ class OrdersController extends AppController
               )//order
             );
             //debug($order);
-            $this->Orders->saveOrder($total,$session, $customer);
+            $this->Orders->saveOrder($total,$session->read('order'), $customer);
             $this->set(compact('order'));
           } catch (\Conekta\ParameterValidationError $error){
             $this->Flash->error($error->getMessage());
@@ -107,6 +107,16 @@ class OrdersController extends AppController
                 break;
             }
         }
+    }
+    public function shippingMethod()
+    {
+        if($this->request->is('post'))
+        {
+            $session = $this->request->getSession();
+            $method_id = $this->request->getData('shipping_method');
+            $session->write('order.shipping_method', $this->Orders->getShippingMethod($method_id));
+        }
+        $this->set('methods', $this->Orders->getShippingMethods());
     }
     public function shipping()
     {
@@ -182,61 +192,58 @@ class OrdersController extends AppController
     }
     public function executePaypalPayment()
     {
+        $this->request->allowMethod(['post']);
         $this->autoRender = false;
-        $payer_id = $this->request->getData('payerID');
-        $payment_id = $this->request->getData('paymentID');
-        $http = new Client([
-            'headers' => ['Authorization' => 'Bearer ' . $this->getPaypalToken(), 'Content-Type' => 'application/json']
-        ]);
-        $data = ['payer_id' => $payer_id];
-        $response = $http->post('https://api.sandbox.paypal.com/v1/payments/payment/'.$payment_id.'/execute',
-            json_encode($data));
-        $response = $response->json['state'];
-        $response = $this->response->withType('json')->withStringBody(json_encode([$response]));
-        return $response;
+        if($this->request->is('post')){
+            $payer_id = $this->request->getData('payerID');
+            $payment_id = $this->request->getData('paymentID');
+            $http = new Client([
+                'headers' => ['Authorization' => 'Bearer ' . $this->getPaypalToken(), 'Content-Type' => 'application/json']
+            ]);
+            $data = ['payer_id' => $payer_id];
+            $response = $http->post('https://api.sandbox.paypal.com/v1/payments/payment/'.$payment_id.'/execute',
+                json_encode($data));
+            $response = $response->json['state'];
+            $response = $this->response->withType('json')->withStringBody(json_encode([$response]));
+            return $response;
+        }
     }
     public function ppt(){
         debug($this->getPaypalToken());
     }
     public function createPaypalPayment()
     {
+        $this->request->allowMethod(['post']);
         $this->autoRender = false;
-       //debug($this->getPaypalToken());
-        //if($this->request->is('post')){
-        $http = new Client([
-            'headers' => ['Authorization' => 'Bearer ' . $this->getPaypalToken(), 'Content-Type' => 'application/json']
-        ]);
-        //debug($http);
-        $session = $this->request->getSession();
-        $items = $session->read('order.items');
-        $json_items = [];
-        $items_total = 0;
-        foreach($items as $item){
-            array_push($json_items, ['sku' => $item['sku'],
-                'name' => $item['description'],
-                'quantity' => $item['quantity'],
-                'price' => number_format($item['subtotal'] / $item['quantity'],"2",".",""),
-                'currency' => 'MXN']);
-            $items_total += $item['subtotal'];
+        if($this->request->is('post')){
+            $http = new Client([
+                'headers' => ['Authorization' => 'Bearer ' . $this->getPaypalToken(), 'Content-Type' => 'application/json']
+            ]);
+            //debug($http);
+            $session = $this->request->getSession();
+            $items = $session->read('order.items');
+            $json_items = [];
+            $items_total = 0;
+            foreach($items as $item){
+                array_push($json_items, ['sku' => $item['sku'],
+                    'name' => $item['description'],
+                    'quantity' => $item['quantity'],
+                    'price' => number_format($item['subtotal'] / $item['quantity'],"2",".",""), // no se puede usar 'price' por que no incluye el precio de las opciones
+                    'currency' => 'MXN']);
+                $items_total += $item['subtotal'];
+            }
 
+            $data = ['intent' => 'sale',
+                'payer' => ['payment_method' => 'paypal'],
+                'transactions' => [['amount' => ['currency'  => 'MXN','total' => number_format($items_total,"2",".",""), 'details' => ['subtotal' => number_format($items_total,"2",".","")]],
+                'description' => '', 'item_list' => ['items' => $json_items]]],'redirect_urls' => ['return_url' => 'localhost.com.mx','cancel_url' => 'localhost.com.mx/cancel']];
+
+            $response = $http->post('https://api.sandbox.paypal.com/v1/payments/payment',
+                json_encode($data));
+            //debug(json_encode($data, JSON_PRETTY_PRINT));
+            //debug($response);
+            return $this->response->withType('json')->withStringBody(json_encode(['paymentID' => $response->json['id']])); 
         }
-
-        $data = ['intent' => 'sale',
-            'payer' => ['payment_method' => 'paypal'],
-            'transactions' => [['amount' => ['currency'  => 'MXN','total' => number_format($items_total,"2",".",""), 'details' => ['subtotal' => number_format($items_total,"2",".","")]],
-            'description' => '', 'item_list' => ['items' => $json_items]]],'redirect_urls' => ['return_url' => 'localhost.com.mx','cancel_url' => 'localhost.com.mx/cancel']];
-
-        $response = $http->post('https://api.sandbox.paypal.com/v1/payments/payment',
-            json_encode($data));
-        //debug(json_encode($data, JSON_PRETTY_PRINT));
-        //debug($response);
-        $response = $response->json['id'];
-        
-        $response = $this->response->withType('json')->withStringBody(json_encode(['paymentID' => $response]));
-        return $response;
-        //debug(json_encode($data));
-        //}
-
     }
 
     private function getPaypalToken()
