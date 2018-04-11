@@ -210,3 +210,14 @@ body {
 .social-legend {
     margin-top: 12px;
 }
+.inline{
+    display: inline-block;
+    float: left;
+}
+.unit{
+    margin-left: 5px;
+}
+.quantity{
+    width: calc(100% - 180px);
+    margin-right: 2px;
+}
