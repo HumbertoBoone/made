@@ -20,7 +20,7 @@
     <tbody>
 </table>
 <div class="clearfix">
-<?= $this->Form->button('Continuar',['class' => 'btn float-right']) ?>
+    <?= $this->Form->button('Continuar',['class' => 'btn btn-primary float-right']) ?>
 </div>
 <?= $this->Form->end() ?>
     
