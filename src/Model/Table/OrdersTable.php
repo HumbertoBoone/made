@@ -219,8 +219,22 @@ class OrdersTable extends Table
         $order->shipping_method = isset($order_s['shipping_method']['description']) ? $order_s['shipping_method']['method'] : "FREE";
         $order->shipping_price = isset($order_s['shipping_method']['price']) ? $order_s['shipping_method']['price'] : 0.0;
         $order->customer_discount = $customer['customer']['discount'];
-        $order->total_discount = 0.0;
-        $order->grand_total = $total;
+        //$order->total_discount = $order->customer_discount * $total;
+        $order->coupon_code = "";
+        $order->coupon_created = "";
+        $order->coupon_type = "";
+        $order->coupon_single_use = "";
+        $order->coupon_value = "";
+        $order->coupon_expiration_date = "";
+        if($order->coupon_type == "percentage_discount")
+        {
+            $order->total_discount = $total * $order->coupon_value;
+        }
+        else if ($order->coupon_type == "fixed_cart_discount")
+        {
+            $order->total_discount = $total - $order->coupon_value;
+        }
+        $order->grand_total = $total - $order->total_discount;
 
         if ($orders->save($order)) {
 
