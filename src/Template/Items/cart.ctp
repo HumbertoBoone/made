@@ -47,7 +47,12 @@ $this->Breadcrumbs->add([
     <tbody>
 </table>
 
+
+
 <div class="clearfix">
+    <?= $this->Form->create(null, ['type' => 'post', 'url' => 'order/add-coupon']) ?>
+    <?= $this->Form->control('coupon_code', ['type' => 'text']) ?>
     <?= $this->Form->button('Continuar', ['onclick' => "window.location.href='../orders/registered'", 'class' => 'btn btn-primary float-right']) ?>
+    <?= $this->Form->end() ?>
 </div>
     
