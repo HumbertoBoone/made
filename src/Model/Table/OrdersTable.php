@@ -6,7 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
-
+use Cake\I18n\Time;
 /**
  * Orders Model
  *
@@ -197,6 +197,23 @@ class OrdersTable extends Table
     {
         $methods = TableRegistry::get('ShippingMethods');
         return $methods->find()->where(['status =' => 'enabled', 'id =' => $id])->first();
+    }
+    public function verifyCoupon($coupon_code)
+    {
+        $orders = TableRegistry::get('Coupons');
+        $coupon = $orders->find()->where(['code' => $coupon_code])->first();
+        $exp_date = new Time($coupon->expiration_date);
+        
+        if(!$exp_date->isFuture())
+        {
+            
+        }else{
+            // expiro
+        }
+    }
+    public function kk()
+    {
+        debug(Time::now());
     }
     public function saveOrder($total,$order_s, $customer, $type = null,  $reference = null)
     {

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 
 use Cake\Http\Client;
+use Cake\I18n\Time;
+use Cake\I18n\Date;
 
 class OrdersController extends AppController
 {
@@ -88,6 +90,23 @@ class OrdersController extends AppController
           }
           
           
+    }
+    public function addCoupon()
+    {
+        $this->request->allowMethod(['post']);
+        $session = $this->request->getSession();
+        $coupon_code = $this->request->getData('coupon_code');
+        if($this->Orders->verifyCoupon($coupon_code))
+        {
+
+        }
+    }
+    public function kk(){
+        
+        $t = Time::now();
+        $t = '2014-10-31';
+        debug($t->isFuture());
+
     }
     public function paymentRedirect()
     {
