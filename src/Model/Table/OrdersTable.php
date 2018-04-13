@@ -198,16 +198,30 @@ class OrdersTable extends Table
         $methods = TableRegistry::get('ShippingMethods');
         return $methods->find()->where(['status =' => 'enabled', 'id =' => $id])->first();
     }
-    public function verifyCoupon($coupon_code)
+    public function verifyCoupon($coupon_code, $total)
     {
         $orders = TableRegistry::get('Coupons');
+        $shipping_methods = TableRegistry::get('ShippingMethods');
         $coupon = $orders->find()->where(['code' => $coupon_code])->first();
         $exp_date = new Time($coupon->expiration_date);
         
-        if(!$exp_date->isFuture())
-        {
-            
-        }else{
+        if ($exp_date->isFuture()) {
+            if ($coupon->min_amount >= $total) {
+                if ($coupon->active == true) {
+                    if ($coupon->type == 'shipping_discount') {
+                        
+                    } elseif ($coupon->type == 'percentage_discount') {
+
+                    } elseif ($coupon->type == 'fixed_cart_discount') {
+                        
+                    }
+                } else {
+                    // inactivo
+                }
+            } else {
+                // no cumple con el requisito
+            }
+        } else {
             // expiro
         }
     }
@@ -243,18 +257,14 @@ class OrdersTable extends Table
         $order->coupon_single_use = "";
         $order->coupon_value = "";
         $order->coupon_expiration_date = "";
-        if($order->coupon_type == "percentage_discount")
-        {
+        if ($order->coupon_type == "percentage_discount") {
             $order->total_discount = $total * $order->coupon_value;
-        }
-        else if ($order->coupon_type == "fixed_cart_discount")
-        {
+        } elseif ($order->coupon_type == "fixed_cart_discount") {
             $order->total_discount = $total - $order->coupon_value;
         }
         $order->grand_total = $total - $order->total_discount;
 
         if ($orders->save($order)) {
-
             $order_id = $order->id;
             foreach($order_s['items'] as $i)
             {

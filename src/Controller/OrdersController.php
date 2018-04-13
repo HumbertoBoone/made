@@ -95,18 +95,23 @@ class OrdersController extends AppController
     {
         $this->request->allowMethod(['post']);
         $session = $this->request->getSession();
-        $coupon_code = $this->request->getData('coupon_code');
-        if($this->Orders->verifyCoupon($coupon_code))
+        $items = $session->read('order.items');
+        $total = 0.0;
+        foreach($items as $item)
         {
-
+            $total += $item['subtotal'] * 100 * $item['quantity'];
+        }
+        $coupon_code = $this->request->getData('coupon_code');
+        if($this->Orders->verifyCoupon($coupon_code, $total))
+        {
+            
         }
     }
-    public function kk(){
-        
+    public function kk()
+    {
         $t = Time::now();
         $t = '2014-10-31';
         debug($t->isFuture());
-
     }
     public function paymentRedirect()
     {
