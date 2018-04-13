@@ -32,7 +32,7 @@ $this->Breadcrumbs->add([
                 <?= $this->Form->hidden('item_index',['value' => $n]) ?>
                 <?= $this->Form->control('amount',['type' => 'number', 'value' => $item['quantity'], 'label' => false, 'step' => 0.001, 'class' => 'inline quantity form-control']) ?>
                 <span class="unit"><?= $item['unit'] ?></span>
-                <?= $this->Form->button('<i class="fas fa-sync-alt" title="Actualizar Cantidad"></i>',['class' => 'inline btn btn-secondary']) ?>
+                <?= $this->Form->button('<i class="fas fa-sync-alt" title="Actualizar Cantidad"></i>', ['class' => 'inline btn btn-secondary']) ?>
                 <?= $this->Form->end() ?>
             </td>
             <td><?= $this->Number->format($item['subtotal'], ['places' => 2,'before' => '$ ']) ?></td>
@@ -46,9 +46,6 @@ $this->Breadcrumbs->add([
     <?php endforeach; ?>
     <tbody>
 </table>
-
-
-
 <div class="clearfix">
     <?= $this->Form->create(null, ['type' => 'post', 'url' => 'order/add-coupon']) ?>
     <?= $this->Form->control('coupon_code', ['type' => 'text']) ?>

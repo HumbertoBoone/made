@@ -1,5 +1,3 @@
-
-
 <?= $this->Form->create(null,['type' => 'post', 'url' => '/orders/shipping_method']) ?>
 <table class="table">
     <thead class="thead-dark">
@@ -23,4 +21,3 @@
     <?= $this->Form->button('Continuar',['class' => 'btn btn-primary float-right']) ?>
 </div>
 <?= $this->Form->end() ?>
-    
