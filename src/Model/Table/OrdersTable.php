@@ -202,27 +202,34 @@ class OrdersTable extends Table
     {
         $orders = TableRegistry::get('Coupons');
         $shipping_methods = TableRegistry::get('ShippingMethods');
+        $items = TableRegistry::get('Items');
         $coupon = $orders->find()->where(['code' => $coupon_code])->first();
         $exp_date = new Time($coupon->expiration_date);
-        
         if ($exp_date->isFuture()) {
             if ($coupon->min_amount >= $total) {
                 if ($coupon->active == true) {
                     if ($coupon->type == 'shipping_discount') {
-                        
+                        $shipping_methods->find()->where(['id' => $coupon->id]);
                     } elseif ($coupon->type == 'percentage_discount') {
-
+                        return array(['discount' => $total - ($total * $coupon->value), 'message' => 'success']);
                     } elseif ($coupon->type == 'fixed_cart_discount') {
-                        
+                        return array(['discount' => $total - $coupon->value, 'message' => 'success']);
+                    } elseif ($coupon->type == 'item_discount') {
+                        $query = $items->find();
+                        $query->matching('Coupons', function($q) {
+                            return $q->where(['Coupons.id' => $coupon->id]);
+                        });
                     }
                 } else {
-                    // inactivo
+                    return array(['discount' => 0.0, 'message' => 'El cupon no esta disponible']);
                 }
             } else {
-                // no cumple con el requisito
+                setlocale(LC_MONETARY,"es_MX");
+                $min_amount = $coupon->min_amount;
+                return array(['discount' => 0.0, 'message' => money_format('Se requiere una cantidad mínima de i% para validar cupon', $min_amount)]);
             }
         } else {
-            // expiro
+            return array(['discount' => 0.0, 'message' => 'El cupon ha expirado']);
         }
     }
     public function kk()
