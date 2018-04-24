@@ -200,20 +200,22 @@ class OrdersTable extends Table
     }
     public function verifyCoupon($coupon_code, $total)
     {
-        $orders = TableRegistry::get('Coupons');
+        $coupons = TableRegistry::get('Coupons');
         $shipping_methods = TableRegistry::get('ShippingMethods');
         $items = TableRegistry::get('Items');
-        $coupon = $orders->find()->where(['code' => $coupon_code])->first();
+        $coupon = $coupons->find()->where(['code' => $coupon_code])->first();
         $exp_date = new Time($coupon->expiration_date);
+        //debug($coupon->min_amount);
+        //debug($total);
         if ($exp_date->isFuture()) {
-            if ($coupon->min_amount >= $total) {
+            if ($coupon->min_amount < $total) {
                 if ($coupon->active == true) {
                     if ($coupon->type == 'shipping_discount') {
                         $shipping_methods->find()->where(['id' => $coupon->id]);
                     } elseif ($coupon->type == 'percentage_discount') {
-                        return array(['discount' => $total - ($total * $coupon->value), 'message' => 'success']);
+                        return ['discount' => $total * $coupon->value, 'message' => 'success'];
                     } elseif ($coupon->type == 'fixed_cart_discount') {
-                        return array(['discount' => $total - $coupon->value, 'message' => 'success']);
+                        return ['discount' => $coupon->value, 'message' => 'success'];
                     } elseif ($coupon->type == 'item_discount') {
                         $query = $items->find();
                         $query->matching('Coupons', function($q) {
@@ -221,15 +223,15 @@ class OrdersTable extends Table
                         });
                     }
                 } else {
-                    return array(['discount' => 0.0, 'message' => 'El cupon no esta disponible']);
+                    return ['discount' => 0.0, 'message' => 'El cupon no esta disponible'];
                 }
             } else {
                 setlocale(LC_MONETARY,"es_MX");
                 $min_amount = $coupon->min_amount;
-                return array(['discount' => 0.0, 'message' => money_format('Se requiere una cantidad mínima de i% para validar cupon', $min_amount)]);
+                return ['discount' => 0.0, 'message' => 'Se requiere una cantidad mínima de i% para validar cupon '.$min_amount];
             }
         } else {
-            return array(['discount' => 0.0, 'message' => 'El cupon ha expirado']);
+            return ['discount' => 0.0, 'message' => 'El cupon ha expirado'];
         }
     }
     public function kk()
