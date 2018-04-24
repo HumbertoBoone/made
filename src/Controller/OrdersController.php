@@ -99,13 +99,19 @@ class OrdersController extends AppController
         $total = 0.0;
         foreach($items as $item)
         {
-            $total += $item['subtotal'] * 100 * $item['quantity'];
+            $total += $item['subtotal'] * $item['quantity'];
         }
         $coupon_code = $this->request->getData('coupon_code');
-        if($this->Orders->verifyCoupon($coupon_code, $total))
+        $coupon_status = $this->Orders->verifyCoupon($coupon_code, $total);
+        if($coupon_status['message'] == 'success')
         {
-            
+            $session->write('order.transaction.discount', floatval($coupon_status['discount'])); 
+        }else{
+            $this->Flash->error($coupon_status['message']);
         }
+        debug($coupon_status);
+        $this->redirect(['controller' => 'items', 'action' => 'cart']);
+        
     }
     public function kk()
     {
