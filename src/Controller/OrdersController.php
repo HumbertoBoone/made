@@ -81,20 +81,22 @@ class OrdersController extends AppController
             //debug($order);
             $this->Orders->saveOrder($total,$session->read('order'), $customer);
             $this->set(compact('order'));
-          } catch (\Conekta\ParameterValidationError $error){
+        } catch (\Conekta\ParameterValidationError $error){
             $this->Flash->error($error->getMessage());
             $this->set('style', 'display: none;');
-          } catch (\Conekta\Handler $error){
+        } catch (\Conekta\Handler $error){
             $this->Flash->error($error->getMessage());
             $this->set('style', 'display: none;');
-          }
-          
-          
+        }
     }
     public function addCoupon()
     {
         $this->request->allowMethod(['post']);
         $session = $this->request->getSession();
+        $coupon_code = $this->request->getData('coupon_code');
+        if ($coupon_code == "" || $coupon_code == null || empty($coupon_code)) {
+            return $this->redirect(['action' => 'shipping']);
+        }
         $items = $session->read('order.items');
         $total = 0.0;
         foreach($items as $item)
@@ -105,13 +107,13 @@ class OrdersController extends AppController
         $coupon_status = $this->Orders->verifyCoupon($coupon_code, $total);
         if($coupon_status['message'] == 'success')
         {
-            $session->write('order.transaction.discount', floatval($coupon_status['discount'])); 
+            $session->write('order.discount', floatval($coupon_status['discount']));
+            $this->Flash->success('El cupon de descuento ha sido aplicado con éxito');
+            return $this->redirect(['action' => 'shipping']);   
         }else{
             $this->Flash->error($coupon_status['message']);
+            return $this->redirect(['controller' => 'Items','action' => 'cart']); 
         }
-        debug($coupon_status);
-        $this->redirect(['controller' => 'items', 'action' => 'cart']);
-        
     }
     public function kk()
     {
