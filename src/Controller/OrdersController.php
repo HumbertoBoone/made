@@ -92,11 +92,11 @@ class OrdersController extends AppController
     public function addCoupon()
     {
         $this->request->allowMethod(['post']);
-        $session = $this->request->getSession();
         $coupon_code = $this->request->getData('coupon_code');
         if ($coupon_code == "" || $coupon_code == null || empty($coupon_code)) {
             return $this->redirect(['action' => 'shipping']);
         }
+        $session = $this->request->getSession();
         $items = $session->read('order.items');
         $total = 0.0;
         foreach($items as $item)
@@ -105,7 +105,7 @@ class OrdersController extends AppController
         }
         $coupon_code = $this->request->getData('coupon_code');
         $coupon_status = $this->Orders->verifyCoupon($coupon_code, $total);
-        if($coupon_status['message'] == 'success')
+        if($coupon_status['valid'] == TRUE)
         {
             $session->write('order.discount', floatval($coupon_status['discount']));
             $this->Flash->success('El cupon de descuento ha sido aplicado con éxito');

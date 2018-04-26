@@ -213,9 +213,9 @@ class OrdersTable extends Table
                     if ($coupon->type == 'shipping_discount') {
                         $shipping_methods->find()->where(['id' => $coupon->id]);
                     } elseif ($coupon->type == 'percentage_discount') {
-                        return ['discount' => $total * $coupon->value, 'message' => 'success'];
+                        return ['valid' => TRUE, 'discount' => $total * $coupon->value, 'message' => 'success'];
                     } elseif ($coupon->type == 'fixed_cart_discount') {
-                        return ['discount' => $coupon->value, 'message' => 'success'];
+                        return ['valid' => TRUE,'discount' => $coupon->value, 'message' => 'success'];
                     } elseif ($coupon->type == 'item_discount') {
                         $query = $items->find();
                         $query->matching('Coupons', function($q) {
@@ -223,7 +223,7 @@ class OrdersTable extends Table
                         });
                     }
                 } else {
-                    return ['discount' => 0.0, 'message' => 'El cupon no esta disponible'];
+                    return ['valid' => FALSE,'discount' => 0.0, 'message' => 'El cupon no esta disponible'];
                 }
             } else {
                 setlocale(LC_MONETARY,"es_MX");
