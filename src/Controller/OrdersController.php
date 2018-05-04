@@ -6,6 +6,7 @@ namespace App\Controller;
 use Cake\Http\Client;
 use Cake\I18n\Time;
 use Cake\I18n\Date;
+use Cake\I18n\Number;
 
 class OrdersController extends AppController
 {
@@ -117,9 +118,12 @@ class OrdersController extends AppController
     }
     public function kk()
     {
-        $t = Time::now();
+        /*$t = Time::now();
         $t = '2014-10-31';
-        debug($t->isFuture());
+        debug($t->isFuture());*/
+        //Number::defaultCurrency('MXN');
+        //debug(Number::defaultCurrency());
+        debug(Number::currency(1574.28, null, ['after' => ' pesos']));
     }
     public function paymentRedirect()
     {

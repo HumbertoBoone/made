@@ -7,6 +7,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
+use Cake\I18n\Number;
 /**
  * Orders Model
  *
@@ -226,17 +227,17 @@ class OrdersTable extends Table
                     return ['valid' => FALSE,'discount' => 0.0, 'message' => 'El cupon no esta disponible'];
                 }
             } else {
-                setlocale(LC_MONETARY,"es_MX");
-                $min_amount = $coupon->min_amount;
-                return ['discount' => 0.0, 'message' => 'Se requiere una cantidad mínima de i% para validar cupon '.$min_amount];
+                $min_amount = Number::currency($coupon->min_amount, null, ['after' => ' pesos']);
+                return ['valid' => FALSE, 'discount' => 0.0, 'message' => 'Se requiere una cantidad mínima de '.$min_amount.' para validar cupon '];
             }
         } else {
-            return ['discount' => 0.0, 'message' => 'El cupon ha expirado'];
+            return ['valid' => FALSE, 'discount' => 0.0, 'message' => 'El cupon ha expirado'];
         }
     }
     public function kk()
     {
-        debug(Time::now());
+        //debug(Time::now());
+        debug(Cake\I18n\Number::defaultCurrency());
     }
     public function saveOrder($total,$order_s, $customer, $type = null,  $reference = null)
     {
