@@ -36,4 +36,16 @@ $this->Breadcrumbs->add([
         <?= $shipping_address['country'] ?> <br>
         <?= $shipping_address['postal_code'] ?> <br>
     <div>
+    <div id="payment_selection" style="display: inline-block;">
+        <form>
+            <input type="radio" name="payment_type" value="paypal"> PayPal
+            <input type="radio" name="payment_type" value="oxxo"> OXXO
+            <input type="radio" name="payment_type" value="card"> Tarjeta de Crédito/Débito 
+        </form>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-outline-secondary"><img src="../img/paypal-logo.png" ></button>
+  <button type="button" class="btn btn-secondary"><img src="../img/oxxopay_brand.png" style="height: 26px;"></button>
+  <button type="button" class="btn btn-outline-secondary"><img src="../img/cards-logo-tp.png" style="height: 26px;"></button>
+</div>
 </div>
