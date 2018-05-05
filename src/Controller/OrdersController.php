@@ -95,6 +95,9 @@ class OrdersController extends AppController
         $this->request->allowMethod(['post']);
         $coupon_code = $this->request->getData('coupon_code');
         if ($coupon_code == "" || $coupon_code == null || empty($coupon_code)) {
+            if(!$this->Auth->user()){
+                return $this->redirect(['action' => 'registered']);
+            }
             return $this->redirect(['action' => 'shipping']);
         }
         $session = $this->request->getSession();
@@ -110,6 +113,9 @@ class OrdersController extends AppController
         {
             $session->write('order.discount', floatval($coupon_status['discount']));
             $this->Flash->success('El cupon de descuento ha sido aplicado con éxito');
+            if(!$this->Auth->user()){
+                return $this->redirect(['action' => 'registered']);
+            }
             return $this->redirect(['action' => 'shipping']);   
         }else{
             $this->Flash->error($coupon_status['message']);
