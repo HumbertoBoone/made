@@ -31,7 +31,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->script('paypal_button.js') ?>
     
     <?= $this->Html->meta('icon') ?>   
-    <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->css('app.css') ?>
     <?= $this->Html->css('css.css') ?>
 
     <?= $this->fetch('meta') ?>
@@ -39,25 +39,20 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-        <?= $this->cell('Cart') ?>
-    </nav>
-    <?= $this->Flash->render() ?>
-    <div class="clearfix">
-        <?= $this->fetch('content') ?>
-    </div>
     
-    <footer>
-    </footer>
+    <?= $this->element('navigation') ?> 
+
+    <?= $this->Flash->render() ?>
+    <main role="main" class="container">
+        <?= $this->fetch('content') ?>
+    </main>
+    
+    <?= $this->element('footer') ?>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <?= $this->fetch('scriptBottom') ?>
     <?= $this->Html->script('js.js') ?>
 </body>

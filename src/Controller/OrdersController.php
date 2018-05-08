@@ -204,6 +204,7 @@ class OrdersController extends AppController
     }
     public function summary()
     {
+        $this->viewBuilder()->setLayout('summary');
         if(!$this->Auth->user()){
             $this->Flash->error('No estas autenticado. Por favor inicia sesión');
             return $this->redirect(['controller' => 'Items', 'action' => 'index']);

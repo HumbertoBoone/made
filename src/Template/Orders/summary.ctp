@@ -36,7 +36,7 @@ $this->Breadcrumbs->add([
         <?= $shipping_address['country'] ?> <br>
         <?= $shipping_address['postal_code'] ?> <br>
     <div>
-    <div id="payment_selection" style="display: inline-block;">
+    <div id="payment_selection" style="display: none;">
         <form>
             <input type="radio" name="payment_type" value="paypal"> PayPal
             <input type="radio" name="payment_type" value="oxxo"> OXXO
@@ -44,8 +44,32 @@ $this->Breadcrumbs->add([
         </form>
     </div>
     <div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-outline-secondary"><img src="../img/paypal-logo.png" ></button>
-  <button type="button" class="btn btn-secondary"><img src="../img/oxxopay_brand.png" style="height: 26px;"></button>
-  <button type="button" class="btn btn-outline-secondary"><img src="../img/cards-logo-tp.png" style="height: 26px;"></button>
-</div>
+        <button id="paypal_btn" type="button" class="btn btn-outline-secondary btn-pay-sel"><img src="../img/paypal-logo.png" ></button>
+        <button id="oxxo_btn" type="button" class="btn btn-secondary btn-pay-sel"><img src="../img/oxxopay_brand.png" style="height: 26px;"></button>
+        <button id="card_btn" type="button" class="btn btn-outline-secondary btn-pay-sel"><img src="../img/cards-logo-tp.png" style="height: 26px;"></button>
+    </div>
+
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+        </label>
+    </div>
+
+    <div id="payment_box">
+        <div id="paypal_container" style="display: none">
+            <div id="paypal-button-container"></div>
+        </div>
+        <div id="oxxo_container" style="display: none">
+            <button type="button" class="btn btn-secondary">Generar recibo de pago</button>
+        </div>
+        <div id="card_container" style="display: none">
+        card
+        </div>
+    </div>
 </div>
