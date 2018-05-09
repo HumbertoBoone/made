@@ -59,7 +59,37 @@ $this->Breadcrumbs->add([
             <a href="oxxo" class="btn btn-secondary">Generar recibo de pago</a>
         </div>
         <div id="card_container" class="container_method" style="display: none">
-        card
+            <form action="" method="POST" id="card-form">
+                <input type="hidden" value="10" name="hd">
+                <span class="card-errors"></span>
+                <div>
+                    <label>
+                    <span>Nombre del tarjetahabiente</span>
+                    <input type="text" size="20" data-conekta="card[name]">
+                    </label>
+                </div>
+                <div>
+                    <label>
+                    <span>Número de tarjeta de crédito</span>
+                    <input type="text" size="20" data-conekta="card[number]">
+                    </label>
+                </div>
+                <div>
+                    <label>
+                    <span>CVC</span>
+                    <input type="text" size="4" data-conekta="card[cvc]">
+                    </label>
+                </div>
+                <div>
+                    <label>
+                    <span>Fecha de expiración (MM/AAAA)</span>
+                    <input type="text" size="2" data-conekta="card[exp_month]">
+                    </label>
+                    <span>/</span>
+                    <input type="text" size="4" data-conekta="card[exp_year]">
+                </div>
+                <button type="submit">Crear token</button>
+            </form>
         </div>
     </div>
 </div>
