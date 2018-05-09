@@ -137,10 +137,10 @@ color:red
     object-fit: cover;
 
 }
-label {
+/* label {
     display: block;
     margin: .5rem;
-}
+}*/
 input[name=price] {
     text-align: right;
 }

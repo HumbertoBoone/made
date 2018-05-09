@@ -3,6 +3,11 @@ $(document).ready(function () {
         var id = evt.target.id;
         addCart(id);
     });
+    $('#metodo input[type=radio]').change(function(evt){
+
+        metodo(evt.target.id);
+    });
+
 });
 function addCart(id) {
     var data = {
@@ -18,4 +23,19 @@ function addCart(id) {
 
         }
     });
+}
+function metodo(c){
+    $('.container_method').hide();
+    switch (c) {
+        case "card":
+            $('#card_container').slideDown();
+            break;
+    
+        case "oxxo":
+            $('#oxxo_container').slideDown();
+            break;
+        case "paypal":
+            $('#paypal_container').slideDown();
+        break;
+    }
 }

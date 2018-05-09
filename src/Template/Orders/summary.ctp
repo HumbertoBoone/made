@@ -36,39 +36,29 @@ $this->Breadcrumbs->add([
         <?= $shipping_address['country'] ?> <br>
         <?= $shipping_address['postal_code'] ?> <br>
     <div>
-    <div id="payment_selection" style="display: none;">
-        <form>
-            <input type="radio" name="payment_type" value="paypal"> PayPal
-            <input type="radio" name="payment_type" value="oxxo"> OXXO
-            <input type="radio" name="payment_type" value="card"> Tarjeta de Crédito/Débito 
-        </form>
-    </div>
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <button id="paypal_btn" type="button" class="btn btn-outline-secondary btn-pay-sel"><img src="../img/paypal-logo.png" ></button>
-        <button id="oxxo_btn" type="button" class="btn btn-secondary btn-pay-sel"><img src="../img/oxxopay_brand.png" style="height: 26px;"></button>
-        <button id="card_btn" type="button" class="btn btn-outline-secondary btn-pay-sel"><img src="../img/cards-logo-tp.png" style="height: 26px;"></button>
-    </div>
 
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary active">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
-        </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="options" id="option2" autocomplete="off"> Radio
-        </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="options" id="option3" autocomplete="off"> Radio
-        </label>
-    </div>
-
+    <form>
+        <div id="metodo" class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="paypal" id="option1" autocomplete="off"><img src="../img/paypal-logo.png" >
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="oxxo" id="option2" autocomplete="off"><img src="../img/oxxopay_brand.png" style="height: 26px;">
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="card" id="option3" autocomplete="off"><img src="../img/cards-logo-tp.png" style="height: 26px;">
+            </label>
+        </div>
+    </form>
     <div id="payment_box">
-        <div id="paypal_container" style="display: none">
+        <div id="paypal_container" class="container_method" style="display: none">
             <div id="paypal-button-container"></div>
         </div>
-        <div id="oxxo_container" style="display: none">
+        <div id="oxxo_container" class="container_method" style="display: none">
             <button type="button" class="btn btn-secondary">Generar recibo de pago</button>
+            <a href="oxxo" class="btn btn-secondary">Generar recibo de pago</a>
         </div>
-        <div id="card_container" style="display: none">
+        <div id="card_container" class="container_method" style="display: none">
         card
         </div>
     </div>
