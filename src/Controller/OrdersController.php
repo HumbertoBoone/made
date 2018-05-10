@@ -165,6 +165,12 @@ class OrdersController extends AppController
             $this->set('style', 'display: none;');
         }
     }
+    public function random()
+    {
+        $now = Time::now();
+        $candidate_order_id = substr($now->year,-2).sprintf("%02d", $now->month).sprintf("%02d", $now->day).'-'.sprintf("%04d", mt_rand(0,9999)).'-'.sprintf("%06d", mt_rand(0,999999));
+        
+    }
     public function addCoupon()
     {
         $this->request->allowMethod(['post']);
