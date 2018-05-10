@@ -59,7 +59,7 @@ $this->Breadcrumbs->add([
             <a href="oxxo" class="btn btn-secondary">Generar recibo de pago</a>
         </div>
         <div id="card_container" class="container_method" style="display: none">
-            <form action="" method="POST" id="card-form">
+            <form action="card" method="POST" id="card-form">
                 <input type="hidden" value="10" name="hd">
                 <span class="card-errors"></span>
                 <div>

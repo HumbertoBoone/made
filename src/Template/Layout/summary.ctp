@@ -65,7 +65,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         //Inserta el token_id en la forma para que se envíe al servidor
         alert(token.id);
         $form.append($('<input type="hidden" name="conektaTokenId" id="conektaTokenId">').val(token.id));
-        //$form.get(0).submit(); //Hace submit
+        $form.get(0).submit(); //Hace submit
     };
     var conektaErrorResponseHandler = function(response) {
         var $form = $("#card-form");
