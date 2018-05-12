@@ -250,7 +250,7 @@ class OrdersTable extends Table
         $order->customer_id = $customer['customer_id'];
         $order->reference = $reference;
         $order->payment_type = $type;
-        $order->status = "pending";
+        $order->status = "created";
         $order->recipient_name = $order_s['shipping_address']['recipient_name'];
         $order->address1 = $order_s['shipping_address']['address1'];
         $order->address2 = $order_s['shipping_address']['address2'];
@@ -262,11 +262,11 @@ class OrdersTable extends Table
         $order->customer_discount = $customer['customer']['discount'];
         //$order->total_discount = $order->customer_discount * $total;
         $order->coupon_code = "";
-        $order->coupon_created = "";
+        //$order->coupon_created = Time::now();
         $order->coupon_type = "";
         $order->coupon_single_use = "";
         $order->coupon_value = "";
-        $order->coupon_expiration_date = "";
+        //$order->coupon_expiration_date = "";
         if ($order->coupon_type == "percentage_discount") {
             $order->total_discount = $total * $order->coupon_value;
         } elseif ($order->coupon_type == "fixed_cart_discount") {
@@ -292,5 +292,7 @@ class OrdersTable extends Table
                 $order_details->save($item);
             }
         }
+        //debug($order);
+        return $order;
     }
 }

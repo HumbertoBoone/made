@@ -34,68 +34,85 @@ class OrdersController extends AppController
         $session = $this->request->getSession();
         $customer = $this->Auth->user();
         $items = $session->read('order.items');
-        try {
-            $customer = \Conekta\Customer::create(
-                array(
-                "name" => $customer['customer']['first_name'].' '.$customer['customer']['last_name'],
-                "email" => $customer['email'],
-                "phone" => $customer['customer']['tel'],
-                "payment_sources" => array(
-                    array(
-                        "type" => "card",
-                        "token_id" => $token
-                    )
-                )//payment_sources
-                )//customer
-            );
-            $total = 0.0;
-            foreach($items as $item)
-            {
-                $arr_items[] = [
-                    'name' => $item['sku'].' '.$item['brand'].' ',
-                    'unit_price' => intval($item['subtotal'] * 100),
-                    'quantity' => intval($item['quantity'])
-                ]; 
-                $total += $item['subtotal'] * 100 * $item['quantity'];
-            }
-            $conekta_order = \Conekta\Order::create(
-                    array(
-                    "line_items" => $arr_items, //line_items
-                    "shipping_lines" => array(
-                        array(
-                        "amount" => 0,
-                            "carrier" => "FEDEX"
-                        )
-                    ), //shipping_lines - physical goods only
-                    "currency" => "MXN",
-                    "customer_info" => array(
-                        "customer_id" => $customer->id,
-                    ), //customer_info
-                    "shipping_contact" => array(
-                        "address" => array(
-                            "street1" => $session->read('order.shipping_address.address1').' '.$session->read('order.shipping_address.address2'),
-                            "postal_code" => $session->read('order.shipping_address.postal_code'),
-                            "country" => "MX"
-                        )//address
-                    ),
-                    "charges" => array(
-                        array(
-                            "payment_method" => array(
-                                    "type" => "default"
-                            ) //payment_method - use customer's <code>default</code> - a card
-                        ) //first charge
-                    ) //charges
-                )//order
-            );
-            $this->set(compact('conekta_order'));
-        } catch (\Conekta\ProccessingError $error){
-            debug($error->getMesage());
-        } catch (\Conekta\ParameterValidationError $error){
-            debug($error->getMesage());
-        } catch (\Conekta\Handler $error){
-            debug($error->getMesage());
+        $total = 0.0;
+        foreach($items as $item)
+        {
+            $arr_items[] = [
+                'name' => $item['sku'].' '.$item['brand'].' ',
+                'unit_price' => intval($item['subtotal'] * 100),
+                'quantity' => intval($item['quantity'])
+            ]; 
+            $total += $item['subtotal'] * 100 * $item['quantity'];
         }
-
+        $order_info = $this->Orders->saveOrder($total,$session->read('order'), $customer);
+        //debug($order_info);
+        if(isset($order_info)){
+            debug('entro');
+            try {
+                $conekta_customer = \Conekta\Customer::create(
+                    array(
+                    "name" => $customer['customer']['first_name'].' '.$customer['customer']['last_name'],
+                    "email" => $customer['email'],
+                    "phone" => $customer['customer']['tel'],
+                    "payment_sources" => array(
+                        array(
+                            "type" => "card",
+                            "token_id" => $token
+                        )
+                    )//payment_sources
+                    )//customer
+                );
+               
+                $conekta_order = \Conekta\Order::create(
+                        array(
+                        "line_items" => $arr_items, //line_items
+                        "shipping_lines" => array(
+                            array(
+                            "amount" => 0,
+                                "carrier" => "FEDEX"
+                            )
+                        ), //shipping_lines - physical goods only
+                        "currency" => "MXN",
+                        "customer_info" => array(
+                            "customer_id" => $conekta_customer->id,
+                        ), //customer_info
+                        "shipping_contact" => array(
+                            "address" => array(
+                                "street1" => $session->read('order.shipping_address.address1').' '.$session->read('order.shipping_address.address2'),
+                                "postal_code" => $session->read('order.shipping_address.postal_code'),
+                                "country" => "MX"
+                            )//address
+                        ),
+                        "metadata" => array("order_id" => $order_info->id),
+                        "charges" => array(
+                            array(
+                                "payment_method" => array(
+                                        "type" => "default"
+                                ) //payment_method - use customer's <code>default</code> - a card
+                            ) //first charge
+                        ) //charges
+                    )//order
+                );
+                
+            } catch (\Conekta\ProccessingError $error){
+                debug($error->getMesage());
+                return $this->redirect(['action' => 'summary']);
+            } catch (\Conekta\ParameterValidationError $error){
+                debug($error->getMesage());
+                return $this->redirect(['action' => 'summary']);
+            } catch (\Conekta\Handler $error){
+                debug($error->getMesage());
+                return $this->redirect(['action' => 'summary']);
+            }
+            $order_info->reference = $conekta_order->id;
+            $order_info->status = 'pending';
+            $this->Orders->save($order_info);
+            $this->set(compact('conekta_order'));
+            $this->set(compact('order_info'));
+        }else{
+            $this->Flash->error('Ocurrió un problema al crear la order. No se realizó ningun cargo');
+            return $this->redirect(['action' => 'summary']);
+        }
     }
     public function oxxo()
     {
