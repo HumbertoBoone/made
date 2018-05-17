@@ -7,9 +7,9 @@ class OrdersController extends AppController
 {
     public function index()
     {
+        $this->viewBuilder()->setLayout('admin');
          $this->loadComponent('Paginator');
-        $items = $this->Paginator->paginate($this->Orders->find('all',
-            ['contain' => ['order_details']]));
+        $items = $this->Paginator->paginate($this->Orders->find('all'));
         $this->set(compact('items'));
     }
     public function view($id = null)
