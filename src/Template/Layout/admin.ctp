@@ -48,7 +48,18 @@
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="sidebar-menu-title">ADMINISTRACIÓN</li>
-                        <li><a href="#"><i class="fas fa-home"></i>Inicio</a></li>
+                        <li><a href="#"><i class="fas fa-home fa-fw"></i>Inicio</a></li>
+                        <li><a href="#"><i class="fas fa-file-alt fa-fw"></i>Órdenes</a></li>
+                        <li class="sidebar-submenu">
+                            <a href="#" class="sidebar-subdrop">
+                                <i class="fas fa-boxes fa-fw"></i>Articulos<span class="sidebar-menu-arrow"></span>
+                            </a>
+                            <ul class="list-unstyled" style="display: none">
+                                <li><a href="#">Lista Articulos</a></li>
+                                <li><a href="#">Nuevo Articulo</a></li>
+                                <li><a href="#"></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>

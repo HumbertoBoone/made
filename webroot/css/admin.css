@@ -1,3 +1,51 @@
+.sidebar {
+    position: fixed;
+    top: 60px;
+    width: 200px;
+    z-index: 1041;
+    background-color: white;
+    bottom: 0;
+    margin-top: 0;
+    left: 0;
+    box-shadow: 0 2px 4px lightgrey;
+}
 .sidebar-menu {
-	
+	height: 100%;
+}
+.sidebar-menu ul {
+    font-size: 16px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.sidebar-menu li a {
+    color: #888;
+    display: block;
+    font-size: 16px;
+    height: auto;
+    line-height: 40px;
+    min-height: 40px;
+    padding: 0 20px;
+}
+.sidebar-menu li a:hover {
+    color: #D000FF;
+    text-decoration: none;
+}
+.sidebar-menu li a svg {
+    font-size: 18px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+.sidebar-menu-title {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 40px;
+    min-height: 40px;
+    padding: 0 20px;
+    text-transform: uppercase;}
+.sidebar-menu-title > i {
+    float: right;
+    line-height: 40px;
 }
