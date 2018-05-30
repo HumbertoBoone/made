@@ -12,6 +12,7 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('images') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sku') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('price') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('stock') ?></th>
@@ -24,6 +25,7 @@
             <?php foreach ($items as $item): ?>
             <tr>
                 <td><?= $this->Number->format($item->id) ?></td>
+                <td><img src="../../<?= $item->images[0]['src'] ?>" width="100px" height="auto"></td>
                 <td><?= h($item->sku) ?></td>
                 <td><?= $this->Number->format($item->price) ?></td>
                 <td><?= $this->Number->format($item->stock) ?></td>
