@@ -52,6 +52,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
 
     $routes->prefix('admin', function ($routes) {
+        $routes->connect('/:controller', ['action' => 'index']);
         $routes->connect('/:controller/:action/*');
     });
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
