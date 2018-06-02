@@ -11,30 +11,30 @@
     <table class="table table-hover" cellpadding="0" cellspacing="0">
         <thead class="thead-dark">
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('images') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sku') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('price') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('stock') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('unit') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('brand') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id', 'ID') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name', 'NOMBRE') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('images', 'IMAGEN') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sku', 'SKU') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('price', 'PRECIO') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('unit', 'UNIDAD') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('stock', 'CANT. EN STOCK') ?></th>
+                <th scope="col" class="actions"><?= __('ACCIONES') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($items as $item): ?>
             <tr>
                 <td><?= $this->Number->format($item->id) ?></td>
-                <td><img src="../../<?= $item->images[0]['src'] ?>" width="100px" height="auto"></td>
+                <td><?= h($item->name) ?></td>
+                <td><?= $this->Html->image($item->images[0]['src'], ['width' => '100px', 'height' => 'auto']) ?></td>
                 <td><?= h($item->sku) ?></td>
-                <td><?= $this->Number->format($item->price) ?></td>
-                <td><?= $this->Number->format($item->stock) ?></td>
+                <td><?= $this->Number->currency($item->price, null, [ 'pattern' => '$ #,###.00 MXN']) ?></td>
                 <td><?= h($item->unit) ?></td>
-                <td><?= h($item->brand) ?></td>
+                <td><?= $this->Number->format($item->stock) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $item->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
+                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $item->id], ['class' => 'btn btn-primary']) ?>
+                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $item->id], ['class' => 'btn btn-secondary']) ?>
+                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id), 'class' => 'btn btn-danger']) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
