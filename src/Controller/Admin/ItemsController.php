@@ -7,6 +7,7 @@ class ItemsController extends AppController
 {
     public function index()
     {
+        $this->viewBuilder()->setLayout('admin');
         $this->loadComponent('Paginator');
         $items = $this->Paginator->paginate($this->Items->find('all',
             ['contain' => ['Images']]));
@@ -93,7 +94,7 @@ class ItemsController extends AppController
                             $to_path = $target_path . $new_file_name;
                             if($file_name != ""){
                                 if(move_uploaded_file($tmp_name, $to_path)){
-                                    $img->src = 'img/items/' . $new_file_name;
+                                    $img->src = 'items/' . $new_file_name;
                                     $img->item_id = $item->id;
                                     $this->Items->saveImage($img);
                                     //$this->Flash->success(__('La imagen ha sido subida'));
