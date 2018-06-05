@@ -56,13 +56,16 @@
                 <li><!-- Link with dropdown items -->
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><span class="sidebar-icon"><i class="fas fa-boxes fa-fw"></i></span>Articulos<span class="arrow"><i class="fas fa-angle-right"></i></span></a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
+                        <li><a href="../items/index">Listado de Articulos</a></li>
+                        <li><a href="#">Nuevo Articulo</a></li>
                         <li><a href="#">Page</a></li>
                     </ul>
 
-                <li><a href="#">Portfolio</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#"><span class="sidebar-icon"><i class="fas fa-users fa-fw"></i></span>Clientes</a></li>
+                <li><a href="#"><span class="sidebar-icon"><i class="fas fa-ticket-alt fa-fw"></i></span>Cupones</a></li>
+                <li><a href="#"><span class="sidebar-icon"><i class="fas fa-chart-line fa-fw"></i></span>Estadísticas</a></li>
+                <li><a href="#"><span class="sidebar-icon"><i class="fas fa-credit-card fa-fw"></i></span>Contracargos</a></li>
+                <li><a href="#"><span class="sidebar-icon"><i class="fas fa-cog fa-fw"></i></span>Configuración</a></li>
             </ul>
         </nav>
 
