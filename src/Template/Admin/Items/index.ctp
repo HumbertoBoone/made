@@ -17,7 +17,7 @@
                 <th scope="col"><?= $this->Paginator->sort('sku', 'SKU') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('price', 'PRECIO') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('unit', 'UNIDAD') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('stock', 'CANT. EN STOCK') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('stock', 'STOCK') ?></th>
                 <th scope="col" class="actions"><?= __('ACCIONES') ?></th>
             </tr>
         </thead>
