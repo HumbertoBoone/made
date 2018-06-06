@@ -5,7 +5,7 @@
 /tmp/*
 /vendor/*
 /webroot/img/items/*
-
+composer.phar
 # OS generated files #
 ######################
 .DS_Store
