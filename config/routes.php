@@ -52,7 +52,8 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
 
     $routes->prefix('admin', function ($routes) {
-        $routes->connect('/articulos', ['controller' => 'Items', 'action' => 'index']);    
+        $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => DashedRoute::class]);
+        //$routes->connect('/articulos', ['controller' => 'Items', 'action' => 'index']);    
         //$routes->connect('/:controller', ['action' => 'index']);
         $routes->connect('/:controller/:action/*');
     });
