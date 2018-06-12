@@ -143,7 +143,7 @@ function newGroupOption(group,type){
       break;
       case 'select':
       newOption += '<div class="col-6">';
-      newOption += '<input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
+      newOption += '¿Disponible? <input type="hidden" name="groups[' + group +'][options][0][available]" value="0">';
       newOption += '<input type="checkbox" name="groups[' + group +'][options][0][available]" value="1">';
       newOption += '<button type="button" class="delete_option_button" onclick="deleteOption(' + group + ', 0)"><i class="fas fa-trash-alt" style="color: Tomato; font-size: 1.4em; margin-top: 5px;"></i></button></div>';
       newOption += '</div>';
@@ -211,7 +211,7 @@ function newGroupOption(group,type){
       break;
       case 'select':
       newOption += '<div class="col-6">';
-      newOption += '<input type="hidden" name="groups[' + group +'][options]['+opp+'][available]" value="0">';
+      newOption += '¿Disponible? <input type="hidden" name="groups[' + group +'][options]['+opp+'][available]" value="0">';
       newOption += '<input type="checkbox" name="groups[' + group +'][options]['+opp+'][available]" value="1">';
       newOption += '<button type="button" class="delete_option_button" onclick="deleteOption(' + group + ', '+opp+')"><i class="fas fa-trash-alt" style="color: Tomato; font-size: 1.4em; margin-top: 5px;"></i></button></div>';
       newOption += '</div>';
