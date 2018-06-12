@@ -1,48 +1,51 @@
+<?php 
+$myTemplates = [];
+?>
 <?= $this->Html->script('new_item', ['block' => 'scriptBottom']) ?>   
 <?= $this->Form->create($item, ['enctype' => 'multipart/form-data', 'onsubmit' => 'deleteUnusedInputs()']) ?>
-<fieldset>
-    <legend><?= __('Nuevo Articulo') ?></legend>
-    <?php
-        //debug($categories);
-        //echo $this->Form->select('category', $categories, ['multiple' => true]);
-        ?><!--<button type="button" id="btnMedia">Media</button>-->
-        <div class="images_box">
-            <div class="filediv">
-                <input name="images[1][img]" type="file" id="file" class="file">
+        <div class="row">
+            <div class="col">
+                <div class="images_box">
+                    <div class="filediv">
+                        <input name="images[1][img]" type="file" id="file" class="file">
+                    </div>
+                </div>
             </div>
         </div>
-        <?php
-        echo $this->Form->control('sku',['label' => 'SKU']);
-        echo $this->Form->control('name', ['label' => 'Nombre: ']);
-        echo $this->Form->control('short_description',['label' => 'Descripción Corta', 'type' =>'textarea']);
-        echo $this->Form->control('description', ['id' => 'summernote', 'label' => 'Descripción']);
-        echo $this->Form->control('price',['label' => 'Precio:',  'templates' => [
-            'inputContainer' => '<div class="input {{type}}{{required}}">{{content}} <span>MXN</span></div>',
-            'input' => '<span>$</span><input type="{{type}}" name="{{name}}"{{attrs}} >',
-        ]]);
-        echo $this->Form->control('stock');
-        echo $this->Form->control('unit', ['label' => 'Unidad']);
-        //echo $this->Form->control('brand_id');
-        echo $this->Form->control('brand_id', [
-            'type' => 'select',
-            'options' => $brands,
-            'empty' => 'Escoga uno',
-            'label' => 'Marca'
-        ]);
-        echo $this->Form->control('categories._ids', [
-            'type' => 'select',
-            'multiple' => true,
-            'options' => $categories,
-            'label' => 'Categorias'
-        ]);
-        ?>
-        <button type="button" id="btnNewGroup">Nuevo Grupo</button>
+
+        <div class="form-row">
+            <div class="col">
+                <?= $this->Form->control('sku',['label' => false,'placeholder' => 'SKU', 'class' => 'form-control']) ?>
+                <?= $this->Form->control('name', ['label' => false, 'placeholder' => 'Nombre', 'class' => 'form-control']) ?>
+            </div>
+            <div class="col">
+               <?= $this->Form->control('short_description',['type' => 'textarea','label' => false,'placeholder' => 'Descripción Corta', 'class' => 'form-control', 'style' => 'height: 95px']) ?>
+            </div>
+        </div>
+        <div class="form-row">
+                <div class="col">
+                    <?= $this->Form->control('price', ['label' => false, 'placeholder' => 'Precio', 'class' => 'form-control']) ?>
+                    <?= $this->Form->control('unit', ['label' => false, 'placeholder' => 'Unidad', 'class' => 'form-control']) ?>
+                </div>
+                <div class="col">
+                <?= $this->Form->control('stock', ['label' => false, 'placeholder' => 'Stock', 'class' => 'form-control']) ?>
+                    <?= $this->Form->control('brand_id', ['label' => false,'type' => 'select','class' => 'form-control', 'options' => $brands, 'empty' => 'Marca'])?>
+                </div>
+        </div>
+        <div class="form-row">
+            <div class="col-6">
+                <?= $this->Form->control('categories._ids', ['type' => 'select', 'class' => 'form-control', 'multiple' => true, 'options' => $categories,'label' => 'Categorias']) ?>
+            </div>
+        </div>
+
+        
         <div id="options_wrapper"></div>
+        <button type="button"class="btn btn-secondary" id="btnNewGroup">Nuevo Grupo</button><br>
         <?php
-        echo $this->Form->button(__('Guardar'));
+        echo $this->Form->button(__('Guardar'), ['class' => 'btn btn-primary']);
     ?>
      <?= $this->Form->end() ?>
-</fieldset>
-
+<div>
+<div>
 
    

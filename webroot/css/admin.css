@@ -120,3 +120,105 @@ main.active{
 .sidebar-icon{
     padding-right: 10px;
 }
+.input {
+    padding-bottom: 20px;
+}
+.item_group{
+    border-style: dotted;
+    border-width: 2px;
+    border-color: lightblue;
+    padding: 4px 8px 12px 12px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.delete_group_button{
+    float: right;
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+.delete_option_button{
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    margin-left: 10px;
+}
+.new_option_button{
+    margin-top: 8px;
+}
+/* image box new item*/
+.filediv{
+    display: inline-block;
+    float: left;
+}
+.file{
+color:green;
+padding:5px;
+border:1px dashed #123456;
+background-color:#f9ffe5
+}
+#upload{
+margin-left:45px
+}
+#noerror{
+color:green;
+text-align:left
+}
+#error{
+color:red;
+text-align:left
+}
+#img{
+width:30px;
+border:none;
+height:30px;
+margin-left:-20px;
+margin-bottom:91px
+}
+.abcd{
+/*text-align:center*/
+}
+.abcd .img{
+height:100px;
+width:100px;
+padding:5px;
+border:1px solid #e8debd
+}
+b{
+color:red
+}
+.images_box{
+    margin-bottom: 30px;
+    overflow: auto;
+}
+.cancel_cross{
+    width: 30px;
+    border: none;
+    height: 30px;
+    margin-left: -20px;
+    margin-bottom: 91px;
+    padding: 5px;
+}
+
+.item_thumbnail{
+    max-width: 100%; 
+    height: auto;
+}
+.item_thumbnail_container{
+    margin-bottom: 30px;
+    text-align: center;
+}
+#item_image img{
+    overflow: hidden;
+    background-size: cover;
+    object-fit: cover;
+
+}
