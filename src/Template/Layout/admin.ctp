@@ -30,7 +30,7 @@
     
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <?= $this->Html->meta('icon') ?>
-    
+
     <?= $this->Html->css('admin.css') ?>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
@@ -46,7 +46,7 @@
     
     <div class="wrapper">
 
-        <nav id="sidebar">
+        <nav id="sidebar" style="position: fixed;">
             
             <!-- Sidebar Links -->
             <ul class="list-unstyled components">
@@ -57,7 +57,7 @@
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><span class="sidebar-icon"><i class="fas fa-boxes fa-fw"></i></span>Articulos<span class="arrow"><i class="fas fa-angle-right"></i></span></a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li><a href="../items/index">Listado de Articulos</a></li>
-                        <li><a href="#">Nuevo Articulo</a></li>
+                        <li><?= $this->Html->link('Nuevo Articulo',['controller' => 'Items', 'action' => 'new']) ?></li>
                         <li><a href="#">Page</a></li>
                     </ul>
 
