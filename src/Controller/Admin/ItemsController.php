@@ -58,6 +58,7 @@ class ItemsController extends AppController
     }
     public function new()
     {
+        $this->viewBuilder()->setLayout('admin');
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
            
