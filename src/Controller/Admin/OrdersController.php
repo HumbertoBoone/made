@@ -9,11 +9,16 @@ class OrdersController extends AppController
     {
         $this->viewBuilder()->setLayout('admin');
          $this->loadComponent('Paginator');
-        $items = $this->Paginator->paginate($this->Orders->find('all'));
-        $this->set(compact('items'));
+        $orders = $this->Paginator->paginate($this->Orders->find('all'));
+        $this->set(compact('orders'));
     }
     public function view($id = null)
     {
-        
+        $this->viewBuilder()->setLayout('admin');
+        $order = $this->Orders->get($id, [
+            'contain' => ['OrderDetails', 'Customers']
+        ]);
+
+        $this->set('order', $order);
     }
 }
