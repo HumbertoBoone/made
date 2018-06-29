@@ -44,7 +44,7 @@ class OrdersController extends AppController
             ]; 
             $total += $item['subtotal'] * 100 * $item['quantity'];
         }
-        $order_info = $this->Orders->saveOrder($total,$session->read('order'), $customer);
+        $order_info = $this->Orders->saveOrder($total, $session->read('order'), $customer);
         //debug($order_info);
         if(isset($order_info)){
             debug('entro');

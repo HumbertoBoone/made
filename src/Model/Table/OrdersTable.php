@@ -12,7 +12,7 @@ use Cake\I18n\Number;
  * Orders Model
  *
  * @property \App\Model\Table\CustomersTable|\Cake\ORM\Association\BelongsTo $Customers
- * @property \App\Model\Table\OrdersDetailsTable|\Cake\ORM\Association\HasMany $OrdersDetails
+ * @property \App\Model\Table\OrdersProductsTable|\Cake\ORM\Association\HasMany $OrdersProducts
  *
  * @method \App\Model\Entity\Order get($primaryKey, $options = [])
  * @method \App\Model\Entity\Order newEntity($data = null, array $options = [])
@@ -47,7 +47,10 @@ class OrdersTable extends Table
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('OrderDetails', [
+        $this->hasMany('OrderProducts', [
+            'foreignKey' => 'order_id'
+        ]);
+        $this->hasMany('OrderProductAttributes', [
             'foreignKey' => 'order_id'
         ]);
     }
@@ -242,7 +245,8 @@ class OrdersTable extends Table
     public function saveOrder($total,$order_s, $customer, $type = null,  $reference = null)
     {
         $orders = TableRegistry::get('Orders');
-        $order_details = TableRegistry::get('OrderDetails');
+        $order_product_attributes = TableRegistry::get('OrderProductAttributes');
+        $order_products = TableRegistry::get('OrderProducts');
 
         $order = $orders->newEntity();
         
@@ -278,7 +282,7 @@ class OrdersTable extends Table
             $order_id = $order->id;
             foreach($order_s['items'] as $i)
             {
-                $item = $order_details->newEntity();
+                $item = $order_products->newEntity();
                 $item->order_id = $order_id;
                 $item->sku = $i['sku'];
                 $item->name = $i['name'];
@@ -289,7 +293,41 @@ class OrdersTable extends Table
                 $item->amount = $i['quantity'];
                 $item->subtotal = $i['subtotal'];
                 $item->options = isset($i['options']) ? json_encode($i['options']) : null;
-                $order_details->save($item);
+                
+                $order_products->save($item);
+
+                foreach($i['options'] as $o){
+                    debug($o);
+                    //debug($o[key($o)]['value']);
+                    //debug(key($o[key($o)]));
+                    $associativo = function($o) {
+                        return array_keys($o) == range(0, count($o) - 1);
+                    };
+                    debug($associativo($o[key($o)]));
+                    debug($associativo($o[key($o)]));
+                    if($associativo($o[key($o)])){
+                        debug('sec');
+                        foreach($o as $so){
+                            foreach($so as $soo) {
+                                $attribute = $order_product_attributes->newEntity();
+                                $attribute->product_option = $soo['name'];
+                                $attribute->product_value_price = $soo['value'];
+                                $attribute->order_id = $order->id;
+                                $attribute->order_product_id = $item->id;
+                                $order_product_attributes->save($attribute);
+                            }
+                        }
+                    }else{
+                        debug('assoc');
+                        $attribute = $order_product_attributes->newEntity();
+                        $attribute->product_option = key($o);
+                        $attribute->product_option_value = array_key_exists('content', $o[key($o)]) ? $o[key($o)]['content'] : '';
+                        $attribute->product_value_price = $o[key($o)]['value'];
+                        $attribute->order_id = $order->id;
+                        $attribute->order_product_id = $item->id;
+                        $order_product_attributes->save($attribute);
+                    }
+                }
             }
         }
         //debug($order);
