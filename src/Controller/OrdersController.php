@@ -44,8 +44,7 @@ class OrdersController extends AppController
             ]; 
             $total += $item['subtotal'] * 100 * $item['quantity'];
         }
-        $order_info = $this->Orders->saveOrder($total, $session->read('order'), $customer);
-        //debug($order_info);
+        $order_info = $this->Orders->place($total, $session->read('order'), $customer);
         if(isset($order_info)){
             debug('entro');
             try {
@@ -172,7 +171,7 @@ class OrdersController extends AppController
               )//order
             );
             //debug($order);
-            $this->Orders->saveOrder($total,$session->read('order'), $customer);
+            $this->Orders->place($total / 100,$session->read('order'), $customer);
             $this->set(compact('order'));
         } catch (\Conekta\ParameterValidationError $error){
             $this->Flash->error($error->getMessage());

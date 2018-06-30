@@ -242,7 +242,7 @@ class OrdersTable extends Table
         //debug(Time::now());
         debug(Cake\I18n\Number::defaultCurrency());
     }
-    public function saveOrder($total,$order_s, $customer, $type = null,  $reference = null)
+    public function place($total,$order_s, $customer, $type = null,  $reference = null)
     {
         $orders = TableRegistry::get('Orders');
         $order_product_attributes = TableRegistry::get('OrderProductAttributes');
@@ -250,7 +250,6 @@ class OrdersTable extends Table
 
         $order = $orders->newEntity();
         
-        //debug(count($order_s['items']));
         $order->customer_id = $customer['customer_id'];
         $order->reference = $reference;
         $order->payment_type = $type;
@@ -292,21 +291,14 @@ class OrdersTable extends Table
                 $item->unit = $i['unit'];
                 $item->amount = $i['quantity'];
                 $item->subtotal = $i['subtotal'];
-                $item->options = isset($i['options']) ? json_encode($i['options']) : null;
                 
                 $order_products->save($item);
 
                 foreach($i['options'] as $o){
-                    debug($o);
-                    //debug($o[key($o)]['value']);
-                    //debug(key($o[key($o)]));
-                    $associativo = function($o) {
+                    $isSeq = function($o) {
                         return array_keys($o) == range(0, count($o) - 1);
                     };
-                    debug($associativo($o[key($o)]));
-                    debug($associativo($o[key($o)]));
-                    if($associativo($o[key($o)])){
-                        debug('sec');
+                    if($isSeq($o[key($o)])){ // secuencial por lo tanto ...
                         foreach($o as $so){
                             foreach($so as $soo) {
                                 $attribute = $order_product_attributes->newEntity();
@@ -317,8 +309,7 @@ class OrdersTable extends Table
                                 $order_product_attributes->save($attribute);
                             }
                         }
-                    }else{
-                        debug('assoc');
+                    }else{ // asociative por lo tanto ...
                         $attribute = $order_product_attributes->newEntity();
                         $attribute->product_option = key($o);
                         $attribute->product_option_value = array_key_exists('content', $o[key($o)]) ? $o[key($o)]['content'] : '';
@@ -330,7 +321,6 @@ class OrdersTable extends Table
                 }
             }
         }
-        //debug($order);
         return $order;
     }
 }
