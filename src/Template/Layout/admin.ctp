@@ -1,19 +1,3 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- * <?= $this->Html->css('base.css') ?>
- *<?= $this->Html->css('cake.css') ?>
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
- */ 
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,16 +36,18 @@
             <ul class="list-unstyled components">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#"><span class="sidebar-icon"><i class="fas fa-home fa-fw"></i></span>Inicio</a></li>
-                <li><a href="#"><span class="sidebar-icon"><i class="fas fa-file-alt fa-fw"></i></span>Órdenes</a></li>
+                <li>
+                <?= $this->Html->link('<span class="sidebar-icon"><i class="fas fa-file-alt fa-fw"></i></span>Órdenes',['controller' => 'Orders', 'action' => 'index'], ['escape' => false]) ?>
+                </li>
                 <li><!-- Link with dropdown items -->
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><span class="sidebar-icon"><i class="fas fa-boxes fa-fw"></i></span>Articulos<span class="arrow"><i class="fas fa-angle-right"></i></span></a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li><a href="../items/index">Listado de Articulos</a></li>
+                        <li><?= $this->Html->link('Listado de Articulos',['controller' => 'Items', 'action' => 'index']) ?></li>
                         <li><?= $this->Html->link('Nuevo Articulo',['controller' => 'Items', 'action' => 'new']) ?></li>
                         <li><a href="#">Page</a></li>
                     </ul>
 
-                <li><a href="#"><span class="sidebar-icon"><i class="fas fa-users fa-fw"></i></span>Clientes</a></li>
+                <li><?= $this->Html->link('<span class="sidebar-icon"><i class="fas fa-users fa-fw"></i></span>Clientes', ['controller' => 'Customers', 'action' => 'index'], ['escape' => false]) ?></li>
                 <li><a href="#"><span class="sidebar-icon"><i class="fas fa-ticket-alt fa-fw"></i></span>Cupones</a></li>
                 <li><a href="#"><span class="sidebar-icon"><i class="fas fa-chart-line fa-fw"></i></span>Estadísticas</a></li>
                 <li><a href="#"><span class="sidebar-icon"><i class="fas fa-credit-card fa-fw"></i></span>Contracargos</a></li>
@@ -76,8 +62,6 @@
         <!-- We'll fill this with dummy content -->
     </div>
 
-           
-    
     <main role="main" class="" id="store">
         <?= $this->fetch('content') ?>
     </main><!-- /.container <span class="text-muted">Corvus. Todos los Derechos Reservados</span>-->
