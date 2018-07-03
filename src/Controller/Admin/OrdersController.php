@@ -16,7 +16,7 @@ class OrdersController extends AppController
     {
         $this->viewBuilder()->setLayout('admin');
         $order = $this->Orders->get($id, [
-            'contain' => ['OrderDetails', 'Customers']
+            'contain' => ['OrderProducts','OrderProductAttributes' ,'Customers' ]
         ]);
 
         $this->set('order', $order);
