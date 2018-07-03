@@ -34,7 +34,7 @@ class OrdersController extends AppController
         $session = $this->request->getSession();
         $customer = $this->Auth->user();
         $items = $session->read('order.items');
-        $total = 0.0;
+        $totalInCents = 0.0;
         foreach($items as $item)
         {
             $arr_items[] = [
@@ -42,28 +42,29 @@ class OrdersController extends AppController
                 'unit_price' => intval($item['subtotal'] * 100),
                 'quantity' => intval($item['quantity'])
             ]; 
-            $total += $item['subtotal'] * 100 * $item['quantity'];
+            $totalInCents += $item['subtotal'] * 100 * $item['quantity'];
         }
+        $total = $totalInCents / 100;
         $order_info = $this->Orders->place($total, $session->read('order'), $customer);
         if(isset($order_info)){
             debug('entro');
             try {
                 $conekta_customer = \Conekta\Customer::create(
                     array(
-                    "name" => $customer['customer']['first_name'].' '.$customer['customer']['last_name'],
-                    "email" => $customer['email'],
-                    "phone" => $customer['customer']['tel'],
-                    "payment_sources" => array(
-                        array(
-                            "type" => "card",
-                            "token_id" => $token
-                        )
-                    )//payment_sources
+                        "name" => $customer['customer']['first_name'].' '.$customer['customer']['last_name'],
+                        "email" => $customer['email'],
+                        "phone" => $customer['customer']['tel'],
+                        "payment_sources" => array(
+                            array(
+                                "type" => "card",
+                                "token_id" => $token
+                            )
+                        )//payment_sources
                     )//customer
                 );
                
                 $conekta_order = \Conekta\Order::create(
-                        array(
+                    array(
                         "line_items" => $arr_items, //line_items
                         "shipping_lines" => array(
                             array(
