@@ -26,7 +26,7 @@
             <tr>
                 <td><?= $this->Number->format($item->id) ?></td>
                 <td><?= h($item->name) ?></td>
-                <td><?= $this->Html->image($item->images[0]['src'], ['width' => '100px', 'height' => 'auto']) ?></td>
+                <td><?= isset($item->images[0]['img']) ? $this->Html->image($item->images[0]['src'], ['width' => '100px', 'height' => 'auto']) : 'sin imagen' ?></td>
                 <td><?= h($item->sku) ?></td>
                 <td><?= $this->Number->currency($item->price, null, [ 'pattern' => '$ #,###.00 MXN']) ?></td>
                 <td><?= h($item->unit) ?></td>
@@ -42,11 +42,11 @@
     </table>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('primero')) ?>
-            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
+            <?= $this->Paginator->first( __('Primero')) ?>
+            <?= $this->Paginator->prev( __('Anterior')) ?>
             <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('siguiente') . ' >') ?>
-            <?= $this->Paginator->last(__('ultimo') . ' >>') ?>
+            <?= $this->Paginator->next(__('Siguiente')) ?>
+            <?= $this->Paginator->last(__('Último')) ?>
         </ul>
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
