@@ -3,6 +3,14 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Item[]|\Cake\Collection\CollectionInterface $items
  */
+/*$this->Paginator->options([
+    'url' => [
+        'sort' => 'created',
+        'direction' => 'desc',
+        'page' => 1,
+        'lang' => 'en'
+    ]
+]);*/
 ?>
 
 
@@ -12,7 +20,7 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id', 'ID') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('customer_id', 'ID CLIENTE') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('customer_id', 'CLIENTE') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created', 'FECHA') ?></th>
                 
                 <th scope="col"><?= $this->Paginator->sort('payment_type', 'TIPO DE PAGO') ?></th>
@@ -26,7 +34,8 @@
             <tr>
                 <td><?= $this->Number->format($order->id) ?></td>
                 
-                <td><?= $this->Number->format($order->customer_id) ?></td>
+                
+                <td><?= $this->Html->link($order->customer->first_name." ".$order->customer->last_name,['prefix' => 'admin','controller' => 'Customers', 'action' => "view", $order->customer_id],['class' => 'text-info']) ?></td>
                 <td><?= $order->created->i18nFormat(null, null, 'es_MX') ?></td>
                 <td><?= h($order->payment_type) ?></td>
                 <td><?= $this->Number->currency($order->grand_total, null, [ 'pattern' => '$ #,###.00 MXN']) ?></td>
@@ -39,6 +48,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+
     <div class="paginator">
         <ul class="pagination">
         <?= $this->Paginator->first( __('Primera')) ?>
