@@ -1,4 +1,4 @@
-<?= $order ?>
+
 <div class="row">
     <div class="col">
         Número de Órden: <?= h($order->id) ?>
@@ -45,3 +45,41 @@
         </p>
     </div>
 </div>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th class="col" style="">SKU</th>
+                <th class="col">Nombre</th>
+                <th class="col">Descripción</th>
+                <th class="col">Marca</th>
+                <th class="col">Precio Unitario</th>
+                <th class="col">Cantidad</th>
+                <th class="col">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($order->order_products as $product): ?>
+                <tr>
+                    <td><?= $product->sku ?></td>
+                    <td><?= $product->name ?></td>
+                    <td>
+                        <?= $product->description ?><br>
+                        <?php foreach ($order->order_product_attributes as $product_attribute): ?>
+                        <?php if ($product_attribute->order_product_id == $product->id): ?>
+                            <span class="bold">Opción: </span><?= $product_attribute->product_option ?><br>
+                            <span class="bold">Atributo: </span><?= $product_attribute->product_option_value ?><br>
+                            <span class="bold">Precio: $</span><?= $product_attribute->product_option_price ?><br>
+
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </td>
+                    <td><?= $product->brand ?></td>
+                    <td><?= $product->unit_price ?></td>
+                    <td><?= $product->amount ?></td>
+                    <td><?= $product->subtotal ?></td>
+                    
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
