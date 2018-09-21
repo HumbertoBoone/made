@@ -46,12 +46,12 @@
     </div>
 </div>
 
-<table class="table">
+<table class="table" style="table-layout: fixed;">
         <thead>
             <tr>
                 <th class="col" style="">SKU</th>
                 <th class="col">Nombre</th>
-                <th class="col">Descripción</th>
+                <th class="col" style="width: 300px;">Descripción</th>
                 <th class="col">Marca</th>
                 <th class="col">Precio Unitario</th>
                 <th class="col">Cantidad</th>
@@ -69,15 +69,17 @@
                         <?php if ($product_attribute->order_product_id == $product->id): ?>
                             <span class="bold">Opción: </span><?= $product_attribute->product_option ?><br>
                             <span class="bold">Atributo: </span><?= $product_attribute->product_option_value ?><br>
-                            <span class="bold">Precio: $</span><?= $product_attribute->product_option_price ?><br>
-
+                            <?php if ( $product_attribute->product_option_price != 0 ): ?>
+                                <span class="bold">Precio: </span><?= $this->Number->format($product_attribute->product_option_price, ['places' => '2', 'before' => '$ ', 'after' => ' MXN']) ?><br>
+                            <?php endif; ?>
+                            <br>
                         <?php endif; ?>
                         <?php endforeach; ?>
                     </td>
                     <td><?= $product->brand ?></td>
-                    <td><?= $product->unit_price ?></td>
+                    <td><?= $this->Number->format($product->unit_price, ['places' => '2', 'before' => '$ ', 'after' => 'MXN']) ?></td>
                     <td><?= $product->amount ?></td>
-                    <td><?= $product->subtotal ?></td>
+                    <td><?= $this->Number->format($product->subtotal, ['places' => '2', 'before' => '$ ', 'after' => ' MXN']) ?></td>
                     
                 </tr>
             <?php endforeach; ?>
