@@ -2,6 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Filesystem\File;
 
 class ItemsController extends AppController
 {
@@ -38,23 +39,85 @@ class ItemsController extends AppController
         $item = $this->Items->newEntity();
         $item = $this->Items->patchEntity($item, $data,[
             'associated' => ['Groups.Options']]);
-        //debug($item);}
-        //debug($data);
-        //debug($this->request->getData());
-        /*$item->groups = [];
-        $item->groups[] = ['name' => 'color', 'required' => 1, 'type' => 'checkbox'];
-        $item->dirty('groups', true);*/
         $this->Items->save($item);
         debug($item);
 
     }
     public function edit($id = null)
     {
-        $this->autoRender = false;
-        $item = $this->Items->get(64, [
+        $this->viewBuilder()->setLayout('admin');
+        $item = $this->Items->get($id, [
             'contain' => ['Images', 'Groups.Options', 'Brands']
         ]);
-        debug($item);
+
+        $images = $item->images;
+        $categories = $this->Items->Categories->find('list');
+        $brands = $this->Items->Brands->find('list');
+       
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $new_images = $this->request->getData('images');
+            if ($new_images == null) {
+                foreach ($images as $i) {
+                    $im = $this->Items->Images->get($i->id);
+                    $image = new File(WWW_ROOT.'img'.DS.$im->src);
+                    $image->delete();
+                    $this->Items->Images->delete($im);
+                }
+            } else {
+                foreach ($new_images as $c => $ni) {
+                    if (isset($ni['img'])) { 
+                        if ($ni['img']['error'] == 0 && ($ni['img']['type'] == 'image/jpeg' || $ni['img']['type'] == 'image/png')) {
+                            $img = $this->Items->getImageEntity();
+                            $target_path = WWW_ROOT . 'img'.DS.'items'.DS;
+                            $file_name = $ni['img']['name'];
+                            $tmp_name = $ni['img']['tmp_name'];
+                            $extension = explode(".", $file_name);
+                            $extension = end($extension);
+                            $new_file_name = mt_rand(100, 9999) . '_' . $c .'.'. $extension;
+                            $to_path = $target_path . $new_file_name;
+                            if ($file_name != "") {
+                                if (move_uploaded_file($tmp_name, $to_path)) {
+                                    $img->src = 'items'.DS.$new_file_name;
+                                    $img->item_id = $item->id;
+                                    $this->Items->saveImage($img);
+                                } else {
+                                    $this->Flash->error('Ocurrió un error al intentar subir la imagen al servidor. Intente de nuevo más tarde');
+                                }
+                            }
+                        } else {
+                            $this->Flash->error('Error: solo las extensiones de archivo jpg o png son permitidas.
+                             Intente de nuevo con la extensión de archivo correcta');
+                        }
+                    } 
+                }
+                foreach ($images as $i) {
+                    $exists = true;
+                    foreach ($new_images as $ni) {
+                        if ($i['id'] == $ni['id']) {
+                            $exists = true;
+                            break;
+                        }else{
+                            $exists = false;
+                        }
+                    }
+                    if ($exists == false){
+                        $im = $this->Items->Images->get($i->id);
+                        $image = new File(WWW_ROOT.'img'.DS.$im->src);
+                        $image->delete();
+                        $this->Items->Images->delete($im);
+                    }
+                }
+            }
+            $item = $this->Items->patchEntity($item, $this->request->getData());
+            if ($this->Items->save($item)) {
+                $this->Flash->success(__('El articulo ha sido actualizado.'));
+                return $this->return(['action' => 'edit', $item->id]);
+            }
+            $this->Flash->error(__('El articulo no pudo ser actualizado.'));
+        }
+        $this->set(compact('item'));
+        $this->set(compact('brands'));
+        $this->set(compact('categories'));
     }
     public function new()
     {
@@ -67,9 +130,7 @@ class ItemsController extends AppController
             ]);
             $images = $this->request->getData('images');
             
-            //$categories = $this->request->getData('categories');
             debug($this->request->getData());
-            //debug($this->Items->save($item));
             if($this->Items->save($item)) {
                 // para guardar las diferentes asociaciones muchos
                 // a muchos
@@ -91,16 +152,13 @@ class ItemsController extends AppController
                             $tmp_name = $image['img']['tmp_name'];
                             $extension = explode(".", $file_name);
                             $extension = end($extension);
-                            $new_file_name = $item->sku . '_' . $c .'.'. $extension;
+                            $new_file_name = mt_rand(100, 9999) . '_' . $c .'.'. $extension;
                             $to_path = $target_path . $new_file_name;
                             if($file_name != ""){
                                 if(move_uploaded_file($tmp_name, $to_path)){
                                     $img->src = 'items/' . $new_file_name;
                                     $img->item_id = $item->id;
                                     $this->Items->saveImage($img);
-                                    //$this->Flash->success(__('La imagen ha sido subida'));
-                                }else{
-                                    //$this->Flash->error(__('La imagen no pudo ser subida'));
                                 }
                             }
                         }else{
